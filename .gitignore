@@ -15,3 +15,6 @@ token.json
 /CLAUDE.md
 /AGENTS.md
 /docs/
+
+# 投稿用の鍵・許可（手元だけ）
+/.secrets/
