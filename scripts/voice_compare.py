@@ -50,6 +50,20 @@ VARIANTS2 = [
 ]
 
 
+# 第3弾（10/8 本人「ずんだもんはよさそう、1.1倍くらい速くても。抑揚が自然じゃない」）
+# 抑揚（intonationScale）は文全体の高低の幅をまとめて広げるだけなので、上げすぎると不自然になる。
+# 速さを 1.1倍にして、抑揚の強さ・声の種類を振って比べる。
+VARIANTS3 = [
+    ("Z5", "zundamon", 3, 1.30, 0.00, 1.35, "第3版の動画の声（比べる基準）"),
+    ("Z7", "zundamon", 3, 1.43, 0.00, 1.15, "速さ1.43・抑揚を控えめ（1.15）"),
+    ("Z8", "zundamon", 3, 1.43, 0.00, 1.35, "速さ1.43・抑揚1.35（第3版を速くしただけ）"),
+    ("Z9", "zundamon", 1, 1.43, 0.00, 1.15, "あまあま・速さ1.43・抑揚1.15"),
+    ("M6", "metan", 2, 1.30, 0.00, 1.55, "第3版の動画の声（比べる基準）"),
+    ("M9", "metan", 2, 1.30, 0.00, 1.30, "抑揚を少し戻す（1.3）"),
+    ("M10", "metan", 0, 1.30, 0.00, 1.20, "あまあま・抑揚1.2"),
+]
+
+
 def synth(text, speaker, speed, pitch, inton):
     q = requests.post(f"{URL}/audio_query", params={"text": text, "speaker": speaker}, timeout=60).json()
     q.update({"speedScale": speed, "pitchScale": pitch, "intonationScale": inton,
@@ -82,4 +96,4 @@ def main(out_dir, variants=None):
 
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    raise SystemExit(main(args[0] if args else "build/mock/voice", VARIANTS2 if "--round2" in sys.argv else None))
+    raise SystemExit(main(args[0] if args else "build/mock/voice", VARIANTS3 if "--round3" in sys.argv else VARIANTS2 if "--round2" in sys.argv else None))
