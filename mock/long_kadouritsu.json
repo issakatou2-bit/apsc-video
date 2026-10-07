@@ -1,0 +1,179 @@
+{
+  "id": "long",
+  "title": "稼働率（直列と並列）",
+  "bgm": "C:/Users/issak/Desktop/pwa-mvp/build/wt-0907/assets/bgm/nighter.mp3",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.15,
+      "pitch": 0.0,
+      "intonation": 1.35
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.05,
+      "pitch": 0.0,
+      "intonation": 1.1
+    }
+  },
+  "materials": [
+    "直列: 全体の稼働率 = 各装置の稼働率の積（装置が独立に故障する前提）",
+    "並列（どれか1台が動けばよい）: 全体の稼働率 = 1 − 各装置の（1 − 稼働率）の積",
+    "数値はすべてこの台本の中の計算（0.9×0.9=0.81、1−0.1×0.1=0.99、1−0.2×0.2=0.96）"
+  ],
+  "lines": [
+    {
+      "scene": "hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "めたん、稼働率0.9の装置を2台つないだら、システム全体の稼働率はいくつになるのだ？"
+    },
+    {
+      "scene": "hook",
+      "step": 1,
+      "sfx": "impact",
+      "who": "metan",
+      "expr": "smile",
+      "text": "実は、つなぎ方しだいで、0.81にも0.99にもなるの。"
+    },
+    {
+      "scene": "map",
+      "step": 0,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "今日は、稼働率の計算を、直列と並列の2つに分けて見ていくわ。最後にミニクイズもあるわよ。"
+    },
+    {
+      "scene": "series",
+      "step": 0,
+      "sfx": "transition",
+      "chapter": "第1章 直列",
+      "who": "metan",
+      "text": "まず直列。2台が一列につながっていて、両方とも動いているときだけ、システムが動く形よ。"
+    },
+    {
+      "scene": "series",
+      "step": 0,
+      "who": "zundamon",
+      "text": "鎖みたいに、1か所でも切れたらおしまい、ってことなのだ？"
+    },
+    {
+      "scene": "series",
+      "step": 1,
+      "sfx": "marker",
+      "who": "metan",
+      "expr": "smile",
+      "text": "そのとおり。だから稼働率は掛け算。0.9かける0.9で、0.81になるわ。"
+    },
+    {
+      "scene": "series",
+      "step": 1,
+      "who": "metan",
+      "text": "なお、試験では、それぞれの装置が別々に故障する、という前提で計算するのがふつうよ。"
+    },
+    {
+      "scene": "series",
+      "step": 1,
+      "who": "zundamon",
+      "joke": true,
+      "text": "2台に増やしたのに、下がったのだ！ 手伝いを頼んだら、仕事が増えたみたいなのだ。"
+    },
+    {
+      "scene": "myth",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "じゃあ、装置は増やすほど損なのだ？"
+    },
+    {
+      "scene": "myth",
+      "step": 1,
+      "sfx": "pop",
+      "who": "metan",
+      "expr": "surprise",
+      "text": "そこがよくある勘違い。つなぎ方を変えると、逆に上がるのよ。"
+    },
+    {
+      "scene": "parallel",
+      "step": 0,
+      "sfx": "transition",
+      "chapter": "第2章 並列",
+      "who": "metan",
+      "text": "並列は、2台のうちどちらか1台でも動いていれば、システムが動く形。"
+    },
+    {
+      "scene": "parallel",
+      "step": 1,
+      "sfx": "marker",
+      "who": "metan",
+      "text": "計算は、両方とも止まる確率から考えるの。1台が止まる確率は、1引く0.9で0.1。両方止まるのは、0.1かける0.1で0.01。"
+    },
+    {
+      "scene": "parallel",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "expr": "smile",
+      "text": "だから稼働率は、1引く0.01で、0.99になるわ。"
+    },
+    {
+      "scene": "parallel",
+      "step": 2,
+      "who": "zundamon",
+      "joke": true,
+      "text": "止まる方から考えるのがコツなのだ！ ボクも、テストは落ちる方から考えるのだ。"
+    },
+    {
+      "scene": "parallel",
+      "step": 2,
+      "who": "metan",
+      "joke": true,
+      "expr": "surprise",
+      "text": "それは、考える向きが違うわね。"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "chapter": "ミニクイズ",
+      "who": "metan",
+      "text": "では問題。稼働率0.8の装置を2台、並列につなぐと、稼働率はいくつ？ 5秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 5,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "expr": "smile",
+      "text": "答えは0.96。止まる確率0.2を2回掛けて0.04、1から引いて0.96よ。"
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "who": "zundamon",
+      "text": "合ってたのだ！"
+    },
+    {
+      "scene": "summary",
+      "step": 0,
+      "sfx": "swish",
+      "chapter": "まとめ",
+      "who": "metan",
+      "text": "ここだけ覚えて。直列は掛け算。並列は、1引く、止まる確率の掛け算。"
+    },
+    {
+      "scene": "summary",
+      "step": 1,
+      "sfx": "pop",
+      "who": "zundamon",
+      "text": "直列は掛け算、並列は1から引く、なのだ！"
+    }
+  ]
+}
