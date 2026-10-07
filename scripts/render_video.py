@@ -1,0 +1,191 @@
+#!/usr/bin/env python3
+"""モックの画面（HTML）と声の時刻表から mp4 を作る。
+
+なぜ要るのか:
+  2026-10-08 本人「挙げられるのから挙げていこう」。モックの見た目のまま動画ファイルにする。
+  画面を毎コマ撮ると遅いので、
+    1) 場面・段・字幕が変わるところだけ、ブラウザ（Edge）で静止画にする（キャラは隠す）
+    2) 立ち絵は部品（体・腕・眉・目・口）をコマごとに重ねる（口パク・まばたき・話す人の揺れ）
+    3) 場面が変わるところは 0.3 秒で重ね合わせる
+  という作りにした。音は mock_build.py が作った mp3 をそのまま使う。
+
+使い方:
+  python scripts/render_video.py short build/mock   → build/mock/short.mp4
+  （build/mock/preview.html・<id>.json・<id>.mp3 が要る。preview.html は index.html に文字コードの行を足したもの）
+"""
+import json
+import math
+import pathlib
+import subprocess
+import sys
+
+from PIL import Image, ImageEnhance
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+FPS = 30
+FADE = 0.3
+SIZE = {"long": (1920, 1080), "short": (1080, 1920)}
+# 立ち絵：部品の切り抜き範囲（モックの img2 と同じ）と、画面での幅・左右の余白
+CROP = {"metan": ("四国めたん", (60, 0, 1022, 1080)), "zunda": ("ずんだもん", (150, 0, 1062, 1000))}
+WHO_W = {"long": 380, "short": 430}
+PAD = {"long": 6, "short": 0}
+EXPR = {"neutral": ("open", "base", "close"), "smile": ("smile", "base", "smile"),
+        "surprise": ("wide", "up", "big")}
+PART = {"eye": "目", "brow": "眉", "mouth": "口"}
+VAL = {"open": "開", "close": "閉", "smile": "笑", "wide": "見開", "base": "基本", "up": "上げ", "big": "大"}
+
+SNAP_JS = """
+async ([kind, st]) => {
+  if (!window.__stage) {
+    const t = document.getElementById('T_' + kind);
+    document.body.innerHTML = '';
+    document.body.style.margin = '0';
+    const host = document.createElement('div');
+    host.appendChild(t.content.cloneNode(true));
+    document.body.appendChild(host);
+    window.__stage = host.querySelector('.frame');
+    window.__stage.querySelector('.cast').style.display = 'none';
+    await document.fonts.ready;
+  }
+  const F = window.__stage;
+  F.querySelectorAll('.sc').forEach(s => { s.className = 'sc' + (s.dataset.sc === st.scene ? ' show st' + st.step : ''); });
+  F.querySelectorAll('.sc, .rv').forEach(e => e.style.transition = 'none');
+  const tab = F.querySelector('[data-tab]');
+  if (tab) { tab.textContent = st.chapter || ''; tab.style.opacity = st.chapter ? 1 : 0; tab.style.transition = 'none'; }
+  const subt = F.querySelector('.subt');
+  subt.style.transition = 'none';
+  if (st.who) {
+    subt.classList.remove('hide');
+    const nm = subt.querySelector('.nm'); nm.textContent = st.name; nm.className = 'nm ' + st.who;
+    subt.querySelector('.tx').textContent = st.text;
+    subt.querySelector('.jk').hidden = true;
+  } else { subt.classList.add('hide'); }
+  const c = F.querySelector('[data-count]');
+  if (c && st.count) c.textContent = st.count;
+  return true;
+}
+"""
+
+
+def states_of(data):
+    """時刻表から、画面が変わる時刻と、その時の状態の一覧を作る。"""
+    out, chapter, last_who = [], "", None
+    for ln in data["lines"]:
+        chapter = ln.get("chapter") or chapter
+        base = {"scene": ln["scene"], "step": ln["step"], "chapter": chapter}
+        if ln.get("who"):
+            last_who = {"who": ln["who"], "name": {"metan": "めたん", "zundamon": "ずんだもん"}[ln["who"]],
+                        "text": ln["text"]}
+            out.append((ln["start"], {**base, **last_who}))
+        elif ln.get("countdown"):
+            n = int(round(ln["end"] - ln["start"]))
+            for k in range(n):
+                out.append((ln["start"] + k, {**base, "count": n - k}))
+        else:
+            out.append((ln["start"], {**base, **(last_who or {})}))
+    out[0] = (0.0, out[0][1])
+    return out
+
+
+def snapshot(kind, states, page_url, out_dir):
+    from playwright.sync_api import sync_playwright
+    w, h = SIZE[kind]
+    files = []
+    with sync_playwright() as p:
+        b = p.chromium.launch(channel="msedge")
+        pg = b.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
+        pg.goto(page_url)
+        pg.wait_for_load_state("networkidle")
+        for i, (_, st) in enumerate(states):
+            pg.evaluate(SNAP_JS, [kind, st])
+            pg.wait_for_timeout(60)
+            f = out_dir / f"st_{i:04d}.png"
+            pg.locator(".frame").screenshot(path=str(f))
+            files.append(f)
+        b.close()
+    return files
+
+
+class Cast:
+    """立ち絵の部品を重ねた絵を、組み合わせごとに覚えておく。"""
+
+    def __init__(self, kind):
+        self.w = WHO_W[kind]
+        self.cache = {}
+        self.parts = {}
+
+    def _part(self, key, name):
+        k = (key, name)
+        if k not in self.parts:
+            folder, box = CROP[key]
+            im = Image.open(ROOT / "assets" / "portraits" / folder / f"{name}.png").convert("RGBA").crop(box)
+            h = round(im.height * self.w / im.width)
+            self.parts[k] = im.resize((self.w, h), Image.LANCZOS)
+        return self.parts[k]
+
+    def get(self, key, eye, brow, mouth, dim):
+        k = (key, eye, brow, mouth, dim)
+        if k not in self.cache:
+            im = self._part(key, "体").copy()
+            for n in ("右腕_基本", "左腕_基本", f"眉_{VAL[brow]}", f"目_{VAL[eye]}", f"口_{VAL[mouth]}"):
+                im.alpha_composite(self._part(key, n))
+            if key == "zunda":
+                im = im.transpose(Image.FLIP_LEFT_RIGHT)
+            if dim:
+                a = im.getchannel("A")
+                im = ImageEnhance.Brightness(ImageEnhance.Color(im.convert("RGB")).enhance(0.75)).enhance(0.96).convert("RGBA")
+                im.putalpha(a)
+            self.cache[k] = im
+        return self.cache[k]
+
+
+def main(kind, d):
+    d = pathlib.Path(d)
+    data = json.loads((d / f"{kind}.json").read_text(encoding="utf-8"))
+    states = states_of(data)
+    snap_dir = d / f"frames_{kind}"
+    snap_dir.mkdir(exist_ok=True)
+    page = (d / "preview.html").resolve().as_uri()
+    files = snapshot(kind, states, page, snap_dir)
+    imgs = [Image.open(f).convert("RGB") for f in files]
+    w, h = SIZE[kind]
+    imgs = [im if im.size == (w, h) else im.resize((w, h)) for im in imgs]
+    cast = Cast(kind)
+    times = [t for t, _ in states]
+    n = int(math.ceil(data["duration"] * FPS))
+    out = d / f"{kind}.mp4"
+    ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{w}x{h}",
+                           "-r", str(FPS), "-i", "-", "-i", str(d / f"{kind}.mp3"), "-c:v", "libx264",
+                           "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "medium", "-c:a", "aac", "-b:a", "192k",
+                           "-shortest", "-movflags", "+faststart", str(out)], stdin=subprocess.PIPE)
+    lines = data["lines"]
+    for fi in range(n):
+        t = fi / FPS
+        si = max(i for i, x in enumerate(times) if x <= t + 1e-6)
+        frame = imgs[si]
+        if si > 0 and t - times[si] < FADE and states[si][1]["scene"] != states[si - 1][1]["scene"]:
+            frame = Image.blend(imgs[si - 1], imgs[si], (t - times[si]) / FADE)
+        frame = frame.copy()
+        li = max(i for i, ln in enumerate(lines) if ln["start"] <= t + 1e-6) if t >= lines[0]["start"] else 0
+        L = lines[li]
+        speaking = L["start"] <= t < L["end"] and L.get("who")
+        xs = {"zunda": PAD[kind], "metan": w - PAD[kind] - cast.w}
+        for key, who, off in (("zunda", "zundamon", 1.7), ("metan", "metan", 0.0)):
+            me = speaking and L["who"] == who
+            eye, brow, mouth = EXPR[(me and L.get("expr")) or "neutral"]
+            if me and int(t * 9) % 2 == 0:
+                mouth = "big" if mouth == "big" else "open"
+            if eye == "open" and ((t + off) % 3.9) < 0.13:
+                eye = "close"
+            im = cast.get(key, eye, brow, mouth, not me)
+            bob = -8 * (1 - math.cos(math.pi * t / 0.5)) / 2 if me else 0
+            frame.paste(im, (xs[key], h - im.height + round(bob) + (8 if me else 0)), im)
+        ff.stdin.write(frame.tobytes())
+    ff.stdin.close()
+    ff.wait()
+    print(f"[info] {out}（{n}コマ・場面の静止画 {len(files)}枚）")
+    return ff.returncode
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "build/mock"))
