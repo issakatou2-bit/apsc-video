@@ -1,0 +1,17 @@
+# 生成物（動画・音声はサイズも大きい）
+build/
+__pycache__/
+*.pyc
+*.mp4
+*.wav
+
+# 秘密
+.env
+.env.*
+client_secret*.json
+token.json
+
+# 共同作業の文書は手元だけ（コレスポと同じ。2026-10-07 本人が決定）
+/CLAUDE.md
+/AGENTS.md
+/docs/
