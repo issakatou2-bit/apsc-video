@@ -55,6 +55,7 @@ body{margin:0;background:#000}
 .qz .q{font-size:38px;font-weight:900;line-height:1.5}
 .qz .ch{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .qz .ch div{background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 22px;font-size:40px;font-weight:900}
+.qz .ch.one{grid-template-columns:1fr;gap:10px}.qz .ch.one div{font-size:34px;padding:8px 22px}
 .qz .ch div.ok{background:#dff3e4;border-color:var(--green);box-shadow:0 0 0 5px var(--green)}
 .qz .cnt{font-family:var(--f-num);font-size:150px;font-weight:600;color:var(--red);line-height:1;text-align:center}
 .src{font-size:24px;color:var(--sub)}
@@ -74,10 +75,10 @@ const B={
   title:s=>`<div class="stack">${at(0,s.lines.map((l,i)=>i===s.mark?`<span class="mk">${esc(l)}</span>`:esc(l)).join("<br>"),"big")}${s.reveal?at(1,`<div class="row">${s.reveal.map(r=>`<span class="chip">${esc(r)}</span>`).join("")}</div>`):""}</div>`,
   list:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="lst">${s.items.map((it,i)=>at(s.stepwise?i:0,`<b>${i+1}</b><span>${esc(it)}</span>`)).join("")}</div></div>`,
   levels:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="lv">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div></div>`,
-  grid:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="grid"><div></div>${s.cols.map(c=>`<div class="ax">${esc(c)}</div>`).join("")}${[0,1].map(r=>`<div class="ax">${esc(s.rows[r])}</div>`+[0,1].map(c=>{const k=r*2+c,x=s.cells[k];return at(k+1,`<div class="tg">${esc(x.tag)}</div><div class="tx">${esc(x.text)}</div>`,"cell")}).join("")).join("")}</div></div>`,
+  grid:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="grid"><div></div>${s.cols.map(c=>`<div class="ax">${esc(c)}</div>`).join("")}${[0,1].map(r=>`<div class="ax">${esc(s.rows[r])}</div>`+[0,1].map(c=>{const k=r*2+c,x=s.cells[k];return at(s.order?s.order[k]:k+1,`<div class="tg">${esc(x.tag)}</div><div class="tx">${esc(x.text)}</div>`,"cell")}).join("")).join("")}</div></div>`,
   forces:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="fz"><svg viewBox="0 0 1120 540" width="1120" height="540"><g stroke="#17233a" stroke-width="5" fill="none"><line x1="560" y1="120" x2="560" y2="200"/><line x1="560" y1="340" x2="560" y2="420"/><line x1="260" y1="270" x2="330" y2="270"/><line x1="790" y1="270" x2="860" y2="270"/></g></svg>${at(1,esc(s.center),"f c")}${at(2,esc(s.top),"f t")}${at(3,esc(s.bottom),"f b")}${at(4,esc(s.left),"f l")}${at(5,esc(s.right),"f r")}</div></div>`,
   cards:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="cards3">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div></div>`,
-  quiz:s=>`<div class="stack qz">${at(0,esc(s.q),"q")}<div class="ch">${s.choices.map((c,i)=>`<div data-choice="${i}">${esc(c)}</div>`).join("")}</div><div class="cnt" data-count></div><div class="src">${esc(s.src)}</div></div>`,
+  quiz:s=>`<div class="stack qz">${at(0,esc(s.q),"q")}<div class="ch${s.cols===1?" one":""}">${s.choices.map((c,i)=>`<div data-choice="${i}">${esc(c)}</div>`).join("")}</div><div class="cnt" data-count></div><div class="src">${esc(s.src)}</div></div>`,
 };
 let EP=null,F=null;
 window.setup=(ep)=>{
