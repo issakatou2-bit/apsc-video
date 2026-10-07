@@ -33,8 +33,8 @@ body{margin:0;background:#000}
 .chip{display:inline-flex;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 24px;font-size:40px;font-weight:900}
 .row{display:flex;gap:20px;flex-wrap:wrap}
 .lst{display:grid;gap:18px}
-.lst div{display:flex;gap:22px;align-items:center;font-size:46px;font-weight:900}
-.lst b{display:inline-grid;place-items:center;flex:none;width:72px;height:72px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--f-num);font-size:40px}
+.lst div{display:flex;gap:20px;align-items:center;font-size:40px;font-weight:900;line-height:1.35}
+.lst b{display:inline-grid;place-items:center;flex:none;width:62px;height:62px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--f-num);font-size:40px}
 .lv{display:grid;gap:16px}
 .lv .card{display:grid;gap:4px;padding:16px 28px}
 .lv .card:nth-child(1){margin-right:0}.lv .card:nth-child(2){margin-left:60px}.lv .card:nth-child(3){margin-left:120px}
@@ -58,6 +58,10 @@ body{margin:0;background:#000}
 .qz .ch.one{grid-template-columns:1fr;gap:10px}.qz .ch.one div{font-size:34px;padding:8px 22px}
 .qz .ch div.ok{background:#dff3e4;border-color:var(--green);box-shadow:0 0 0 5px var(--green)}
 .qz .cnt{font-family:var(--f-num);font-size:150px;font-weight:600;color:var(--red);line-height:1;text-align:center}
+.qa .qq{font-size:38px;font-weight:900;line-height:1.45}.qa .qn{display:inline-block;background:var(--ink);color:#fff;border-radius:10px;padding:0 14px;margin-right:14px;font-size:32px}
+.qa .card{display:grid;gap:6px;padding:14px 24px}.qa .lb{font-size:24px;font-weight:900;color:var(--sub)}
+.qa .cl{font-size:32px;font-weight:700;line-height:1.5}.qa .an{font-size:38px;font-weight:900;color:var(--red)}
+.qa .ansc{border-color:var(--red);box-shadow:8px 8px 0 var(--red)}
 .src{font-size:24px;color:var(--sub)}
 .subt{position:absolute;left:400px;bottom:40px;width:1120px;min-height:150px;box-sizing:border-box;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:22px 30px;font-size:44px;font-weight:700;line-height:1.45}
 .short .subt{left:40px;bottom:520px;width:880px;font-size:44px}
@@ -78,6 +82,7 @@ const B={
   grid:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="grid"><div></div>${s.cols.map(c=>`<div class="ax">${esc(c)}</div>`).join("")}${[0,1].map(r=>`<div class="ax">${esc(s.rows[r])}</div>`+[0,1].map(c=>{const k=r*2+c,x=s.cells[k];return at(s.order?s.order[k]:k+1,`<div class="tg">${esc(x.tag)}</div><div class="tx">${esc(x.text)}</div>`,"cell")}).join("")).join("")}</div></div>`,
   forces:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="fz"><svg viewBox="0 0 1120 540" width="1120" height="540"><g stroke="#17233a" stroke-width="5" fill="none"><line x1="560" y1="120" x2="560" y2="200"/><line x1="560" y1="340" x2="560" y2="420"/><line x1="260" y1="270" x2="330" y2="270"/><line x1="790" y1="270" x2="860" y2="270"/></g></svg>${at(1,esc(s.center),"f c")}${at(2,esc(s.top),"f t")}${at(3,esc(s.bottom),"f b")}${at(4,esc(s.left),"f l")}${at(5,esc(s.right),"f r")}</div></div>`,
   cards:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="cards3">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div>${s.src?`<div class="src">${esc(s.src)}</div>`:""}</div>`,
+  qa:s=>`<div class="stack qa">${at(0,`<span class="qn">${esc(s.n)}</span>${esc(s.q)}`,"qq")}${at(1,`<div class="lb">本文の手がかり</div><div class="cl">${esc(s.clue).replace(/［(.+?)］/g,'<span class="mk">$1</span>')}</div>`,"card")}${at(2,`<div class="lb">解答例</div><div class="an">${esc(s.ans)}</div>`,"card ansc")}${s.src?`<div class="src">${esc(s.src)}</div>`:""}</div>`,
   quiz:s=>`<div class="stack qz">${at(0,esc(s.q),"q")}<div class="ch${s.cols===1?" one":""}">${s.choices.map((c,i)=>`<div data-choice="${i}">${esc(c)}</div>`).join("")}</div><div class="cnt" data-count></div><div class="src">${esc(s.src)}</div></div>`,
 };
 let EP=null,F=null;
