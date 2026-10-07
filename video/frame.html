@@ -1,0 +1,107 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>frame</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Oswald:wght@500;600&display=swap">
+<!--
+  動画の1枚を描くページ（2026-10-08 エマ）。render_video.py が Playwright で開き、
+  setup(回のデータ) → setState(状態) → 撮影 をくり返す。立ち絵は描かない（Python 側でコマごとに重ねる）。
+  見た目はモック（mock/page.html）の .frame 部分と同じ。場面は回の json の "scenes" から型ごとに組み立てる。
+-->
+<style>
+body{margin:0;background:#000}
+.frame{--paper:#f6f8fa;--grid:#dfe7ef;--ink:#17233a;--sub:#4a5872;--marker:#ffe066;--red:#d9443a;--blue:#2f5d9e;--green:#2e8b57;--metan:#c4528a;--zunda:#4b9a2c;
+  --f-body:"Zen Kaku Gothic New","Yu Gothic",sans-serif;--f-num:"Oswald","Zen Kaku Gothic New",sans-serif;
+  position:relative;overflow:hidden;font-family:var(--f-body);color:var(--ink);
+  background-color:var(--paper);background-image:linear-gradient(var(--grid) 2px,transparent 2px),linear-gradient(90deg,var(--grid) 2px,transparent 2px);background-size:48px 48px}
+.frame.long{width:1920px;height:1080px}.frame.short{width:1080px;height:1920px}
+.tab{position:absolute;left:400px;top:44px;background:var(--ink);color:#fff;font-weight:900;font-size:34px;padding:8px 26px;border-radius:0 0 14px 14px;letter-spacing:.04em}
+.tab:empty{display:none}
+.topic{position:absolute;right:64px;top:52px;font-size:28px;font-weight:700;color:var(--sub)}
+.credit{position:absolute;right:24px;bottom:12px;font-size:18px;color:var(--sub)}
+.board{position:absolute;left:400px;top:140px;width:1120px;height:620px}
+.short .board{left:60px;top:250px;width:960px;height:900px}
+.sc{position:absolute;inset:0;display:none}.sc.show{display:block}
+.hid{visibility:hidden}
+.stack{display:grid;gap:26px;align-content:start}
+.big{font-size:84px;font-weight:900;line-height:1.25}
+.mid{font-size:52px;font-weight:900;line-height:1.35}
+.sm{font-size:36px;font-weight:700;line-height:1.5;color:var(--sub)}
+.head{font-size:46px;font-weight:900}
+.num{font-family:var(--f-num);font-weight:600;font-variant-numeric:tabular-nums}
+.mk{background:linear-gradient(transparent 58%,var(--marker) 58%);padding:0 .08em}
+.card{background:#fff;border:3px solid var(--ink);border-radius:18px;padding:22px 30px;box-shadow:8px 8px 0 var(--ink)}
+.chip{display:inline-flex;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 24px;font-size:40px;font-weight:900}
+.row{display:flex;gap:20px;flex-wrap:wrap}
+.lst{display:grid;gap:18px}
+.lst div{display:flex;gap:22px;align-items:center;font-size:46px;font-weight:900}
+.lst b{display:inline-grid;place-items:center;flex:none;width:72px;height:72px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--f-num);font-size:40px}
+.lv{display:grid;gap:16px}
+.lv .card{display:grid;gap:4px;padding:16px 28px}
+.lv .card:nth-child(1){margin-right:0}.lv .card:nth-child(2){margin-left:60px}.lv .card:nth-child(3){margin-left:120px}
+.lv h3{margin:0;font-size:44px;font-weight:900}.lv p{margin:0;font-size:34px;font-weight:700;color:var(--sub)}
+.grid{display:grid;grid-template-columns:230px 1fr 1fr;grid-auto-rows:auto;gap:12px}
+.grid .ax{display:grid;place-items:center;font-size:28px;font-weight:900;color:var(--sub);text-align:center}
+.grid .cell{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:16px 20px;min-height:150px;display:grid;align-content:start;gap:8px}
+.grid .cell .tg{font-size:40px;font-weight:900;color:var(--blue)}
+.grid .cell .tx{font-size:34px;font-weight:700}
+.fz{position:relative;height:540px}
+.fz .f{position:absolute;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:12px 18px;font-size:34px;font-weight:900;text-align:center;display:grid;place-items:center}
+.fz .c{left:330px;top:200px;width:460px;height:140px;background:#fff3c4}
+.fz .t{left:360px;top:20px;width:400px;height:100px}.fz .b{left:310px;top:420px;width:500px;height:100px}
+.fz .l{left:0;top:210px;width:260px;height:120px}.fz .r{left:860px;top:210px;width:260px;height:120px}
+.fz svg{position:absolute;inset:0}
+.cards3{display:grid;gap:12px}
+.cards3 .card{display:grid;gap:2px;padding:10px 26px}.cards3 h3{margin:0;font-size:40px;font-weight:900}.cards3 p{margin:0;font-size:30px;font-weight:700;color:var(--sub)}
+.qz .q{font-size:38px;font-weight:900;line-height:1.5}
+.qz .ch{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.qz .ch div{background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 22px;font-size:40px;font-weight:900}
+.qz .ch div.ok{background:#dff3e4;border-color:var(--green);box-shadow:0 0 0 5px var(--green)}
+.qz .cnt{font-family:var(--f-num);font-size:150px;font-weight:600;color:var(--red);line-height:1;text-align:center}
+.src{font-size:24px;color:var(--sub)}
+.subt{position:absolute;left:400px;bottom:40px;width:1120px;min-height:150px;box-sizing:border-box;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:22px 30px;font-size:44px;font-weight:700;line-height:1.45}
+.short .subt{left:40px;bottom:520px;width:880px;font-size:44px}
+.subt .nm{position:absolute;left:24px;top:-26px;font-size:26px;font-weight:900;color:#fff;padding:2px 18px;border-radius:999px}
+.subt .nm.metan{background:var(--metan)}.subt .nm.zundamon{background:var(--zunda)}
+.subt.off{display:none}
+</style>
+<body>
+<div id="host"></div>
+<script>
+const NAME={metan:"めたん",zundamon:"ずんだもん"};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const at=(n,html,cls="")=>`<div class="${cls}" data-at="${n}">${html}</div>`;
+const B={
+  title:s=>`<div class="stack">${at(0,s.lines.map((l,i)=>i===s.mark?`<span class="mk">${esc(l)}</span>`:esc(l)).join("<br>"),"big")}${s.reveal?at(1,`<div class="row">${s.reveal.map(r=>`<span class="chip">${esc(r)}</span>`).join("")}</div>`):""}</div>`,
+  list:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="lst">${s.items.map((it,i)=>at(s.stepwise?i:0,`<b>${i+1}</b><span>${esc(it)}</span>`)).join("")}</div></div>`,
+  levels:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="lv">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div></div>`,
+  grid:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="grid"><div></div>${s.cols.map(c=>`<div class="ax">${esc(c)}</div>`).join("")}${[0,1].map(r=>`<div class="ax">${esc(s.rows[r])}</div>`+[0,1].map(c=>{const k=r*2+c,x=s.cells[k];return at(k+1,`<div class="tg">${esc(x.tag)}</div><div class="tx">${esc(x.text)}</div>`,"cell")}).join("")).join("")}</div></div>`,
+  forces:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="fz"><svg viewBox="0 0 1120 540" width="1120" height="540"><g stroke="#17233a" stroke-width="5" fill="none"><line x1="560" y1="120" x2="560" y2="200"/><line x1="560" y1="340" x2="560" y2="420"/><line x1="260" y1="270" x2="330" y2="270"/><line x1="790" y1="270" x2="860" y2="270"/></g></svg>${at(1,esc(s.center),"f c")}${at(2,esc(s.top),"f t")}${at(3,esc(s.bottom),"f b")}${at(4,esc(s.left),"f l")}${at(5,esc(s.right),"f r")}</div></div>`,
+  cards:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="cards3">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div></div>`,
+  quiz:s=>`<div class="stack qz">${at(0,esc(s.q),"q")}<div class="ch">${s.choices.map((c,i)=>`<div data-choice="${i}">${esc(c)}</div>`).join("")}</div><div class="cnt" data-count></div><div class="src">${esc(s.src)}</div></div>`,
+};
+let EP=null,F=null;
+window.setup=(ep)=>{
+  EP=ep;const kind=ep.format||"long";
+  const scenes=Object.entries(ep.scenes).map(([id,s])=>`<div class="sc" data-sc="${id}" data-type="${s.type}">${B[s.type](s)}</div>`).join("");
+  document.getElementById("host").innerHTML=`<div class="frame ${kind}"><div class="tab"></div><div class="topic">${esc(ep.topic||"")}</div><div class="board">${scenes}</div><div class="subt off"><span class="nm"></span><span class="tx"></span></div><div class="credit">VOICEVOX:ずんだもん／VOICEVOX:四国めたん</div></div>`;
+  F=document.querySelector(".frame");
+  return document.fonts.ready.then(()=>true);
+};
+window.setState=(st)=>{
+  F.querySelectorAll(".sc").forEach(sc=>{
+    const on=sc.dataset.sc===st.scene;sc.classList.toggle("show",on);if(!on)return;
+    sc.querySelectorAll("[data-at]").forEach(e=>e.classList.toggle("hid",+e.dataset.at>st.step));
+    if(sc.dataset.type==="quiz"){
+      const s=EP.scenes[st.scene];
+      sc.querySelectorAll("[data-choice]").forEach(c=>c.classList.toggle("ok",st.step>=2&&+c.dataset.choice===s.answer));
+      const cnt=sc.querySelector("[data-count]");cnt.textContent=st.count?st.count:"";
+    }
+  });
+  F.querySelector(".tab").textContent=st.chapter||"";
+  const sub=F.querySelector(".subt");
+  if(st.who){sub.classList.remove("off");const nm=sub.querySelector(".nm");nm.textContent=NAME[st.who];nm.className="nm "+st.who;sub.querySelector(".tx").textContent=st.text}
+  else sub.classList.add("off");
+  return true;
+};
+</script>
+</body>

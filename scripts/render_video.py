@@ -87,7 +87,8 @@ def states_of(data):
     return out
 
 
-def snapshot(vid, kind, states, page_url, out_dir):
+def snapshot(vid, kind, states, page_url, out_dir, data=None):
+    """data に "scenes" があれば共通のページ video/frame.html（setup/setState）で撮る。無ければモックのページ。"""
     from playwright.sync_api import sync_playwright
     w, h = SIZE[kind]
     files = []
@@ -96,8 +97,14 @@ def snapshot(vid, kind, states, page_url, out_dir):
         pg = b.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
         pg.goto(page_url)
         pg.wait_for_load_state("networkidle")
+        generic = bool(data and data.get("scenes"))
+        if generic:
+            pg.evaluate("ep => window.setup(ep)", data)
         for i, (_, st) in enumerate(states):
-            pg.evaluate(SNAP_JS, [vid, st])
+            if generic:
+                pg.evaluate("st => window.setState(st)", st)
+            else:
+                pg.evaluate(SNAP_JS, [vid, st])
             pg.wait_for_timeout(60)
             f = out_dir / f"st_{i:04d}.png"
             pg.locator(".frame").screenshot(path=str(f))
@@ -146,8 +153,8 @@ def main(vid, d):
     states = states_of(data)
     snap_dir = d / f"frames_{vid}"
     snap_dir.mkdir(exist_ok=True)
-    page = (d / "preview.html").resolve().as_uri()
-    files = snapshot(vid, kind, states, page, snap_dir)
+    page = (ROOT / "video" / "frame.html").as_uri() if data.get("scenes") else (d / "preview.html").resolve().as_uri()
+    files = snapshot(vid, kind, states, page, snap_dir, data)
     imgs = [Image.open(f).convert("RGB") for f in files]
     w, h = SIZE[kind]
     imgs = [im if im.size == (w, h) else im.resize((w, h)) for im in imgs]
