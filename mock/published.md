@@ -8,3 +8,9 @@
 | 2026-10-08 | ショート | OP25Bとオープンリレー対策の違い｜応用情報技術者試験 ネットワーク | https://youtube.com/shorts/X2WaqDkg0x8 | mock/short_op25b.json | ヒロ 直せば可→5点＋1点修正 |
 
 投稿の設定：子ども向けではない／有料プロモーションなし／AI の使用「いいえ」（実在の人物・実際の映像・現実に見える場面・主役の音楽のどれにも当たらない。声は VOICEVOX、キャラは立ち絵素材、BGM は生成 AI 不使用）。投稿は Claude in Chrome（本人の OK：10/8「情報の問題なければ公開していい」「B でお願い」）。
+| 2026-10-08 | 長編 | SWOT分析・ファイブフォース分析・競争の基本戦略｜応用情報技術者試験 経営戦略 第1回 | https://youtu.be/k6Aq4tiXhmY | episodes/strategy1.json | ヒロ 直せば可(7点)→可 |
+| 2026-10-08 | 長編 | PPM（プロダクトポートフォリオマネジメント）｜応用情報技術者試験 経営戦略 第2回 | https://youtu.be/IZBgYVcUle8 | episodes/strategy2.json | ヒロ 直せば可(6点)→可 |
+| 2026-10-08 | 長編 | バリューチェーン・VRIO・コアコンピタンス・ドメイン｜応用情報技術者試験 経営戦略 第3回 | https://youtu.be/-52am8FlWi8 | episodes/strategy3.json | ヒロ 直せば可(5点)→可 |
+| 2026-10-08 | 長編 | 令和7年度秋期 午後問2 スポーツウェアメーカーの事業領域拡大戦略を解く｜応用情報技術者試験 経営戦略 | https://youtu.be/T6ZMLueOu1M | episodes/pm2_r07a.json | ヒロ 直せば可(4点)→可 |
+
+長編4本は API（scripts/upload_youtube.py、project collespo の OAuth クライアント）で公開。API で public・uploaded・チャンネル名を確認（10/8）。
