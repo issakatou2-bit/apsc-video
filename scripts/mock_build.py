@@ -97,7 +97,7 @@ def main(script_path, out_dir):
     mp3 = out / f"{spec['id']}.mp3"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-b:a", "128k", str(mp3)], check=True)
     wav.unlink()
-    meta = {"id": spec["id"], "title": spec["title"], "duration": round(len(y) / SR, 3), "lines": timeline}
+    meta = {"id": spec["id"], "format": spec.get("format"), "title": spec["title"], "duration": round(len(y) / SR, 3), "lines": timeline}
     (out / f"{spec['id']}.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"[info] {spec['id']}: {meta['duration']:.1f}秒・{len(timeline)}行 -> {mp3}")
     return 0

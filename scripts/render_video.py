@@ -87,7 +87,7 @@ def states_of(data):
     return out
 
 
-def snapshot(kind, states, page_url, out_dir):
+def snapshot(vid, kind, states, page_url, out_dir):
     from playwright.sync_api import sync_playwright
     w, h = SIZE[kind]
     files = []
@@ -97,7 +97,7 @@ def snapshot(kind, states, page_url, out_dir):
         pg.goto(page_url)
         pg.wait_for_load_state("networkidle")
         for i, (_, st) in enumerate(states):
-            pg.evaluate(SNAP_JS, [kind, st])
+            pg.evaluate(SNAP_JS, [vid, st])
             pg.wait_for_timeout(60)
             f = out_dir / f"st_{i:04d}.png"
             pg.locator(".frame").screenshot(path=str(f))
@@ -139,23 +139,24 @@ class Cast:
         return self.cache[k]
 
 
-def main(kind, d):
+def main(vid, d):
     d = pathlib.Path(d)
-    data = json.loads((d / f"{kind}.json").read_text(encoding="utf-8"))
+    data = json.loads((d / f"{vid}.json").read_text(encoding="utf-8"))
+    kind = data.get("format") or ("short" if vid == "short" else "long")
     states = states_of(data)
-    snap_dir = d / f"frames_{kind}"
+    snap_dir = d / f"frames_{vid}"
     snap_dir.mkdir(exist_ok=True)
     page = (d / "preview.html").resolve().as_uri()
-    files = snapshot(kind, states, page, snap_dir)
+    files = snapshot(vid, kind, states, page, snap_dir)
     imgs = [Image.open(f).convert("RGB") for f in files]
     w, h = SIZE[kind]
     imgs = [im if im.size == (w, h) else im.resize((w, h)) for im in imgs]
     cast = Cast(kind)
     times = [t for t, _ in states]
     n = int(math.ceil(data["duration"] * FPS))
-    out = d / f"{kind}.mp4"
+    out = d / f"{vid}.mp4"
     ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{w}x{h}",
-                           "-r", str(FPS), "-i", "-", "-i", str(d / f"{kind}.mp3"), "-c:v", "libx264",
+                           "-r", str(FPS), "-i", "-", "-i", str(d / f"{vid}.mp3"), "-c:v", "libx264",
                            "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "medium", "-c:a", "aac", "-b:a", "192k",
                            "-shortest", "-movflags", "+faststart", str(out)], stdin=subprocess.PIPE)
     lines = data["lines"]

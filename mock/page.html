@@ -39,6 +39,15 @@ label.tog{display:flex;gap:6px;align-items:center;color:var(--muted)}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
 .vc{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px;min-width:0}
 .vc b{font-family:var(--f-num);font-size:18px}.vc audio{width:100%;height:36px}
+.vrio4{display:grid;gap:12px}
+.vrio4 div{display:flex;gap:28px;align-items:center;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:6px 24px}
+.vrio4 b{font-family:var(--f-num);font-size:72px;line-height:1;width:80px;text-align:center;color:var(--blue)}
+.vrio4 span{font-size:44px;font-weight:900;display:grid}.vrio4 small{font-size:28px;font-weight:700;color:var(--sub)}
+.vt{border-collapse:collapse;width:100%;background:#fff;font-size:42px;font-weight:700}
+.vt th,.vt td{border:3px solid var(--ink);padding:10px 14px;text-align:center}.vt th{background:var(--ink);color:#fff}
+.vt td:first-child{text-align:left}
+.st1 .hlA td,.st2 .hlA td{background:#fff3c4}.st1 .miss,.st2 .miss{background:#ffd9d4!important}
+.st2 .hlB td{background:#dff3e4}
 ol.check{margin:0;padding-left:1.4em;display:grid;gap:6px}ol.check li{max-width:72ch}
 .note{color:var(--muted);font-size:13px}
 .st2 .qcount{display:none}
@@ -108,7 +117,7 @@ svg text{font-family:var(--f-body)}
 
 <div class="wrap">
   <header>
-    <h1>AP解説 モック <small style="font-size:16px;color:var(--muted)">第5版</small></h1>
+    <h1>AP解説 モック <small style="font-size:16px;color:var(--muted)">第6版</small></h1>
     <p class="lead">長編（横長）の一部と、ショート（縦長）の見本です。第2版では、立ち絵をテンプレの素材（坂本アヒルさんの立ち絵素材）に替えて口パクとまばたきを付け、声の抑揚と高さを直しました。声は VOICEVOX、BGM はコレスポの曲を仮に流しています。再生を押すと音が出ます。冗談の台詞には黄色の「冗談」の印が付いているので、台本の一覧で「OK／寒い」を押してください。</p>
   </header>
 
@@ -141,8 +150,8 @@ svg text{font-family:var(--f-body)}
 
   <section class="block">
     <h2>書き出した動画（ショートの下書き・非公開）</h2>
-    <p class="note">上のショートを mp4 にしたものです。ヒロ（GPT）の監査で「直せば可」と出た5つの指摘と、2回目の1つの指摘を直しました。公開はまだしていません。</p>
-    <video controls preload="metadata" src="short.mp4" style="width:100%;max-width:360px;border-radius:10px;background:#000"></video>
+    <p class="note">どちらもヒロ（GPT）の監査で「直せば可」と出た指摘を直してあります。公開はまだしていません。</p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap"><figure style="margin:0;display:grid;gap:6px"><video controls preload="metadata" src="short.mp4" style="width:100%;max-width:300px;border-radius:10px;background:#000"></video><figcaption class="note">OP25B とオープンリレー対策（49秒）</figcaption></figure><figure style="margin:0;display:grid;gap:6px"><video controls preload="metadata" src="vrio.mp4" style="width:100%;max-width:300px;border-radius:10px;background:#000"></video><figcaption class="note">VRIO 分析（40秒・第1弾のショート）</figcaption></figure></div>
   </section>
 
   <section class="block" id="voiceBox">
@@ -255,6 +264,47 @@ svg text{font-family:var(--f-body)}
           <div class="card"><h3>OP25B</h3><p>パソコンから外の<span class="num">25</span>番ポートへの<span class="mk">直接送信</span>（プロバイダーが制限）</p></div>
           <div class="card"><h3>オープンリレー対策</h3><p>許可していない外部から外部への<span class="mk">中継</span>（メールサーバーで制限）</p></div>
         </div>
+      </div></div>
+    </div>
+    <div class="cast"><div class="who" data-who="zundamon"><div class="pp" data-k="zunda" role="img" aria-label="ずんだもん"><img class="body" alt="" src="img2/zunda_body.webp"><img alt="" data-g="ra" src="img2/zunda_ra_base.webp"><img alt="" data-g="la" src="img2/zunda_la_base.webp"><img alt="" data-g="brow" src="img2/zunda_brow_base.webp"><img alt="" data-g="eye" src="img2/zunda_eye_open.webp"><img alt="" data-g="mouth" src="img2/zunda_mouth_close.webp"></div></div><div class="who" data-who="metan"><div class="pp" data-k="metan" role="img" aria-label="四国めたん"><img class="body" alt="" src="img2/metan_body.webp"><img alt="" data-g="ra" src="img2/metan_ra_base.webp"><img alt="" data-g="la" src="img2/metan_la_base.webp"><img alt="" data-g="brow" src="img2/metan_brow_base.webp"><img alt="" data-g="eye" src="img2/metan_eye_open.webp"><img alt="" data-g="mouth" src="img2/metan_mouth_close.webp"></div></div></div>
+    <div class="subt hide"><span class="nm"></span><span class="jk" hidden>冗談</span><span class="tx"></span></div>
+    <div class="credit">VOICEVOX:ずんだもん／VOICEVOX:四国めたん</div>
+  </div>
+</template>
+
+
+<template id="T_vrio">
+  <div class="frame tall">
+    <div class="titleband"><div>VRIO 分析<small>応用情報｜経営戦略</small></div></div>
+    <div class="board">
+      <div class="sc" data-sc="v_hook"><div class="stack">
+        <div class="r0 rv" style="text-align:center;font-family:var(--f-num);font-weight:600;font-size:220px;letter-spacing:.08em;line-height:1">VRIO</div>
+        <div class="mid rv r1" style="text-align:center">会社の<span class="mk">強み</span>を<br>4つの観点で確かめる</div>
+      </div></div>
+      <div class="sc" data-sc="v_four"><div class="stack">
+        <div class="vrio4 r0 rv">
+          <div><b>V</b><span>経済的価値<small>Value</small></span></div>
+          <div><b>R</b><span>希少性<small>Rarity</small></span></div>
+          <div><b>I</b><span>まねされにくさ<small>Imitability</small></span></div>
+          <div><b>O</b><span>組織<small>Organization</small></span></div>
+        </div>
+        <div class="card rv r1"><div class="sm" style="color:#17233a">I の書き方<br>シラバス Ver.7.2：<span class="mk">模倣可能性</span><br>令和7年度秋期 午後問2：<span class="mk">模倣困難性</span></div></div>
+      </div></div>
+      <div class="sc" data-sc="v_table"><div class="stack">
+        <div class="mid r0 rv">午後問2 の表1</div>
+        <table class="vt r0 rv">
+          <tr><th>強み</th><th>V</th><th>R</th><th>I</th><th>O</th></tr>
+          <tr><td>企画・設計</td><td>○</td><td></td><td></td><td>○</td></tr>
+          <tr class="hlA"><td>開発</td><td>○</td><td>○</td><td class="miss"></td><td>○</td></tr>
+          <tr class="hlB"><td>生産体制</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+          <tr class="hlB"><td>販売網</td><td>○</td><td>○</td><td>○</td><td>○</td></tr>
+        </table>
+        <div class="sm rv r1 noteA">開発：数年で他社に追随されるおそれ</div>
+        <div class="sm rv r2">生産体制 × 販売網 ＝ <span class="mk">コアコンピタンス</span></div>
+        <div class="src r0 rv">出典：IPA 令和7年度 秋期 応用情報技術者試験 午後 問2 本文・表1（要約・一部改変）</div>
+      </div></div>
+      <div class="sc" data-sc="v_sum"><div class="stack">
+        <div class="big r0 rv" style="text-align:center">4つを満たす<br>強みを生かす<br>↓<br><span class="mk">持続的な<br>競争優位</span></div>
       </div></div>
     </div>
     <div class="cast"><div class="who" data-who="zundamon"><div class="pp" data-k="zunda" role="img" aria-label="ずんだもん"><img class="body" alt="" src="img2/zunda_body.webp"><img alt="" data-g="ra" src="img2/zunda_ra_base.webp"><img alt="" data-g="la" src="img2/zunda_la_base.webp"><img alt="" data-g="brow" src="img2/zunda_brow_base.webp"><img alt="" data-g="eye" src="img2/zunda_eye_open.webp"><img alt="" data-g="mouth" src="img2/zunda_mouth_close.webp"></div></div><div class="who" data-who="metan"><div class="pp" data-k="metan" role="img" aria-label="四国めたん"><img class="body" alt="" src="img2/metan_body.webp"><img alt="" data-g="ra" src="img2/metan_ra_base.webp"><img alt="" data-g="la" src="img2/metan_la_base.webp"><img alt="" data-g="brow" src="img2/metan_brow_base.webp"><img alt="" data-g="eye" src="img2/metan_eye_open.webp"><img alt="" data-g="mouth" src="img2/metan_mouth_close.webp"></div></div></div>
