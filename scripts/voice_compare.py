@@ -38,6 +38,16 @@ VARIANTS = [
     ("M3", "metan", 2, 1.05, -0.03, 1.15, "少し低く（−0.03）・抑揚1.15"),
     ("M4", "metan", 2, 1.00, -0.02, 1.25, "落ち着いて（速さ1.0・−0.02・抑揚1.25）"),
 ]
+# 第2弾（10/8 本人「ずんだもんの棒読みは消えた。めたんは上ずりは治ったが棒読み。二人とももっと速く」）
+VARIANTS2 = [
+    ("Z2", "zundamon", 3, 1.15, 0.00, 1.35, "第2版の動画の声（棒読みが消えたと好評。比べる基準）"),
+    ("Z5", "zundamon", 3, 1.30, 0.00, 1.35, "ノーマル・速さ1.3・抑揚1.35"),
+    ("Z6", "zundamon", 3, 1.40, 0.00, 1.45, "ノーマル・速さ1.4・抑揚1.45"),
+    ("M5", "metan", 2, 1.25, 0.00, 1.35, "ノーマル・速さ1.25・抑揚1.35"),
+    ("M6", "metan", 2, 1.30, 0.00, 1.55, "ノーマル・速さ1.3・抑揚1.55"),
+    ("M7", "metan", 2, 1.35, 0.00, 1.75, "ノーマル・速さ1.35・抑揚1.75"),
+    ("M8", "metan", 0, 1.30, 0.00, 1.40, "あまあま・速さ1.3・抑揚1.4"),
+]
 
 
 def synth(text, speaker, speed, pitch, inton):
@@ -49,11 +59,12 @@ def synth(text, speaker, speed, pitch, inton):
     return r.content
 
 
-def main(out_dir):
+def main(out_dir, variants=None):
+    variants = variants or VARIANTS
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     meta = []
-    for name, who, spk, speed, pitch, inton, note in VARIANTS:
+    for name, who, spk, speed, pitch, inton, note in variants:
         files = []
         for i, text in enumerate(LINES[who]):
             wav = out / f"{name}_{i}.wav"
@@ -70,4 +81,5 @@ def main(out_dir):
 
 
 if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1] if len(sys.argv) > 1 else "build/mock/voice"))
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    raise SystemExit(main(args[0] if args else "build/mock/voice", VARIANTS2 if "--round2" in sys.argv else None))
