@@ -122,8 +122,31 @@ EMOTE_FONTS = ["C:/Windows/Fonts/meiryob.ttc", str(pathlib.Path.home() / ".fonts
                "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc"]
 
 
-def emote_for(ln, prev=None):
+# 10/9 本人「記号おけです。今後も増やしていきましょうね」→ 相手に付く記号も。
+#   めたんがずんだもんの勘違いを直す → ずんだもんに汗、ずんだもんが分かった → 電球、めたんの「正解は」→ きらきら
+FIX_HEADS = ("半分はずれ", "はずれ", "違う", "ちがう", "惜しい", "おしい", "いいえ", "そうじゃない", "残念")
+GOT_IT = ("なるほど", "分かったのだ", "わかったのだ", "そういうことなのだ", "分かってきたのだ")
+SPECIAL = ("sweat", "bulb", "sparkle", "…w")  # 4秒の間あけを待たずに出す
+EMOTE_EXTRA = False  # 汗・電球・きらきら。見本（build/brand_demo/demo_emote2.mp4）に本人の OK が出たら True に
+
+
+def emote_for(ln, prev=None, extra=None):
+    """(記号, 色, 付ける人)。付ける人は、ふつうは話している人。"""
+    e = _emote_for(ln, prev, EMOTE_EXTRA if extra is None else extra)
+    return None if e is None else (e + (ln.get("who"),) if len(e) == 2 else e)
+
+
+def _emote_for(ln, prev=None, extra=False):
     t = (ln.get("text") or "").strip()
+    pw = prev.get("who") if prev else None
+    if not extra:
+        pass
+    elif ln.get("who") == "metan" and pw == "zundamon" and not prev.get("joke") and t.startswith(FIX_HEADS):
+        return "sweat", (70, 150, 230), "zundamon"
+    elif ln.get("who") == "zundamon" and any(k in t for k in GOT_IT):
+        return "bulb", (255, 200, 40)
+    elif ln.get("who") == "metan" and t.startswith("正解"):
+        return "sparkle", (255, 190, 30)
     # 10/8 本人「ずんだもんが冗談を言ったら、それに答えつつ『…w』をめたんに」
     if prev and prev.get("joke") and prev.get("who") == "zundamon" and ln.get("who") == "metan":
         return "…w", (122, 104, 160)
@@ -160,6 +183,9 @@ def emote_img(sym, color, size):
         dr = ImageDraw.Draw(im)
         sw = max(4, size // 12)
         ink = (23, 35, 58, 255)
+        if sym in ("sweat", "bulb", "sparkle"):
+            _EMO[k] = shape_img(sym, color, size)
+            return _EMO[k]
         if sym == "…w":  # 字の「…」は四角い点になるので、丸を3つ描いてから w
             r = size * 0.075
             for j in range(3):
@@ -177,11 +203,56 @@ def emote_img(sym, color, size):
     return _EMO[k]
 
 
+def shape_img(sym, color, size):
+    """字ではなく形で描く記号（汗・電球・きらきら）。紺のふち＋白のふち＋色。"""
+    from PIL import ImageDraw
+    ink, white = (23, 35, 58, 255), (255, 255, 255, 255)
+    im = Image.new("RGBA", (size * 2, size * 2), (0, 0, 0, 0))
+    dr = ImageDraw.Draw(im)
+
+    def drop(cx, cy, r):  # しずく：上がとがった丸
+        for pad, col in ((9, ink), (5, white), (0, color + (255,))):
+            dr.ellipse((cx - r - pad, cy - r - pad, cx + r + pad, cy + r + pad), fill=col)
+            dr.polygon([(cx - r * 0.75 - pad * 0.8, cy - r * 0.45), (cx + r * 0.75 + pad * 0.8, cy - r * 0.45),
+                        (cx, cy - r * 2.1 - pad * 1.4)], fill=col)
+
+    def star(cx, cy, r, col):  # 4つの角のきらきら
+        pts = []
+        for j in range(8):
+            ang = math.pi / 4 * j - math.pi / 2
+            rr = r if j % 2 == 0 else r * 0.28
+            pts.append((cx + rr * math.cos(ang), cy + rr * math.sin(ang)))
+        dr.polygon(pts, fill=col)
+
+    if sym == "sweat":
+        drop(size * 0.55, size * 1.0, size * 0.28)
+        drop(size * 1.15, size * 1.3, size * 0.2)
+    elif sym == "bulb":
+        cx, cy, r = size, size * 0.85, size * 0.42
+        for j in range(7):  # 光の線
+            ang = math.pi + math.pi / 6 * j
+            x1, y1 = cx + (r + 18) * math.cos(ang), cy + (r + 18) * math.sin(ang)
+            x2, y2 = cx + (r + 48) * math.cos(ang), cy + (r + 48) * math.sin(ang)
+            dr.line((x1, y1, x2, y2), fill=ink, width=16)
+            dr.line((x1, y1, x2, y2), fill=color + (255,), width=8)
+        for pad, col in ((9, ink), (5, white), (0, color + (255,))):
+            dr.ellipse((cx - r - pad, cy - r - pad, cx + r + pad, cy + r + pad), fill=col)
+            dr.rectangle((cx - r * 0.45 - pad, cy + r * 0.6, cx + r * 0.45 + pad, cy + r * 1.35 + pad), fill=col)
+        dr.rectangle((cx - r * 0.45, cy + r * 1.0, cx + r * 0.45, cy + r * 1.35), fill=(150, 160, 175, 255))
+    else:  # sparkle
+        for (cx, cy, r) in ((size * 0.9, size * 0.9, size * 0.55), (size * 1.5, size * 0.45, size * 0.28),
+                            (size * 1.45, size * 1.35, size * 0.2)):
+            star(cx, cy, r + 10, ink)
+            star(cx, cy, r + 5, white)
+            star(cx, cy, r, color + (255,))
+    return im.crop(im.getbbox())
+
+
 def paste_emote(frame, ln, e, t, x, y, w, kind, side="left"):
     """台詞 ln の始めの約0.9秒（「…w」は1.4秒）、(x, y) の近くに記号 e を出す。"""
     if not e or not ln.get("who"):
         return
-    p = (t - ln["start"]) / (1.4 if e[0] == "…w" else 0.9)
+    p = (t - ln["start"]) / (1.4 if e[0] in SPECIAL else 0.9)
     if p < 0 or p > 1:
         return
     scale = 0.6 + p / 0.2 * 0.5 if p < 0.2 else (1.1 - (p - 0.2) / 0.1 * 0.1 if p < 0.3 else 1.0)
@@ -261,8 +332,9 @@ def main(vid, d):
     # 記号は出しすぎるとうるさいので、前に出してから4秒以上あいた台詞だけ
     emo_ok, last = {}, -99.0
     for i, ln in enumerate(lines):
-        e = emote_for(ln, lines[i - 1] if i else None)
-        if ln.get("who") and not ln["scene"].startswith("_") and e and (ln["start"] - last >= 4.0 or e[0] == "…w"):
+        prev = next((x for x in reversed(lines[:i]) if x.get("who")), None)  # 考える時間をとばした前の台詞
+        e = emote_for(ln, prev, data.get("emote_extra"))
+        if ln.get("who") and not ln["scene"].startswith("_") and e and (ln["start"] - last >= 4.0 or e[0] in SPECIAL):
             emo_ok[i] = e
             last = ln["start"]
     for fi in range(n):
@@ -289,7 +361,7 @@ def main(vid, d):
             im = cast.get(key, eye, brow, mouth, not me)
             bob = -8 * (1 - math.cos(math.pi * t / 0.5)) / 2 if me else 0
             frame.paste(im, (xs[key], h - im.height + round(bob) + (8 if me else 0)), im)
-            if me and li in emo_ok and (EMOTE_DEFAULT if data.get("emote") is None else data["emote"]):
+            if speaking and li in emo_ok and emo_ok[li][2] == who and (EMOTE_DEFAULT if data.get("emote") is None else data["emote"]):
                 # 頭の上：ずんだもん（左・右向き）は右寄り、めたん（右・左向き）は左寄り
                 hx = xs[key] + (cast.w * 0.92 if key == "zunda" else cast.w * 0.08)
                 paste_emote(frame, L, emo_ok[li], t, hx, h - im.height + (150 if kind == "long" else 190), cast.w, kind,
