@@ -14,3 +14,6 @@
 | 2026-10-08 | 長編 | 令和7年度秋期 午後問2 スポーツウェアメーカーの事業領域拡大戦略を解く｜応用情報技術者試験 経営戦略 | https://youtu.be/T6ZMLueOu1M | episodes/pm2_r07a.json | ヒロ 直せば可(4点)→可 |
 
 長編4本は API（scripts/upload_youtube.py、project collespo の OAuth クライアント）で公開。API で public・uploaded・チャンネル名を確認（10/8）。
+| 2026-10-09 | ショート | PPMの4分類（花形・金のなる木・問題児・負け犬）｜応用情報技術者試験 経営戦略 | https://youtu.be/R1_f5dwJDII | published/20261009T0700_short_ppm4.json | 可（予約 2026-10-09T07:00:00+09:00） |
+| 2026-10-09 | ショート | ファイブフォース分析の5つの力｜応用情報技術者試験 経営戦略 | https://youtu.be/J_BsN-nxxYM | published/20261009T1900_short_ff.json | 可（予約 2026-10-09T19:00:00+09:00） |
+| 2026-10-09 | 長編 | 成長マトリクス（アンゾフ）｜応用情報技術者試験 経営戦略 第4回 | https://youtu.be/FTrgcs7FWNE | published/20261009T2000_strategy4.json | 可（予約 2026-10-09T20:00:00+09:00） |
