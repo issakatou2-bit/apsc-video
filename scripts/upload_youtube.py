@@ -42,6 +42,37 @@ def read_meta(path, key):
     return t.group(1).strip(), desc
 
 
+def credentials():
+    """手元では .secrets/youtube_token.json、GitHub Actions では Secrets（環境変数）から許可を作る。"""
+    import os
+    if TOKEN.exists():
+        return Credentials.from_authorized_user_info(json.loads(TOKEN.read_text(encoding="utf-8")))
+    info = {"client_id": os.environ["YOUTUBE_CLIENT_ID"], "client_secret": os.environ["YOUTUBE_CLIENT_SECRET"],
+            "refresh_token": os.environ["YOUTUBE_REFRESH_TOKEN"], "token_uri": "https://oauth2.googleapis.com/token"}
+    return Credentials.from_authorized_user_info(info)
+
+
+def upload(video, title, desc, tags, privacy="public", publish_at=None, channel=CHANNEL):
+    """1本上げて動画の ID を返す。publish_at（ISO）があれば非公開で上げて、その時刻に自動で公開される。"""
+    yt = build("youtube", "v3", credentials=credentials())
+    mine = [c["id"] for c in yt.channels().list(part="id", mine=True).execute().get("items", [])]
+    if channel not in mine:
+        raise SystemExit(f"[error] 許可しているチャンネル {mine} が {channel} と違うので止めました")
+    status = {"privacyStatus": "private" if publish_at else privacy, "selfDeclaredMadeForKids": False,
+              "containsSyntheticMedia": False}
+    if publish_at:
+        status["publishAt"] = publish_at
+    body = {"snippet": {"title": title, "description": desc, "tags": [t for t in tags if t != "Shorts"],
+                        "categoryId": "27", "defaultLanguage": "ja", "defaultAudioLanguage": "ja"},
+            "status": status}
+    media = MediaFileUpload(str(video), chunksize=8 * 1024 * 1024, resumable=True, mimetype="video/mp4")
+    req = yt.videos().insert(part="snippet,status", body=body, media_body=media)
+    resp = None
+    while resp is None:
+        _, resp = req.next_chunk()
+    return resp["id"]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("video")
@@ -59,25 +90,7 @@ def main():
     if a.dry_run:
         print(desc)
         return 0
-    creds = Credentials.from_authorized_user_info(json.loads(TOKEN.read_text(encoding="utf-8")))
-    yt = build("youtube", "v3", credentials=creds)
-    mine = [c["id"] for c in yt.channels().list(part="id", mine=True).execute().get("items", [])]
-    if a.channel not in mine:
-        raise SystemExit(f"[error] 許可しているチャンネル {mine} が {a.channel} と違うので止めました")
-    body = {
-        "snippet": {"title": title, "description": desc, "tags": [t for t in tags if t != "Shorts"],
-                    "categoryId": "27", "defaultLanguage": "ja", "defaultAudioLanguage": "ja"},
-        "status": {"privacyStatus": a.privacy, "selfDeclaredMadeForKids": False,
-                   "containsSyntheticMedia": False},
-    }
-    media = MediaFileUpload(a.video, chunksize=8 * 1024 * 1024, resumable=True, mimetype="video/mp4")
-    req = yt.videos().insert(part="snippet,status", body=body, media_body=media)
-    resp = None
-    while resp is None:
-        status, resp = req.next_chunk()
-        if status:
-            print(f"[info] {int(status.progress() * 100)}%")
-    vid = resp["id"]
+    vid = upload(a.video, title, desc, tags, a.privacy, None, a.channel)
     print(f"[info] 上げました: https://youtu.be/{vid}（{a.privacy}）")
     return 0
 

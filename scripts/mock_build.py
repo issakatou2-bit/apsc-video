@@ -101,7 +101,7 @@ def main(script_path, out_dir):
         prev_scene = ln["scene"]
     pieces.append(np.zeros(int(TAIL * SR)))
     voice = np.concatenate(pieces)
-    bgm = sound_mix._decode(spec["bgm"]) if spec.get("bgm") else None
+    bgm = sound_mix._decode(pathlib.Path(__file__).resolve().parent.parent / spec["bgm"]) if spec.get("bgm") else None
     y = sound_mix.mix(voice, bgm=bgm, cues=cues, bgm_db=-24.0, duck_db=-6.0, sfx_db=-13.0)
     wav = out / f"{spec['id']}.wav"
     with wave.open(str(wav), "wb") as w:

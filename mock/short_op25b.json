@@ -1,7 +1,7 @@
 {
   "id": "short",
   "title": "OP25Bとオープンリレー対策",
-  "bgm": "C:/Users/issak/Desktop/pwa-mvp/build/wt-0907/assets/bgm/everyday.mp3",
+  "bgm": "assets/bgm/everyday.mp3",
   "voice": {
     "zundamon": {
       "speaker": 3,

@@ -93,7 +93,9 @@ def snapshot(vid, kind, states, page_url, out_dir, data=None):
     w, h = SIZE[kind]
     files = []
     with sync_playwright() as p:
-        b = p.chromium.launch(channel="msedge")
+        import os
+        ch = os.environ.get("APSC_BROWSER", "msedge")  # GitHub Actions では chromium
+        b = p.chromium.launch(channel=ch) if ch != "chromium" else p.chromium.launch()
         pg = b.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
         pg.goto(page_url)
         pg.wait_for_load_state("networkidle")

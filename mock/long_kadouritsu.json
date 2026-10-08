@@ -1,7 +1,7 @@
 {
   "id": "long",
   "title": "稼働率（直列と並列）",
-  "bgm": "C:/Users/issak/Desktop/pwa-mvp/build/wt-0907/assets/bgm/nighter.mp3",
+  "bgm": "assets/bgm/nighter.mp3",
   "voice": {
     "zundamon": {
       "speaker": 3,

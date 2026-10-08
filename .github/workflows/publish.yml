@@ -1,0 +1,69 @@
+# 投稿の棚（queue/）から、公開の時刻が近い台本を、声 → 動画 → 予約公開まで進める。
+# 2026-10-08 エマ。本人「定期自動投稿まで」「Actions で自動にする」。
+# 台本づくりと監査（scripts/produce.py、ヒロ）は手元。ここは PC なしで回す部分。
+#
+# 要る Secrets（本人が設定。値は文書やコミットに書かない）：
+#   YOUTUBE_CLIENT_ID / YOUTUBE_CLIENT_SECRET / YOUTUBE_REFRESH_TOKEN
+#   （手元の .secrets/ から scripts/set_secrets.py で入れられる。本人が実行する）
+name: publish
+
+on:
+  schedule:
+    # 毎日 02:30（日本時間）。その日〜翌朝までに公開する分を予約する。
+    - cron: "30 17 * * *"
+  workflow_dispatch:
+    inputs:
+      within_hours:
+        description: "今から何時間以内に公開する分を処理するか"
+        default: "30"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q ffmpeg fonts-noto-cjk
+          pip install -q requests numpy scipy pillow playwright google-api-python-client google-auth
+          python -m playwright install --with-deps chromium
+
+      - name: Start VOICEVOX engine
+        run: |
+          docker run -d --rm -p 50021:50021 --name voicevox voicevox/voicevox_engine:cpu-latest
+          for i in $(seq 1 60); do
+            if curl -s http://127.0.0.1:50021/version > /dev/null; then echo "VOICEVOX ready"; break; fi
+            sleep 2
+          done
+          curl -s http://127.0.0.1:50021/version
+
+      - name: Publish from the queue
+        env:
+          APSC_BROWSER: chromium
+          PYTHONIOENCODING: utf-8
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python scripts/publish_queue.py --within-hours "${{ github.event.inputs.within_hours || '30' }}"
+
+      - name: Commit the ledger
+        run: |
+          git config user.name "apsc-video bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A queue published mock/published.md
+          git diff --cached --quiet || git commit -m "予約公開：棚から投稿（Actions）"
+          git push
