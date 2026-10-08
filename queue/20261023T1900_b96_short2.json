@@ -1,0 +1,151 @@
+{
+  "id": "b96_short2",
+  "format": "short",
+  "title": "4Pと4C",
+  "topic": "応用情報｜経営戦略",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類8 経営戦略／中分類19 経営戦略マネジメント／2. マーケティング（p.110）(1)① マーケティング分析：市場規模，顧客ニーズ，自社の経営資源，業績，競合関係などの分析を行うこと，その考え方，及び市場調査で用いられる代表的な調査，分析手法を理解する。用語例 3C（Customer，Competitor，Company）分析，マクロ環境分析（PEST 分析，文化的環境），市場調査（マーケティングリサーチ），STP 分析（セグメンテーション，ターゲティング，ポジショニング）ほか ② マーケティングミックス：商品計画，販売価格，販売経路，販売促進を効果的に組み合わせて実施すること。用語例 マーケティングの 4P（Product，Price，Place，Promotion），マーケティングの 4C（Customer Value，Customer Cost，Convenience，Communication）",
+    "IPA 令和7年度 秋期 応用情報技術者試験 午前 問67：売手側でのマーケティング要素 4P は，買手側での要素 4C に対応するという考え方がある。4P の一つであるプロモーションに対応する 4C の構成要素はどれか。ア 顧客価値（Customer Value）イ 顧客コスト（Cost）ウ コミュニケーション（Communication）エ 利便性（Convenience）（解答：ウ）"
+  ],
+  "upload": {
+    "title": "4P を買う人の目で言い直すと 4C｜応用情報技術者試験 経営戦略",
+    "summary": "マーケティングの4P（売手）と4C（買手）の対応を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（19 経営戦略マネジメント 2.(1)② マーケティングミックス） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf",
+      "令和7年度 秋期 応用情報技術者試験 午前 問67 https://www.ipa.go.jp/shiken/mondai-kaiotu/nl10bi0000009lh8-att/2025r07a_ap_am_qs.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "経営戦略",
+      "4P",
+      "4C",
+      "マーケティング",
+      "ずんだもん",
+      "四国めたん"
+    ],
+    "title_b": "【応用情報 経営戦略】4Pと4Cの違いとは？買う人の目で言い直す",
+    "title_c": "4Pと4Cを{sec}秒で｜買う人の目で言い直す【応用情報】"
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "4P を",
+        "買う人の目で",
+        "言い直すと？"
+      ],
+      "mark": 1
+    },
+    "s_grid": {
+      "type": "grid",
+      "head": "4P（売手）↔ 4C（買手）",
+      "cols": [
+        "4P",
+        "4C"
+      ],
+      "rows": [
+        "製品・価格",
+        "流通・販売促進"
+      ],
+      "cells": [
+        {
+          "tag": "Product・Price",
+          "text": "製品・価格"
+        },
+        {
+          "tag": "Customer Value・Customer Cost",
+          "text": "顧客価値・顧客コスト"
+        },
+        {
+          "tag": "Place・Promotion",
+          "text": "流通・販売促進"
+        },
+        {
+          "tag": "Convenience・Communication",
+          "text": "利便性・コミュニケーション"
+        }
+      ],
+      "src": "出典：IPA シラバス Ver.7.2 中分類19 マーケティング（4P・4C）／令和7年度 秋期 午前 問67（販売促進とコミュニケーションの対応）"
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "4Pって、売る側の目線なのだ？",
+      "say": "フォーピーって、売る側の目線なのだ？"
+    },
+    {
+      "scene": "s_grid",
+      "step": 0,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "そう。それを買う人の目線で言い直したのが4Cよ。",
+      "say": "そう。それを買う人の目線で言い直したのが、フォーシーよ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "製品は顧客価値に、価格は顧客コストに対応するの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "流通は利便性、販売促進はコミュニケーションね。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "この表の順で、4Pと4Cの対応を覚えるのだ！",
+      "say": "コノヒョウノジュンデ、フォーピートフォーシーノタイオウヲオボエルノダ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-08",
+      "round": 1,
+      "verdict": "直せば可",
+      "fixes": [
+        "replace 7: 列挙順は固定ではないため、今回の表の並びに限定する。",
+        "replace 7: 変更後の字幕に合わせる。",
+        "delete 6: 対応関係の理解に不要な出題年度への言及。出典は画面に任せる。",
+        "delete 5: 4の対応関係をそのまま繰り返している。",
+        "scene s_grid.cells.1.tag: シラバスに記載された用語名にそろえる。",
+        "scene s_grid.src: 用語と、台詞から省いた過去問の根拠を画面に表示する。"
+      ],
+      "notes": "4Pと4Cの対応関係は正しく、過去問の正答とも一致しています。\n字幕の長さ、略語の読み、画面の型に問題はなく、冗談や架空の会社・店舗の例もありません。"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-08",
+      "round": 2,
+      "verdict": "可",
+      "fixes": [],
+      "notes": "前回の指摘はすべて反映されています。4Pと4Cの対応関係は材料と一致し、新しい誤りや過度な断定はありません。\n字幕の長さ、出典表示、略語の読み、冗長さ、画面の型にも問題ありません。"
+    }
+  ],
+  "publish_at": "2026-10-23T19:00:00+09:00"
+}

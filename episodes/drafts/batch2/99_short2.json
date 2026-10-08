@@ -1,0 +1,134 @@
+{
+  "id": "ap_net3_short2",
+  "format": "short",
+  "title": "POP3 と IMAP4",
+  "topic": "応用情報｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.35
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類3 技術要素／中分類10 ネットワーク／5.(1) インターネット（p.47）① 電子メール：電子メールシステムはメールサーバとメールクライアントで構成されており，送信したメールはメールサーバからメールサーバへリレー方式で配送される仕組みであること。用語例 SMTP，POP3，IMAP4，MIME，base64，HTML メール（MHTML），Web メール ② Web：用語例 HTTP，HTTP over TLS（HTTPS），CGI，cookie，URL，セッション ID，REST，WebDAV，QUIC ③ ファイル転送：用語例 アップロード，ダウンロード，アクティブモード，パッシブモード，TFTP"
+  ],
+  "upload": {
+    "title": "メールはどこに残る？ POP3 と IMAP4｜応用情報技術者試験 〈ネットワーク〉",
+    "summary": "メールを読むプロトコル POP3（端末に取り込む）と IMAP4（サーバに置いたまま）の違いを短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（10 ネットワーク 5.(1)① 電子メール） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "ネットワーク",
+      "POP3",
+      "IMAP4",
+      "メール",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "POP3 と IMAP4",
+        "メールは",
+        "どこに残る？"
+      ],
+      "mark": 2
+    },
+    "s_grid": {
+      "type": "grid",
+      "head": "POP3 と IMAP4",
+      "cols": [
+        "しくみ",
+        "向いている使い方"
+      ],
+      "rows": [
+        "POP3",
+        "IMAP4"
+      ],
+      "cells": [
+        {
+          "tag": "しくみ",
+          "text": "サーバから端末に取り込んで読む"
+        },
+        {
+          "tag": "向いている使い方",
+          "text": "1台の端末で読む"
+        },
+        {
+          "tag": "しくみ",
+          "text": "サーバに置いたまま読む・整理する"
+        },
+        {
+          "tag": "向いている使い方",
+          "text": "いくつもの端末で同じように読む"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "スマホで読んだメールが、パソコンでは未読のままなのだ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 0,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "それは、メールを読む方式の違いかもしれないわ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "POP3は、サーバから自分の端末に、メールを取り込んで読む方式。",
+      "say": "ポップスリーは、サーバから自分の端末に、メールを取り込んで読む方式。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "IMAP4は、メールをサーバに置いたまま、読んだり整理したりする方式よ。",
+      "say": "アイマップフォーは、メールをサーバに置いたまま、読んだり整理したりする方式よ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "サーバに置いたままなら、どの端末で見ても同じなのだ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "そう。ちなみに、メールを送るほうはSMTPよ。",
+      "expr": "smile",
+      "say": "そう。ちなみに、メールを送るほうは、エスエムティーピーよ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "POP3は取り込む、IMAP4は置いたままなのだ！",
+      "say": "ポップスリーは取り込む、アイマップフォーは置いたままなのだ！"
+    }
+  ]
+}
