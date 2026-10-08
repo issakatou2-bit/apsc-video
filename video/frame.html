@@ -64,6 +64,13 @@ body{margin:0;background:#000}
 .qa .cl{font-size:32px;font-weight:700;line-height:1.5}.qa .an{font-size:38px;font-weight:900;color:var(--red)}
 .qa .ansc{border-color:var(--red);box-shadow:8px 8px 0 var(--red)}
 .src{font-size:24px;color:var(--sub)}
+.brand{position:absolute;inset:0;display:none;background:var(--ink);color:#fff;z-index:5;text-align:center;align-content:center;justify-items:center;gap:22px;padding:0 120px}
+.brand.on{display:grid}
+.brand .bn{font-size:96px;font-weight:900;letter-spacing:.04em;line-height:1.2}
+.short .brand{padding:0 50px}.short .brand .bn{font-size:66px}
+.brand .bs{font-size:40px;font-weight:700;color:#c9d6ea;line-height:1.5}
+.brand .bt{font-size:34px;font-weight:700;color:#ffe066;line-height:1.4;max-width:1400px}
+.brand .bar{width:180px;height:8px;background:#ffe066;border-radius:4px}
 .subt{position:absolute;left:400px;bottom:40px;width:1120px;min-height:150px;box-sizing:border-box;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:22px 30px;font-size:44px;font-weight:700;line-height:1.45}
 .short .subt{left:40px;bottom:520px;width:880px;font-size:44px}
 .subt .nm{position:absolute;left:24px;top:-26px;font-size:26px;font-weight:900;color:#fff;padding:2px 18px;border-radius:999px}
@@ -90,11 +97,23 @@ let EP=null,F=null;
 window.setup=(ep)=>{
   EP=ep;const kind=ep.format||"long";
   const scenes=Object.entries(ep.scenes).map(([id,s])=>`<div class="sc" data-sc="${id}" data-type="${s.type}">${B[s.type](s)}</div>`).join("");
-  document.getElementById("host").innerHTML=`<div class="frame ${kind}"><div class="tab"></div><div class="topic">${esc(ep.topic||"")}</div><div class="board">${scenes}</div><div class="subt off"><span class="nm"></span><span class="tx"></span></div><div class="credit">VOICEVOX:ずんだもん／VOICEVOX:四国めたん</div></div>`;
+  document.getElementById("host").innerHTML=`<div class="frame ${kind}"><div class="tab"></div><div class="topic">${esc(ep.topic||"")}</div><div class="board">${scenes}</div><div class="subt off"><span class="nm"></span><span class="tx"></span></div><div class="brand"></div><div class="credit">VOICEVOX:ずんだもん／VOICEVOX:四国めたん</div></div>`;
   F=document.querySelector(".frame");
   return document.fonts.ready.then(()=>true);
 };
+// 10/8 本人「最初はチャンネル名、最後は手短なチャンネル説明」。場面名が _open・_end の台詞は、全面の札にする
+const BRAND={name:"めたん先生のIT試験ゼミ",sub:"応用情報・情報処理安全確保支援士",end:"用語と解き方を、毎日 ショート2本・解説1本"};
 window.setState=(st)=>{
+  const br=F.querySelector(".brand");
+  if(st.scene==="_open"||st.scene==="_end"){
+    br.classList.add("on");
+    br.innerHTML=st.scene==="_open"
+      ?`<div class="bs">${esc(BRAND.sub)}</div><div class="bn">${esc(BRAND.name)}</div><div class="bar"></div><div class="bt">${esc(EP.title||"")}</div>`
+      :`<div class="bn">${esc(BRAND.name)}</div><div class="bar"></div><div class="bs">${esc(BRAND.end)}</div>`;
+    F.querySelector(".subt").classList.add("off");F.querySelector(".tab").textContent="";
+    return true;
+  }
+  br.classList.remove("on");
   F.querySelectorAll(".sc").forEach(sc=>{
     const on=sc.dataset.sc===st.scene;sc.classList.toggle("show",on);if(!on)return;
     sc.querySelectorAll("[data-at]").forEach(e=>e.classList.toggle("hid",+e.dataset.at>st.step));

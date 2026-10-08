@@ -32,6 +32,7 @@ LEAD = 0.6        # 最初の無音
 GAP = 0.3         # 台詞と台詞の間
 SCENE_GAP = 0.55  # 場面が変わるときは少し長く
 TAIL = 1.5        # 最後の余韻
+BRAND_DEFAULT = False  # 最初と最後のチャンネル札。本人の OK（見本 build/brand_demo）が出たら True に
 
 
 _READ = None
@@ -73,6 +74,18 @@ def main(script_path, out_dir):
     spec = json.loads(pathlib.Path(script_path).read_text(encoding="utf-8"))
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
+    # 10/8 本人「各動画で最初はチャンネル名、最後は手短なチャンネル説明。ショートは数秒、長編でも5秒以内」
+    if spec.get("scenes") and spec.get("brand", BRAND_DEFAULT):
+        lines = list(spec["lines"])
+        if spec.get("format") != "short":
+            lines.insert(0, {"scene": "_open", "step": 0, "sfx": "impact", "who": "metan",
+                             "text": "めたん先生のIT試験ゼミ", "say": "めたん先生の、アイティー試験ゼミ。"})
+            lines.append({"scene": "_end", "step": 0, "sfx": "swish", "who": "zundamon",
+                          "text": "用語と解き方を、毎日ショート2本と解説1本で出しているのだ。"})
+        else:
+            lines.append({"scene": "_end", "step": 0, "sfx": "swish", "who": "metan",
+                          "text": "めたん先生のIT試験ゼミ", "say": "めたん先生の、アイティー試験ゼミ。"})
+        spec = {**spec, "lines": lines}
     pieces, cues, timeline = [], [], []
     t = LEAD
     pieces.append(np.zeros(int(LEAD * SR)))
