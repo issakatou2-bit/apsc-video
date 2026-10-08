@@ -1,0 +1,182 @@
+{
+  "id": "b107_am_r07h_q41",
+  "format": "short",
+  "title": "cookieのSecure属性（令和7年度春期 午前 問41）",
+  "topic": "応用情報 午前｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和7年度 春期 応用情報技術者試験 午前 問41（問題冊子 p.22）：cookie に Secure 属性を設定しなかったときと比較した，設定したときの Web ブラウザの動作として，適切なものはどれか。ア cookie に設定された有効期間を過ぎると，Web ブラウザが cookie を無効であると判断する。イ URL 内のスキームが https のときだけ，Web ブラウザから cookie が送出される。ウ Web ブラウザがアクセスする URL 内のパスと cookie に設定されたパスのプレフィックスが一致するときだけ，Web ブラウザから cookie が送出される。エ Web ブラウザでは JavaScript による cookie の読出しが禁止される。（解答例：イ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】cookieのSecure属性の問題 令和7年度春期 問41",
+    "title_b": "【応用情報 午前】cookieのSecure属性の問題 令和7年度春期 問41",
+    "title_c": "cookieのSecure属性を{sec}秒で｜令和7年度春期 午前 問41【応用情報】",
+    "summary": "令和7年度春期 午前 問41（cookie の Secure 属性）を解きます。ほかの選択肢がどの属性の説明かも見ます。",
+    "sources": [
+      "令和7年度 春期 応用情報技術者試験 午前 問41（問題冊子 p.22、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/nl10bi0000009lh8-att/2025r07h_ap_am_qs.pdf",
+      "令和7年度 春期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/nl10bi0000009lh8-att/2025r07h_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "セキュリティ",
+      "cookie",
+      "Secure属性",
+      "HttpOnly",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "cookie に Secure 属性を設定しなかったときと比較した，設定したときの Web ブラウザの動作として，適切なものはどれか。",
+      "choices": [
+        "ア　cookie に設定された有効期間を過ぎると，Web ブラウザが cookie を無効であると判断する。",
+        "イ　URL 内のスキームが https のときだけ，Web ブラウザから cookie が送出される。",
+        "ウ　Web ブラウザがアクセスする URL 内のパスと cookie に設定されたパスのプレフィックスが一致するときだけ，Web ブラウザから cookie が送出される。",
+        "エ　Web ブラウザでは JavaScript による cookie の読出しが禁止される。"
+      ],
+      "answer": 1,
+      "src": "出典：令和7年度 春期 応用情報技術者試験 午前 問41",
+      "cols": 1
+    },
+    "why": {
+      "type": "cards",
+      "head": "選択肢はどの属性？",
+      "items": [
+        {
+          "name": "Secure（イ）",
+          "desc": "https のときだけ cookie を送る"
+        },
+        {
+          "name": "Expires など（ア）",
+          "desc": "有効期間を決める"
+        },
+        {
+          "name": "Path（ウ）",
+          "desc": "送る先のパスを決める"
+        },
+        {
+          "name": "HttpOnly（エ）",
+          "desc": "JavaScript から読めなくする"
+        }
+      ],
+      "src": "出典：IPA 令和7年度 春期 応用情報技術者試験 午前 問41（選択肢・正答）。各属性との対応及びHTTPでの盗聴リスクは一般的な説明"
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "JavaScriptでcookieを読めなくするのが、Secure属性なのだ！",
+      "say": "ジャバスクリプトデクッキーヲヨメナクスルノガ、セキュアゾクセイナノダ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "送信の条件と、読み出しの制限は別よ。Secure属性の働きを、3秒で考えてみて。",
+      "say": "ソウシンノジョウケント、ヨミダシノセイゲンハベツヨ。セキュアゾクセイノハタラキヲ、サンビョウデカンガエテミテ。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "正解はイ。httpsのときだけ、cookieを送るようになるの。",
+      "say": "正解はイ。エイチティーティーピーエスのときだけ、クッキーを送るようになるの。",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "暗号化されないhttpで送ると、途中で盗み見られるかもしれない。それを防ぐのがSecureよ。",
+      "say": "暗号化されないエイチティーティーピーで送ると、途中で盗み見られるかもしれない。それを防ぐのがセキュアよ。"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "アは有効期間、ウはPath属性の説明ね。",
+      "say": "アは有効期間、ウはパス属性の説明ね。"
+    },
+    {
+      "scene": "why",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "JavaScriptからcookieを読めなくするのは、HttpOnly属性よ。",
+      "say": "ジャバスクリプトカラクッキーヲヨメナクスルノハ、エイチティーティーピーオンリーゾクセイヨ。"
+    },
+    {
+      "scene": "why",
+      "step": 4,
+      "who": "zundamon",
+      "text": "Secureはhttpsだけ、HttpOnlyはJavaScriptから読めない、なのだ！",
+      "say": "セキュアはエイチティーティーピーエスだけ、エイチティーティーピーオンリーはジャバスクリプトから読めない、なのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-09",
+      "round": 1,
+      "verdict": "直せば可",
+      "fixes": [
+        "replace 7: 材料にない「まちがえやすい」という断定を省き、属性の役割を直接説明する。",
+        "replace 7: 変更後の字幕に合わせる。",
+        "delete 6: 修正後の冒頭で同じ取り違えを扱うため、繰り返す必要はない。",
+        "replace 1: 選択肢エとの取り違えを、冒頭の勘違いにする。",
+        "replace 1: 変更後の字幕と英字の読みに合わせる。",
+        "insert_after 1: 勘違いを訂正してから、既存の考える時間につなげる。",
+        "scene why.src: 解説場面にも根拠を表示し、問題と追加した説明を区別する。"
+      ],
+      "notes": "問題文・選択肢・正答イは提示材料と一致しています。SecureとHttpOnlyの役割、有効期間・Pathの説明、読み、字幕の長さに問題はありません。冗談はありません。"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-09",
+      "round": 2,
+      "verdict": "直せば可",
+      "fixes": [
+        "replace 2: 前回指定した読みが未反映。Secureの読みを明示する。"
+      ],
+      "notes": "その他の前回の指摘は反映されています。正答イ、SecureとHttpOnlyの区別、出典、字幕の長さ、3秒の考える時間に新しい問題はありません。冗談はありません。"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-09",
+      "round": 3,
+      "verdict": "可",
+      "fixes": [],
+      "notes": "2のSecureの読みは修正されています。正答イ、SecureとHttpOnlyの区別、出典、読み、字幕の長さに新しい問題はありません。\n冒頭の勘違いから訂正・3秒の考える時間への流れも適切です。冗談はありません。"
+    }
+  ],
+  "publish_at": "2026-10-13T15:00:00+09:00"
+}
