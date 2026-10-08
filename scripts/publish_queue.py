@@ -20,7 +20,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
-THUMB = False  # 長編のサムネ（scripts/make_thumb.py）。本人の OK が出たら True に
+THUMB = True  # 長編のサムネ（scripts/make_thumb.py）。10/8 本人 OK（用語の回は A ノート、午後の回は C 斜め分割）
 CREDIT = "※この動画はIPA（情報処理推進機構）とは関係ありません。\n\n音声：VOICEVOX:ずんだもん／VOICEVOX:四国めたん\n立ち絵：坂本アヒル様"
 
 

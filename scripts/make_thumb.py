@@ -69,7 +69,7 @@ def kind(ch):
 def wrap(text, limit=5):
     """言葉の途中で折り返さないように、2行に分ける位置を決める（「の」「で」などの後、文字の種類の切れ目）。"""
     plain = re.sub(r"[［］]", "", text)
-    if len(plain) <= limit:
+    if "¦" in text or len(plain) <= limit:  # すでに区切りがあるときは、そのまま
         return text
     cands = []
     for i in range(2, len(plain) - 1):
@@ -94,18 +94,20 @@ def wrap(text, limit=5):
     return text
 
 
-def render(d, out, style=None):
+def render(d, out, style=None, channel=False, scale=1):
     from playwright.sync_api import sync_playwright
     t = texts(d)
     t["main"] = wrap(t["main"])
-    t["style"] = style or t.get("style") or os.environ.get("APSC_THUMB_STYLE", "note")
+    t["channel"] = channel
+    # 10/8 本人「A か C」→ 用語の回は A（ノート、動画の画面とそろう）、午後の回は C（斜め分割）
+    t["style"] = style or t.get("style") or ("split" if "午後" in (d.get("topic") or "") else "note")
     img_dir = (ROOT / "build" / "thumbparts")
     if not img_dir.exists():
         make_parts(img_dir)
     ch = os.environ.get("APSC_BROWSER", "msedge")
     with sync_playwright() as p:
         b = p.chromium.launch(channel=ch) if ch != "chromium" else p.chromium.launch()
-        pg = b.new_page(viewport={"width": 1280, "height": 720})
+        pg = b.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=scale)
         pg.goto((ROOT / "video" / "thumb.html").as_uri())
         pg.evaluate(f"window.IMG={json.dumps(img_dir.as_uri())}")
         pg.evaluate("d => window.draw(d)", t)

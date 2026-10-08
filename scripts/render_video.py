@@ -157,6 +157,12 @@ def main(vid, d):
     snap_dir.mkdir(exist_ok=True)
     page = (ROOT / "video" / "frame.html").as_uri() if data.get("scenes") else (d / "preview.html").resolve().as_uri()
     files = snapshot(vid, kind, states, page, snap_dir, data)
+    # 10/8 本人「最初はチャンネル名とタイトル、動画のテーマを同時に」→ 長編の _open はサムネの見た目にチャンネル名の帯
+    for i, (_, st) in enumerate(states):
+        if st.get("scene") == "_open" and data.get("upload"):
+            import make_thumb
+            make_thumb.render(data, str(snap_dir / f"st_{i:04d}.jpg"), channel=True, scale=1.5)
+            files[i] = snap_dir / f"st_{i:04d}.jpg"
     imgs = [Image.open(f).convert("RGB") for f in files]
     w, h = SIZE[kind]
     imgs = [im if im.size == (w, h) else im.resize((w, h)) for im in imgs]
@@ -179,6 +185,9 @@ def main(vid, d):
         li = max(i for i, ln in enumerate(lines) if ln["start"] <= t + 1e-6) if t >= lines[0]["start"] else 0
         L = lines[li]
         speaking = L["start"] <= t < L["end"] and L.get("who")
+        if L.get("scene") == "_open":  # サムネの絵にキャラが入っているので重ねない
+            ff.stdin.write(frame.tobytes())
+            continue
         xs = {"zunda": PAD[kind], "metan": w - PAD[kind] - cast.w}
         for key, who, off in (("zunda", "zundamon", 1.7), ("metan", "metan", 0.0)):
             me = speaking and L["who"] == who
