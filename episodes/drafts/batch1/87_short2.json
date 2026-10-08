@@ -1,0 +1,151 @@
+{
+  "id": "ap_netsec1_short2",
+  "format": "short",
+  "title": "IDSとIPS",
+  "topic": "応用情報｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.35
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類3 技術要素／中分類11 セキュリティ／4. 情報セキュリティ対策／(1) 情報セキュリティ対策の種類 ② 技術的セキュリティ対策（p.55）：技術的セキュリティ対策として，ソフトウェア，データ，PC，サーバ，ネットワークなどに技術的対策を実施することによって，システム開発，運用業務などに被害が発生することを防ぐことを理解する。用語例（抜粋）〔技術的セキュリティ対策の種類〕ネットワーク監視，アクセス権の設定，侵入検知，侵入防止，DMZ（非武装地帯），検疫ネットワーク ほか〔セキュリティ製品・サービス〕ファイアウォール，WAF（Web Application Firewall），IDS（Intrusion Detection System：侵入検知システム），IPS（Intrusion Prevention System：侵入防止システム），UTM（Unified Threat Management：統合脅威管理），フォールスネガティブ，フォールスポジティブ ほか"
+  ],
+  "upload": {
+    "title": "IDS は知らせる、IPS は止める｜応用情報技術者試験 〈セキュリティ〉",
+    "summary": "IDS（侵入検知システム）と IPS（侵入防止システム）の違い、置く場所、誤検知（フォールスポジティブ）を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（11 セキュリティ 4.(1)② 技術的セキュリティ対策） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "情報セキュリティ",
+      "IDS",
+      "IPS",
+      "侵入検知",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "IDS と IPS",
+        "止めるのは",
+        "どっち？"
+      ],
+      "mark": 2
+    },
+    "s_grid": {
+      "type": "grid",
+      "head": "IDS と IPS",
+      "cols": [
+        "IDS（侵入検知システム）",
+        "IPS（侵入防止システム）"
+      ],
+      "rows": [
+        "怪しい通信を見つけたら",
+        "置く場所"
+      ],
+      "cells": [
+        {
+          "tag": "知らせる",
+          "text": "管理者に通知する（止めない）"
+        },
+        {
+          "tag": "止める",
+          "text": "その通信を自動で遮断する"
+        },
+        {
+          "tag": "流れの横",
+          "text": "通信の写しを受け取って見張る"
+        },
+        {
+          "tag": "通り道の中",
+          "text": "通信が必ず通る所に置く"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "IDSを置いたから、攻撃は自動で止まるのだ！",
+      "say": "アイディーエスを置いたから、攻撃は自動で止まるのだ！"
+    },
+    {
+      "scene": "s_grid",
+      "step": 0,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "そこが引っかけ。2つを並べてみましょう。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 1,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "IDSは侵入検知システム。怪しい通信を見つけたら、管理者に知らせるの。",
+      "say": "アイディーエスは侵入検知システム。怪しい通信を見つけたら、管理者に知らせるの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "IPSは侵入防止システム。見つけた通信を、自動で止めるわ。",
+      "say": "アイピーエスは侵入防止システム。見つけた通信を、自動で止めるわ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "IDSは、通信の写しを受け取って、横で見張る。",
+      "say": "アイディーエスは、通信の写しを受け取って、横で見張る。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "IPSは、通信が必ず通る所に置く。だから止められるのね。",
+      "say": "アイピーエスは、通信が必ず通る所に置く。だから止められるのね。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "でもIPSが間違えたら、ふつうの通信まで止まるのだ？",
+      "say": "でもアイピーエスが間違えたら、ふつうの通信まで止まるのだ？"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "そう。正常な通信を攻撃と判定する誤検知を、フォールスポジティブというわ。",
+      "expr": "smile"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "検知のIDSは知らせる、防止のIPSは止める、なのだ！",
+      "say": "検知のアイディーエスは知らせる、防止のアイピーエスは止める、なのだ！"
+    }
+  ]
+}

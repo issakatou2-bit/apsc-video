@@ -1,0 +1,130 @@
+{
+  "id": "ap_netsec1_short1",
+  "format": "short",
+  "title": "DMZ（非武装地帯）",
+  "topic": "応用情報｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.35
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類3 技術要素／中分類11 セキュリティ／4. 情報セキュリティ対策／(1) 情報セキュリティ対策の種類 ② 技術的セキュリティ対策（p.55）：技術的セキュリティ対策として，ソフトウェア，データ，PC，サーバ，ネットワークなどに技術的対策を実施することによって，システム開発，運用業務などに被害が発生することを防ぐことを理解する。用語例（抜粋）〔技術的セキュリティ対策の種類〕ネットワーク監視，アクセス権の設定，侵入検知，侵入防止，DMZ（非武装地帯），検疫ネットワーク ほか〔セキュリティ製品・サービス〕ファイアウォール，WAF（Web Application Firewall），IDS（Intrusion Detection System：侵入検知システム），IPS（Intrusion Prevention System：侵入防止システム），UTM（Unified Threat Management：統合脅威管理），フォールスネガティブ，フォールスポジティブ ほか"
+  ],
+  "upload": {
+    "title": "公開サーバは DMZ に置く｜応用情報技術者試験 〈セキュリティ〉",
+    "summary": "DMZ（非武装地帯）とは何か、公開サーバを内部LANに置かない理由を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（11 セキュリティ 4.(1)② 技術的セキュリティ対策） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "情報セキュリティ",
+      "DMZ",
+      "ファイアウォール",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "公開サーバ",
+        "どこに",
+        "置く？"
+      ],
+      "mark": 0
+    },
+    "s_zone": {
+      "type": "cards",
+      "head": "ファイアウォールで3つに区切る",
+      "items": [
+        {
+          "name": "インターネット",
+          "desc": "だれでもつながる外の場所"
+        },
+        {
+          "name": "DMZ（非武装地帯）",
+          "desc": "Web サーバなど、公開するサーバを置く"
+        },
+        {
+          "name": "内部LAN",
+          "desc": "社員の PC など。外からは直接通さない"
+        }
+      ],
+      "src": "出典：IPA 応用情報技術者試験 シラバス Ver.7.2 11 セキュリティ（用語例）"
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "お店のWebサーバ、社内のLANに置けば安全なのだ？",
+      "say": "お店のウェブサーバ、社内のランに置けば安全なのだ？"
+    },
+    {
+      "scene": "s_zone",
+      "step": 0,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "そこは逆。外からの通信を、社内の中まで入れることになるわ。"
+    },
+    {
+      "scene": "s_zone",
+      "step": 1,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "だから、ファイアウォールで区切るの。いちばん外がインターネット。"
+    },
+    {
+      "scene": "s_zone",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "その内側に作る区画がDMZ、非武装地帯。公開するサーバは、ここに置くのよ。",
+      "say": "その内側に作る区画がディーエムゼット、非武装地帯。公開するサーバは、ここに置くのよ。"
+    },
+    {
+      "scene": "s_zone",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "社員のPCがある内部LANへは、インターネットから直接は通さないの。",
+      "say": "社員のピーシーがある内部ランへは、インターネットから直接は通さないの。"
+    },
+    {
+      "scene": "s_zone",
+      "step": 3,
+      "who": "zundamon",
+      "text": "もし公開サーバが乗っ取られたら、どうなるのだ？"
+    },
+    {
+      "scene": "s_zone",
+      "step": 3,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "DMZから内部LANへの通信も絞っておけば、社内まで広がりにくくなるわ。",
+      "say": "ディーエムゼットから内部ランへの通信も絞っておけば、社内まで広がりにくくなるわ。",
+      "expr": "smile"
+    },
+    {
+      "scene": "s_zone",
+      "step": 3,
+      "who": "zundamon",
+      "text": "公開するものは、外と中の間のDMZに置くのだ！",
+      "say": "公開するものは、外と中の間の、ディーエムゼットに置くのだ！"
+    }
+  ]
+}
