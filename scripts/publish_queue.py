@@ -95,6 +95,22 @@ def main():
                 return 0
             raise
         d["video_id"] = vid
+        try:  # 10/8：台本から字幕を上げる（失敗しても投稿は止めない）
+            import captions
+            captions.upload(vid, timeline)
+        except Exception as e:
+            print(f"[warn] 字幕を上げられなかった: {e}")
+        try:  # 10/8：分野ごとの再生リストに入れる（失敗しても投稿は止めない）
+            import playlists
+            playlists.add(vid, d.get("topic"))
+        except Exception as e:
+            print(f"[warn] 再生リストに入れられなかった: {e}")
+        if d.get("replace_video_id"):  # 10/8：作り直した版を上げたら、古い版の予約を外して非公開に（消さない）
+            from googleapiclient.discovery import build as gbuild
+            yt = gbuild("youtube", "v3", credentials=upload_youtube.credentials())
+            yt.videos().update(part="status", body={"id": d["replace_video_id"], "status": {
+                "privacyStatus": "private", "selfDeclaredMadeForKids": False}}).execute()
+            print(f"[info] 古い版 {d['replace_video_id']} の予約を外して非公開にした")
         (done / f.name).write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         f.unlink()
         kind = "ショート" if d.get("format") == "short" else "長編"
