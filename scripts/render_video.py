@@ -117,7 +117,7 @@ def snapshot(vid, kind, states, page_url, out_dir, data=None):
 
 # 10/8 本人「ずんだもんとめたんの頭上や周りに、セリフや感情・表情に合わせて記号（！や？など色つき）を浮かばせたり
 # フェードアウトさせたり」→ 台詞の頭の約0.9秒、話す人の頭の近くに記号をぽんと出し、少し上がりながら消す。
-EMOTE_DEFAULT = False  # 本人の OK が出たら True に
+EMOTE_DEFAULT = True  # 10/8 本人「記号おけです。今後も増やしていきましょう」
 EMOTE_FONTS = ["C:/Windows/Fonts/meiryob.ttc", "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
                "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc"]
 
@@ -154,6 +154,8 @@ def emote_img(sym, color, size):
                 break
             except OSError:
                 continue
+        if font is None:  # 日本語の字体が無い環境でも止めない（記号は英字の字体で描ける）
+            font = ImageFont.load_default(size)
         im = Image.new("RGBA", (size * 3, size * 2), (0, 0, 0, 0))
         dr = ImageDraw.Draw(im)
         sw = max(4, size // 12)
