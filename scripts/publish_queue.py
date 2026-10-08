@@ -20,6 +20,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
+THUMB = False  # 長編のサムネ（scripts/make_thumb.py）。本人の OK が出たら True に
 CREDIT = "※この動画はIPA（情報処理推進機構）とは関係ありません。\n\n音声：VOICEVOX:ずんだもん／VOICEVOX:四国めたん\n立ち絵：坂本アヒル様"
 
 
@@ -95,6 +96,14 @@ def main():
                 return 0
             raise
         d["video_id"] = vid
+        if THUMB and d.get("format", "long") == "long":
+            try:
+                import make_thumb
+                jpg = make_thumb.render(d, out / f"{d['id']}.jpg")
+                make_thumb.set_thumbnail(vid, jpg)
+                print("[info] サムネを設定した")
+            except Exception as e:
+                print(f"[warn] サムネを設定できなかった: {e}")
         try:  # 10/8：台本から字幕を上げる（失敗しても投稿は止めない）
             import captions
             captions.upload(vid, timeline)

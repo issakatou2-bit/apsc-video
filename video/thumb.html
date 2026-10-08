@@ -1,0 +1,41 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>thumb</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&display=swap">
+<!--
+  長編のサムネ（1280×720）。2026-10-08 本人「めたんとずんだもん両方。ならんでタイトルの方を向いて、笑顔系でランダムに表情」。
+  scripts/make_thumb.py が draw(データ) を呼んで撮る。2人とも元の絵が左向きなので、反転せず右に並べると題（左）を向く。
+-->
+<style>
+body{margin:0;background:#000}
+.t{--ink:#17233a;--mk:#ffe066;--red:#d9443a;position:relative;width:1280px;height:720px;overflow:hidden;background:var(--ink);color:#fff;font-family:"Zen Kaku Gothic New","Yu Gothic",sans-serif}
+.grid{position:absolute;inset:0;opacity:.08;background-image:linear-gradient(#fff 3px,transparent 3px),linear-gradient(90deg,#fff 3px,transparent 3px);background-size:64px 64px}
+.tag{position:absolute;left:48px;top:40px;background:var(--mk);color:var(--ink);font-weight:900;font-size:40px;padding:4px 22px;border-radius:10px}
+.no{position:absolute;left:50px;top:116px;font-size:36px;font-weight:900;color:#c9d6ea}
+.mainbox{position:absolute;left:44px;top:176px;width:700px;height:330px;display:flex;align-items:center}
+.main{font-size:130px;font-weight:900;line-height:1.08;letter-spacing:.01em}
+.main .ln{display:block;white-space:nowrap}
+.main .hl{color:var(--mk)}
+.sub{position:absolute;left:48px;bottom:48px;width:700px;font-size:42px;font-weight:900;color:var(--mk);line-height:1.3}
+.badge{position:absolute;right:34px;top:30px;background:var(--red);color:#fff;font-size:38px;font-weight:900;padding:6px 22px;border-radius:999px;transform:rotate(3deg);z-index:5}
+.pp{position:absolute}.pp img{position:absolute;left:0;top:0;width:100%}.pp img.b{position:relative;display:block}
+</style>
+<body><div id="host"></div>
+<script>
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const who=(k,e,x,y,w)=>`<div class="pp" style="left:${x}px;top:${y}px;width:${w}px">`+
+  ["body","ra_base","la_base","brow_"+e.brow,"eye_"+e.eye,"mouth_"+e.mouth].map((p,i)=>`<img ${i?"":'class="b"'} src="${window.IMG}/${k}_${p}.webp" alt="">`).join("")+`</div>`;
+window.draw=(d)=>{
+  const main=esc(d.main).split("¦").map(l=>`<span class="ln">${l.replace(/［(.+?)］/g,'<span class="hl">$1</span>')}</span>`).join("");
+  document.getElementById("host").innerHTML=`<div class="t"><div class="grid"></div>
+    <div class="tag">${esc(d.tag)}</div>${d.no?`<div class="no">${esc(d.no)}</div>`:""}
+    ${d.badge?`<div class="badge">${esc(d.badge)}</div>`:""}
+    <div class="mainbox"><div class="main">${main}</div></div>
+    ${d.sub?`<div class="sub">${esc(d.sub)}</div>`:""}
+    ${who("metan",d.metan,960,150,360)}${who("zunda",d.zunda,730,215,330)}</div>`;
+  const m=document.querySelector(".main"),box=document.querySelector(".mainbox");
+  let f=130;while((m.scrollHeight>box.clientHeight||m.scrollWidth>box.clientWidth)&&f>60){f-=6;m.style.fontSize=f+"px"}
+  return document.fonts.ready.then(()=>true);
+};
+</script>
+</body>
