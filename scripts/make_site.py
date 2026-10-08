@@ -10,6 +10,7 @@
   python scripts/make_site.py [出力先 site]          # published/ の長編すべて
   python scripts/make_site.py site --preview 台本.json  # 動画がまだの台本で見本を作る
 """
+import datetime
 import html
 import json
 import pathlib
@@ -209,8 +210,12 @@ def main(argv):
     items = []
     if "--preview" in argv:
         items = [json.loads(pathlib.Path(p).read_text(encoding="utf-8")) for p in argv[argv.index("--preview") + 1:]]
+    now = datetime.datetime.now(datetime.timezone.utc)
     for f in sorted((ROOT / "published").glob("*.json")):
         d = json.loads(f.read_text(encoding="utf-8"))
+        # 予約公開の前は動画が非公開なので、公開の時刻を過ぎた分だけ記事にする
+        if d.get("publish_at") and datetime.datetime.fromisoformat(d["publish_at"]) > now:
+            continue
         if d.get("format") != "short" and d.get("video_id") and d.get("scenes"):
             items.append(d)
     seen = set()

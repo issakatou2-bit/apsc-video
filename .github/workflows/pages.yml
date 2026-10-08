@@ -1,5 +1,6 @@
 # 公開した長編の台本から記事を作り、GitHub Pages に出す（scripts/make_site.py）。
-# 2026-10-08 エマ。本人「記事は公開していいよ」。毎晩の投稿（publish）が終わったあとと、記事の作り方を直したときに動く。
+# 2026-10-08 エマ。本人「記事は公開していいよ」。毎晩の投稿（publish）のあと・長編の公開時刻のあと・記事の作り方を直したときに動く。
+# 記事にするのは、予約公開の時刻を過ぎた（＝動画が公開になった）長編だけ。
 # 公開されるのは site/（記事と顔の絵）だけ。
 name: pages
 
@@ -10,6 +11,9 @@ on:
   push:
     branches: [main]
     paths: ["scripts/make_site.py", ".github/workflows/pages.yml"]
+  schedule:
+    # 長編の公開（17:30・20:00・22:00）のあとに記事を足す：18:10・20:10・22:10（日本時間）
+    - cron: "10 9,11,13 * * *"
   workflow_dispatch:
 
 permissions:
