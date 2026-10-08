@@ -48,7 +48,7 @@ def retry_thumbs():
             make_thumb.set_thumbnail(it["video_id"], out)
             print(f"[info] サムネを付け直した: {it['video_id']}")
         except Exception as e:
-            print(f"[warn] サムネの付け直しはまた次に: {it['video_id']}（{str(e)[:60]}）")
+            print(f"[warn] サムネの付け直しはまた次に: {it['video_id']}（{(getattr(e, "reason", "") or str(e))[:120]}）")
             left.append(it)
     p.write_text(json.dumps(left, ensure_ascii=False, indent=1) + chr(10), encoding="utf-8")
 

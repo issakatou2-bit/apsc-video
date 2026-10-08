@@ -11,6 +11,10 @@ on:
   schedule:
     # 毎日 02:30（日本時間）。その日〜翌朝までに公開する分を予約する。
     - cron: "30 17 * * *"
+    # 10/9 初日の 02:30 が動かなかった（GitHub の予約は遅れたり飛んだりする）。予備に 05:40・11:40 も。
+    # 済んだ分は published/ に移っているので、2回目以降は残りだけを処理する。
+    - cron: "40 20 * * *"
+    - cron: "40 2 * * *"
   workflow_dispatch:
     inputs:
       within_hours:
@@ -100,4 +104,5 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add -A queue published mock/published.md
           git diff --cached --quiet || git commit -m "予約公開：棚から投稿（Actions）"
+          git pull --rebase -q origin main  # 作業中に棚へ足された分と重ならないように
           git push
