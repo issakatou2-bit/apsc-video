@@ -34,6 +34,21 @@ SCENE_GAP = 0.55  # 場面が変わるときは少し長く
 TAIL = 1.5        # 最後の余韻
 
 
+_READ = None
+
+
+def to_say(text):
+    """字幕の文字を、data/readings.json の辞書で読み上げ用に直す（say が無い台詞に使う）。"""
+    global _READ
+    if _READ is None:
+        import re
+        p = pathlib.Path(__file__).resolve().parent.parent / "data" / "readings.json"
+        _READ = [(re.compile(a), b) for a, b in json.loads(p.read_text(encoding="utf-8"))["rules"]]
+    for rx, rep in _READ:
+        text = rx.sub(rep, text)
+    return text
+
+
 def synth(text, who, tune):
     """tune: {"speaker", "speed", "pitch", "intonation"}。10/7 本人「ずんだもんは棒読み、めたんは上ずって聞こえる」
     → 抑揚（intonationScale）と高さを台本の json で決められるようにした。"""
@@ -77,7 +92,7 @@ def main(script_path, out_dir):
                     cues.append((t + k, "pop", "b", -4.0))
         else:
             tune = spec.get("voice", {}).get(ln["who"]) or {"speed": spec["speed"][ln["who"]]}
-            x = synth(ln.get("say") or ln["text"], ln["who"], tune)
+            x = synth(ln.get("say") or to_say(ln["text"]), ln["who"], tune)
             dur = len(x) / SR
         timeline.append({**{k: v for k, v in ln.items() if k != "say"}, "i": i,
                          "start": round(t, 3), "end": round(t + dur, 3)})
