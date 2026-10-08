@@ -1,0 +1,136 @@
+{
+  "id": "b110_short2",
+  "format": "short",
+  "title": "CSMA/CD と CSMA/CA",
+  "topic": "応用情報｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類3 技術要素／中分類10 ネットワーク／2.(5) メディアアクセス制御（p.45）用語例 CSMA/CD，CSMA/CA，トークンパッシング，衝突／3.(1)② データリンク層のプロトコル（p.45）用語例 RARP，PPP，PPPoE，IPoE，VLAN，IEEE 802.1Q／3.(1)⑥ LAN と WAN のインタフェース（p.45〜46）用語例 10BASE-T，100BASE-TX，1000BASE-T，10GBASE-T，IEEE 802.11a/b/g/n/ac/ax，Wi-Fi 4/5/6/6E，メッシュ Wi-Fi",
+    "IPA 令和6年度 春期 応用情報技術者試験 午前 問30（問題冊子 p.19）：CSMA/CD 方式の LAN に接続されたノードの送信動作として，適切なものはどれか。ア 各ノードに論理的な順位付けを行い，送信権を順次受け渡し，これを受け取ったノードだけが送信を行う。イ 各ノードは伝送媒体が使用中かどうかを調べ，使用中でなければ送信を行う。衝突を検出したらランダムな時間の経過後に再度送信を行う。ウ 各ノードを環状に接続して，送信権を制御するための特殊なフレームを巡回させ，これを受け取ったノードだけが送信を行う。エ タイムスロットを割り当てられたノードだけが送信を行う。（解答：イ）"
+  ],
+  "upload": {
+    "title": "CSMA/CD と CSMA/CA の違い｜応用情報技術者試験 ネットワーク",
+    "title_b": "【応用情報 ネットワーク】CSMA/CAとは？無線LANでぶつかる前に避ける",
+    "title_c": "CSMA/CD と CSMA/CA を{sec}秒で｜検出と回避【応用情報】",
+    "summary": "有線で衝突を検出する CSMA/CD と、無線 LAN で衝突を回避する CSMA/CA の違いを短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（10 ネットワーク 2.(5)） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf",
+      "令和6年度 春期 応用情報技術者試験 午前 問30（要約） https://www.ipa.go.jp/shiken/mondai-kaiotu/m42obm000000afqx-att/2024r06h_ap_am_qs.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "ネットワーク",
+      "CSMA/CD",
+      "CSMA/CA",
+      "無線LAN",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "CD と CA",
+        "1文字の違いは？"
+      ],
+      "mark": 2
+    },
+    "s_grid": {
+      "type": "grid",
+      "head": "CSMA/CD と CSMA/CA",
+      "cols": [
+        "使う所",
+        "衝突への考え方"
+      ],
+      "rows": [
+        "CSMA/CD",
+        "CSMA/CA"
+      ],
+      "cells": [
+        {
+          "tag": "使う所",
+          "text": "有線 LAN（昔のイーサネット）"
+        },
+        {
+          "tag": "衝突への考え方",
+          "text": "衝突を検出（Detection）したら、ランダムに待って送り直す"
+        },
+        {
+          "tag": "使う所",
+          "text": "無線 LAN"
+        },
+        {
+          "tag": "衝突への考え方",
+          "text": "空いていても、ランダムに待ってから送り、衝突を回避（Avoidance）する"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "CSMA/CDとCSMA/CA、最後の1文字しか違わないのだ。",
+      "say": "シーエスエムエーシーディーと、シーエスエムエーシーエー、最後の1文字しか違わないのだ。"
+    },
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "who": "metan",
+      "text": "その1文字が、ぶつかったときの考え方の違いなの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "CDは検出。有線で、空いていれば送り、ぶつかったら気付いて、ランダムに待って送り直すの。",
+      "say": "シーディーは検出。有線で、空いていれば送り、ぶつかったら気付いて、ランダムに待って送り直すの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "CAは回避。無線で、空いていてもランダムに待ってから送り、ぶつかる前に避けるのよ。",
+      "say": "シーエーは回避。無線で、空いていてもランダムに待ってから送り、ぶつかる前に避けるのよ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "無線は、なんで検出しないのだ？"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "metan",
+      "text": "送っている間はほかの電波を聞き取りにくいし、見えない端末もいるから。ぶつかってからでは気付けないの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "impact",
+      "who": "zundamon",
+      "text": "有線はCDで検出、無線はCAで回避なのだ！",
+      "say": "有線はシーディーで検出、無線はシーエーで回避なのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

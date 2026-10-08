@@ -1,0 +1,152 @@
+{
+  "id": "b114_short2",
+  "format": "short",
+  "title": "KGI と KPI",
+  "topic": "応用情報｜経営戦略",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類8 経営戦略／中分類19 経営戦略マネジメント／3. ビジネス戦略と目標・評価（p.112）(1) ビジネス戦略と目標の設定・評価：ビジネス戦略と目標，評価に関する目的，考え方，手順を理解する。［手順の例］(ⅰ)企業理念，企業ビジョン，全社戦略を踏まえ，ビジネス環境分析，ビジネス戦略立案を行い，具体的な戦略目標を定める，(ⅱ)目標達成のために重点的に取り組むべき CSF（Critical Success Factors：重要成功要因）を明確にする，(ⅲ)目標達成の度合いを計るための指標を設定し評価する。用語例 MVV（ミッション，ビジョン，バリュー），ビジネスモデルキャンバス，KGI（Key Goal Indicator：重要目標達成指標），KPI（Key Performance Indicator：重要業績評価指標），モニタリング，フィージビリティスタディ"
+  ],
+  "upload": {
+    "title": "KGI と KPI の違い｜応用情報技術者試験 経営戦略",
+    "title_b": "【応用情報 経営戦略】KGIとは？ゴールの指標とKPIの違い",
+    "title_c": "KGI と KPI を{sec}秒で｜ゴールの指標と途中の指標【応用情報】",
+    "summary": "KGI（重要目標達成指標）と KPI（重要業績評価指標）の違いを、架空のお店の例で短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（19 経営戦略マネジメント 3.(1) ビジネス戦略と目標の設定・評価） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "経営戦略",
+      "KGI",
+      "KPI",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "KGI と KPI",
+        "ゴールは",
+        "どっち？"
+      ],
+      "mark": 2
+    },
+    "s_grid": {
+      "type": "grid",
+      "head": "KGI と KPI（例は架空）",
+      "cols": [
+        "何を測る？",
+        "例"
+      ],
+      "rows": [
+        "KGI",
+        "KPI"
+      ],
+      "cells": [
+        {
+          "tag": "重要目標達成指標",
+          "text": "最終の目標が達成できたか"
+        },
+        {
+          "tag": "ゴール",
+          "text": "1年で売上を2割増やす"
+        },
+        {
+          "tag": "重要業績評価指標",
+          "text": "途中がうまく進んでいるか"
+        },
+        {
+          "tag": "途中",
+          "text": "毎月のリピーター数"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "KGIとKPI、似ていて、どっちがどっちか分からないのだ。",
+      "say": "ケージーアイと、ケーピーアイ、似ていて、どっちがどっちか分からないのだ。"
+    },
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "who": "metan",
+      "text": "KGIのGは、ゴールのGよ。",
+      "say": "ケージーアイのジーは、ゴールのジーよ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "KGIは重要目標達成指標。最終の目標が達成できたかを測るの。",
+      "say": "ケージーアイは重要目標達成指標。最終の目標が達成できたかを測るの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "例えば、1年で売上を2割増やす。この例は作り話よ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "KPIは重要業績評価指標。途中がうまく進んでいるかを測るわ。",
+      "say": "ケーピーアイは重要業績評価指標。途中がうまく進んでいるかを測るわ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "例えば、毎月のリピーターの数ね。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "KPIを全部達成したら、KGIも必ず達成できるのだ？",
+      "say": "ケーピーアイを全部達成したら、ケージーアイも必ず達成できるのだ？"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "metan",
+      "text": "そうとは限らないわ。そのKPIが、本当にゴールにつながっているかも確かめるの。",
+      "say": "そうとは限らないわ。そのケーピーアイが、本当にゴールにつながっているかも確かめるの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "KGIはゴール、KPIは途中のチェックポイント。覚えておいてね。",
+      "expr": "smile",
+      "say": "ケージーアイはゴール、ケーピーアイは途中のチェックポイント。覚えておいてね。"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

@@ -1,0 +1,143 @@
+{
+  "id": "b116_short1",
+  "format": "short",
+  "title": "ping と traceroute",
+  "topic": "応用情報｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 中分類10 ネットワーク／4. ネットワーク管理（p.46）：(1) ネットワーク運用管理 ① 構成管理（用語例 ネットワーク構成，バージョン）② 障害管理（用語例 情報収集，障害の切分け，障害原因の特定，復旧措置，記録，死活監視）③ 性能管理（用語例 トラフィック監視）(2) ネットワーク運用管理ツール（用語例 ping，ifconfig，arp，netstat，ip，ss，dig，traceroute，パケットアナライザー（tcpdump，Wireshark ほか））(3) SNMP（用語例 SNMP エージェント，SNMP 管理ステーション，MIB，get 要求，put 要求，trap 要求）(4) 仮想ネットワーク（用語例 トンネリング，SDN，SD-WAN，OpenFlow，NFV）",
+    "IPA 令和5年度 秋期 応用情報技術者試験 午前 問33（問題冊子 p.19）：TCP/IP 環境において，ping によってホストの接続確認をするときに使用されるプロトコルはどれか。ア CHAP イ ICMP ウ SMTP エ SNMP（解答：イ）"
+  ],
+  "upload": {
+    "title": "つながらないときの ping と traceroute｜応用情報技術者試験 ネットワーク",
+    "title_b": "【応用情報 ネットワーク】tracerouteとは？pingとの違いと使い方",
+    "title_c": "ping と traceroute を{sec}秒で｜届くかと通り道【応用情報】",
+    "summary": "相手に届くかを見る ping（ICMP）と、通り道のルータを順に表示する traceroute の違いと、障害の切り分けでの使い方を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（10 ネットワーク 4.(2)） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf",
+      "令和5年度 秋期 応用情報技術者試験 午前 問33（要約） https://www.ipa.go.jp/shiken/mondai-kaiotu/ps6vr70000010d6y-att/2023r05a_ap_am_qs.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "ネットワーク",
+      "ping",
+      "traceroute",
+      "ICMP",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "ping と",
+        "traceroute",
+        "何が分かる？"
+      ],
+      "mark": 1
+    },
+    "s_grid": {
+      "type": "grid",
+      "head": "ping と traceroute",
+      "cols": [
+        "分かること",
+        "使い道"
+      ],
+      "rows": [
+        "ping",
+        "traceroute"
+      ],
+      "cells": [
+        {
+          "tag": "分かること",
+          "text": "相手に届いて、返事が来るか（ICMP）"
+        },
+        {
+          "tag": "使い道",
+          "text": "まず、つながるかを確かめる"
+        },
+        {
+          "tag": "分かること",
+          "text": "相手まで、どのルータを通るか"
+        },
+        {
+          "tag": "使い道",
+          "text": "途中のどこで止まっているかを探す"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "ネットにつながらないとき、何から調べればいいのだ？"
+    },
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "who": "metan",
+      "text": "まずはpingと、tracerouteよ。",
+      "say": "まずはピングと、トレースルートよ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "pingは、相手に小さなメッセージを送って、返事が来るかを見るの。使うのはICMPよ。",
+      "say": "ピングは、相手に小さなメッセージを送って、返事が来るかを見るの。使うのは、アイシーエムピーよ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "who": "zundamon",
+      "text": "返事がなかったら、相手が止まっているのだ？"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "who": "metan",
+      "text": "途中で止まっているのかもしれないわ。そこで次の道具よ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "tracerouteは、相手までに通るルータを、順に表示するの。どこまで届いたかで、止まった場所が分かるわ。",
+      "say": "トレースルートは、相手までに通るルータを、順に表示するの。どこまで届いたかで、止まった場所が分かるわ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "impact",
+      "who": "zundamon",
+      "text": "pingで届くかを見て、tracerouteで場所を探すのだ！",
+      "say": "ピングで届くかを見て、トレースルートで場所を探すのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

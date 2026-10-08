@@ -1,0 +1,133 @@
+{
+  "id": "b106_short1",
+  "format": "short",
+  "title": "MTBF と MTTR が 1.5 倍",
+  "topic": "応用情報｜システム構成要素",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類2 コンピュータシステム／中分類4 システム構成要素／2. システムの評価指標 (3) 信頼性指標（用語例 MTBF，MTTR，稼働率，直列システム，並列システムほか）",
+    "IPA 令和4年度 秋期 応用情報技術者試験 午前 問14（問題冊子 p.8）：あるシステムにおいて，MTBF と MTTR がともに 1.5 倍になったとき，アベイラビリティ（稼働率）は何倍になるか。ア 2/3 イ 1.5 ウ 2.25 エ 変わらない（解答：エ）"
+  ],
+  "upload": {
+    "title": "MTBF と MTTR が 1.5 倍になると稼働率は？｜応用情報技術者試験 システム構成要素",
+    "title_b": "【応用情報 計算】稼働率の問題 令和4年度秋期 問14",
+    "title_c": "稼働率の計算を{sec}秒で｜MTBF・MTTR が 1.5 倍【応用情報】",
+    "summary": "令和4年度秋期 午前 問14（MTBF と MTTR がともに 1.5 倍になったときの稼働率）を、式で短く解きます。",
+    "sources": [
+      "令和4年度 秋期 応用情報技術者試験 午前 問14 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_qs.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "システム構成要素",
+      "計算",
+      "稼働率",
+      "MTBF",
+      "MTTR",
+      "過去問",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "q": {
+      "type": "quiz",
+      "q": "あるシステムにおいて，MTBF と MTTR がともに 1.5 倍になったとき，アベイラビリティ（稼働率）は何倍になるか。",
+      "choices": [
+        "ア　2/3",
+        "イ　1.5",
+        "ウ　2.25",
+        "エ　変わらない"
+      ],
+      "answer": 3,
+      "src": "出典：令和4年度 秋期 応用情報技術者試験 午前 問14"
+    },
+    "a": {
+      "type": "list",
+      "stepwise": true,
+      "head": "式で確かめる",
+      "items": [
+        "稼働率 ＝ MTBF ÷（MTBF ＋ MTTR）",
+        "1.5 倍後：1.5MTBF ÷ 1.5（MTBF ＋ MTTR）",
+        "1.5 が打ち消し合う → エ 変わらない"
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "q",
+      "step": 0,
+      "sfx": "swish",
+      "who": "metan",
+      "text": "令和4年度秋期の午前、問14。MTBFとMTTRが、ともに1.5倍。稼働率は何倍？3秒で考えてみて。",
+      "say": "令和4年度秋期の午前、問い14。エムティービーエフと、エムティーティーアールが、ともに1.5倍。稼働率は何倍？3秒で考えてみて。"
+    },
+    {
+      "scene": "q",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "q",
+      "step": 2,
+      "who": "zundamon",
+      "text": "1.5倍なのだ！"
+    },
+    {
+      "scene": "q",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "残念。答えはエ、変わらないよ。",
+      "expr": "smile"
+    },
+    {
+      "scene": "a",
+      "step": 0,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "稼働率は、MTBFわる、MTBFたすMTTR。",
+      "say": "稼働率は、エムティービーエフわる、エムティービーエフたす、エムティーティーアール。"
+    },
+    {
+      "scene": "a",
+      "step": 1,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "1.5倍にすると、分子にも分母にも1.5がかかるわね。"
+    },
+    {
+      "scene": "a",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "だから1.5が打ち消し合って、元と同じなの。"
+    },
+    {
+      "scene": "a",
+      "step": 2,
+      "who": "metan",
+      "text": "迷ったら、100と10、150と15のように、数字を入れて試してもいいわ。"
+    },
+    {
+      "scene": "a",
+      "step": 2,
+      "who": "zundamon",
+      "text": "動く時間も止まる時間も同じだけ増えたら、割合は変わらないのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

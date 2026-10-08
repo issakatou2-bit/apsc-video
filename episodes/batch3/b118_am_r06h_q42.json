@@ -1,0 +1,139 @@
+{
+  "id": "b118_am_r06h_q42",
+  "format": "short",
+  "title": "ネットワーク層の暗号化（IPsec）（令和6年度春期 午前 問42）",
+  "topic": "応用情報 午前｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和6年度 春期 応用情報技術者試験 午前 問42（問題冊子 p.23）：PC からサーバに対し，IPv6 を利用した通信を行う場合，ネットワーク層で暗号化を行うときに利用するものはどれか。ア IPsec イ PPP ウ SSH エ TLS（解答例：ア）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】ネットワーク層の暗号化（IPsec）の問題 令和6年度春期 問42",
+    "title_b": "【応用情報 午前】ネットワーク層の暗号化（IPsec）の問題 令和6年度春期 問42",
+    "title_c": "ネットワーク層の暗号化（IPsec）を{sec}秒で｜令和6年度春期 午前 問42【応用情報】",
+    "summary": "令和6年度春期 午前 問42（ネットワーク層の暗号化）を解きます。どの層で暗号化するかで選びます。",
+    "sources": [
+      "令和6年度 春期 応用情報技術者試験 午前 問42（問題冊子 p.23、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/m42obm000000afqx-att/2024r06h_ap_am_qs.pdf",
+      "令和6年度 春期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/m42obm000000afqx-att/2024r06h_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "セキュリティ",
+      "IPsec",
+      "TLS",
+      "SSH",
+      "暗号化",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "PC からサーバに対し，IPv6 を利用した通信を行う場合，ネットワーク層で暗号化を行うときに利用するものはどれか。",
+      "choices": [
+        "ア　IPsec",
+        "イ　PPP",
+        "ウ　SSH",
+        "エ　TLS"
+      ],
+      "answer": 0,
+      "src": "出典：令和6年度 春期 応用情報技術者試験 午前 問42"
+    },
+    "why": {
+      "type": "cards",
+      "head": "どの層で守る？",
+      "items": [
+        {
+          "name": "IPsec（ア）",
+          "desc": "ネットワーク層。IP のパケットごと暗号化する"
+        },
+        {
+          "name": "TLS（エ）・SSH（ウ）",
+          "desc": "もっと上の層。アプリの通信を暗号化する"
+        },
+        {
+          "name": "PPP（イ）",
+          "desc": "データリンク層。2点の間をつなぐ"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "who": "metan",
+      "text": "ネットワーク層で暗号化するときに使うものはどれか。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "正解はア、IPsecよ。",
+      "say": "正解はア、アイピーセックよ。",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "IPsecは、IPのパケットそのものを暗号化するの。名前にIPが入っているのが目印ね。",
+      "say": "アイピーセックは、アイピーのパケットそのものを暗号化するの。名前にアイピーが入っているのが目印ね。"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "who": "zundamon",
+      "text": "TLSも暗号化なのだ。Webでいつも使っているのだ。",
+      "say": "ティーエルエスも暗号化なのだ。ウェブでいつも使っているのだ。"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "TLSやSSHは、もっと上の層で働くの。ネットワーク層ではないわ。",
+      "say": "ティーエルエスや、エスエスエイチは、もっと上の層で働くの。ネットワーク層ではないわ。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "PPPは暗号化ではなく、2点の間をつなぐデータリンク層のプロトコルね。",
+      "say": "ピーピーピーは暗号化ではなく、2点の間をつなぐ、データリンク層のプロトコルね。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "ネットワーク層の暗号化は、IPsecなのだ！",
+      "say": "ネットワーク層の暗号化は、アイピーセックなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

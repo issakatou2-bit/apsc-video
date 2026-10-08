@@ -1,0 +1,134 @@
+{
+  "id": "b108_short1",
+  "format": "short",
+  "title": "DMARC",
+  "topic": "応用情報｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類3 技術要素／中分類11 情報セキュリティ／5. セキュリティ実装技術／(2) 認証・認可技術（p.56）：なりすましによる不正接続，サービスの不正利用を防ぐ認証・認可技術の種類と効果を理解する。用語例 スパム対策（ベイジアンフィルタリング，送信元ドメイン認証，SPF，DKIM，DMARC，SMTP-AUTH，OP25B，PGP，S/MIME ほか），OAuth，DNSSEC ほか"
+  ],
+  "upload": {
+    "title": "なりすましメールの扱いを決める DMARC｜応用情報技術者試験 セキュリティ",
+    "title_b": "【応用情報 セキュリティ】DMARCとは？失敗したメールの扱いを宣言",
+    "title_c": "DMARCを{sec}秒で｜SPF・DKIM との関係【応用情報】",
+    "summary": "SPF・DKIM の結果を使い、失敗したメールの扱い（何もしない・隔離・拒否）を宣言して報告を受け取る DMARC を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（11 情報セキュリティ 5.(2)） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "セキュリティ",
+      "DMARC",
+      "SPF",
+      "DKIM",
+      "メール",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "なりすましメール",
+        "どう扱うかを",
+        "決めるのは？"
+      ],
+      "mark": 1
+    },
+    "s_card": {
+      "type": "levels",
+      "head": "DMARC",
+      "items": [
+        {
+          "name": "確かめる",
+          "desc": "SPF・DKIM の結果と、差出人のドメインが合っているか"
+        },
+        {
+          "name": "扱いを宣言",
+          "desc": "何もしない・隔離・拒否（ドメインの持ち主が DNS で）"
+        },
+        {
+          "name": "報告",
+          "desc": "受信側が、結果を持ち主に知らせる"
+        }
+      ],
+      "src": "出典：IPA 応用情報技術者試験 シラバス Ver.7.2 11 情報セキュリティ（用語例）"
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "SPFとDKIMで、なりすましが分かったら、そのメールはどうなるのだ？",
+      "say": "エスピーエフとディーキムで、なりすましが分かったら、そのメールはどうなるのだ？"
+    },
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "who": "metan",
+      "text": "それを決めるのが、DMARCよ。",
+      "say": "それを決めるのが、ディーマークよ。"
+    },
+    {
+      "scene": "s_card",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "まず、SPFやDKIMの結果と、受け取った人が見る差出人のドメインが合っているかを確かめるの。",
+      "say": "まず、エスピーエフやディーキムの結果と、受け取った人が見る差出人のドメインが合っているかを確かめるの。"
+    },
+    {
+      "scene": "s_card",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "失敗したら、何もしない、隔離する、拒否する。どれにするかを、ドメインの持ち主がDNSで宣言するわ。",
+      "say": "失敗したら、何もしない、隔離する、拒否する。どれにするかを、ドメインの持ち主がディーエヌエスで宣言するわ。"
+    },
+    {
+      "scene": "s_card",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "受け取った側は、結果を持ち主に報告する。なりすましに使われていたら、気付けるのよ。"
+    },
+    {
+      "scene": "s_card",
+      "step": 3,
+      "who": "zundamon",
+      "text": "DMARCは、SPFやDKIMとは別の、3つ目の確かめ方なのだ？",
+      "say": "ディーマークは、エスピーエフやディーキムとは別の、3つ目の確かめ方なのだ？"
+    },
+    {
+      "scene": "s_card",
+      "step": 3,
+      "who": "metan",
+      "text": "違うわ。2つの結果を使って、扱いを決めるまとめ役よ。"
+    },
+    {
+      "scene": "s_card",
+      "step": 3,
+      "sfx": "impact",
+      "who": "zundamon",
+      "text": "確かめるのはSPFとDKIM。どうするかを決めるのがDMARCなのだ！",
+      "say": "確かめるのはエスピーエフとディーキム。どうするかを決めるのが、ディーマークなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

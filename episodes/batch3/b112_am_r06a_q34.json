@@ -1,0 +1,142 @@
+{
+  "id": "b112_am_r06a_q34",
+  "format": "short",
+  "title": "ICMP（令和6年度秋期 午前 問34）",
+  "topic": "応用情報 午前｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和6年度 秋期 応用情報技術者試験 午前 問34（問題冊子 p.19）：IPv4 ネットワークにおける ICMP の機能として，適切なものはどれか。ア MAC アドレスだけが分かっているときに IP アドレスの解決を可能にする。イ グローバル IP アドレスとプライベート IP アドレスとを相互に変換する。ウ 送信元ホストへ，IP パケットの送信エラー報告などの制御メッセージを通知する。エ ネットワーク内の IP アドレスを一元管理し，クライアントに動的に割り当てる。（解答例：ウ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】ICMPの問題 令和6年度秋期 問34",
+    "title_b": "【応用情報 午前】ICMPの問題 令和6年度秋期 問34",
+    "title_c": "ICMPを{sec}秒で｜令和6年度秋期 午前 問34【応用情報】",
+    "summary": "令和6年度秋期 午前 問34（ICMP）を解きます。ほかの選択肢が RARP・NAT・DHCP の説明であることも見ます。",
+    "sources": [
+      "令和6年度 秋期 応用情報技術者試験 午前 問34（問題冊子 p.19、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/m42obm000000afqx-att/2024r06a_ap_am_qs.pdf",
+      "令和6年度 秋期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/m42obm000000afqx-att/2024r06a_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "ネットワーク",
+      "ICMP",
+      "ping",
+      "TCP/IP",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "IPv4 ネットワークにおける ICMP の機能として，適切なものはどれか。",
+      "choices": [
+        "ア　MAC アドレスだけが分かっているときに IP アドレスの解決を可能にする。",
+        "イ　グローバル IP アドレスとプライベート IP アドレスとを相互に変換する。",
+        "ウ　送信元ホストへ，IP パケットの送信エラー報告などの制御メッセージを通知する。",
+        "エ　ネットワーク内の IP アドレスを一元管理し，クライアントに動的に割り当てる。"
+      ],
+      "answer": 2,
+      "src": "出典：令和6年度 秋期 応用情報技術者試験 午前 問34",
+      "cols": 1
+    },
+    "why": {
+      "type": "cards",
+      "head": "選択肢はどのしくみ？",
+      "items": [
+        {
+          "name": "ICMP（ウ）",
+          "desc": "エラーの報告などの、制御のメッセージを送る。ping も使う"
+        },
+        {
+          "name": "RARP（ア）",
+          "desc": "MAC アドレスから IP アドレスを求める"
+        },
+        {
+          "name": "NAT（イ）",
+          "desc": "グローバルとプライベートの IP アドレスを変換する"
+        },
+        {
+          "name": "DHCP（エ）",
+          "desc": "IP アドレスを自動で配る"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "who": "metan",
+      "text": "ICMPの機能として、適切なものはどれか。3秒で考えてみて。",
+      "say": "アイシーエムピーの機能として、適切なものはどれか。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "正解はウ。送信元に、エラーの報告などの制御メッセージを知らせるの。",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "届かなかったときに「届かなかったよ」と送り主に知らせるのが、ICMPの大事な仕事よ。",
+      "say": "届かなかったときに、届かなかったよ、と送り主に知らせるのが、アイシーエムピーの大事な仕事よ。"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "who": "zundamon",
+      "text": "pingで相手がいるか確かめるのも、ICMPなのだ？",
+      "say": "ピングで相手がいるか確かめるのも、アイシーエムピーなのだ？"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "who": "metan",
+      "text": "そうよ。pingはICMPのメッセージを送って、返事を待つの。",
+      "say": "そうよ。ピングは、アイシーエムピーのメッセージを送って、返事を待つの。"
+    },
+    {
+      "scene": "why",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "アはRARP、イはNAT、エはDHCPの説明ね。",
+      "say": "アはアールアープ、イはナット、エはディーエイチシーピーの説明ね。"
+    },
+    {
+      "scene": "why",
+      "step": 4,
+      "who": "zundamon",
+      "text": "ICMPは、IPの連絡係なのだ！",
+      "say": "アイシーエムピーは、アイピーの連絡係なのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

@@ -1,0 +1,143 @@
+{
+  "id": "b116_short2",
+  "format": "short",
+  "title": "SDN と NFV",
+  "topic": "応用情報｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 中分類10 ネットワーク／4. ネットワーク管理（p.46）：(1) ネットワーク運用管理 ① 構成管理（用語例 ネットワーク構成，バージョン）② 障害管理（用語例 情報収集，障害の切分け，障害原因の特定，復旧措置，記録，死活監視）③ 性能管理（用語例 トラフィック監視）(2) ネットワーク運用管理ツール（用語例 ping，ifconfig，arp，netstat，ip，ss，dig，traceroute，パケットアナライザー（tcpdump，Wireshark ほか））(3) SNMP（用語例 SNMP エージェント，SNMP 管理ステーション，MIB，get 要求，put 要求，trap 要求）(4) 仮想ネットワーク（用語例 トンネリング，SDN，SD-WAN，OpenFlow，NFV）",
+    "IPA 令和4年度 春期 応用情報技術者試験 午前 問35（問題冊子 p.16）：OpenFlow を使った SDN（Software-Defined Networking）に関する記述として，適切なものはどれか。ア インターネットのドメイン名を管理する世界規模の分散データベースを用いて，IP アドレスの代わりに名前を指定して通信できるようにする仕組み イ 携帯電話網において，回線交換方式ではなく，パケット交換方式で音声通話を実現する方式 ウ ストレージ装置とサーバを接続し，WWN（World Wide Name）によってノードやポートを識別するストレージ用ネットワーク エ データ転送機能とネットワーク制御機能を論理的に分離し，ネットワーク制御を集中的に行うことを可能にしたアーキテクチャ（解答：エ）"
+  ],
+  "upload": {
+    "title": "SDN と NFV の違い｜応用情報技術者試験 ネットワーク",
+    "title_b": "【応用情報 ネットワーク】SDNとは？NFVとの違い",
+    "title_c": "SDN と NFV を{sec}秒で｜制御をまとめる・機器をソフトに【応用情報】",
+    "summary": "転送と制御を分けて制御をまとめる SDN（OpenFlow）と、ネットワーク機器の機能を汎用サーバのソフトウェアで動かす NFV の違いを短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（10 ネットワーク 4.(4)） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf",
+      "令和4年度 春期 応用情報技術者試験 午前 問35（要約） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_qs.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "ネットワーク",
+      "SDN",
+      "NFV",
+      "OpenFlow",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "SDN と NFV",
+        "どう違う？"
+      ],
+      "mark": 2
+    },
+    "s_grid": {
+      "type": "grid",
+      "head": "SDN と NFV",
+      "cols": [
+        "何をする",
+        "ひとことで"
+      ],
+      "rows": [
+        "SDN",
+        "NFV"
+      ],
+      "cells": [
+        {
+          "tag": "何をする",
+          "text": "運ぶ働きと決める働きを分け、決める働きをコントローラにまとめる"
+        },
+        {
+          "tag": "ひとことで",
+          "text": "制御をまとめる（OpenFlow など）"
+        },
+        {
+          "tag": "何をする",
+          "text": "ルータやファイアウォールの働きを、汎用サーバのソフトウェアで動かす"
+        },
+        {
+          "tag": "ひとことで",
+          "text": "機器をソフトウェアにする"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "SDNとNFV、どっちもネットワークをソフトウェアにする話なのだ？",
+      "say": "エスディーエヌとエヌエフブイ、どっちもネットワークをソフトウェアにする話なのだ？"
+    },
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "who": "metan",
+      "text": "似ているけれど、ねらいが違うの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "SDNは、運ぶ働きと、どう運ぶかを決める働きを分けて、決める働きをコントローラにまとめるの。",
+      "say": "エスディーエヌは、運ぶ働きと、どう運ぶかを決める働きを分けて、決める働きをコントローラにまとめるの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "who": "metan",
+      "text": "その決まりの一つが、OpenFlowよ。",
+      "say": "その決まりの一つが、オープンフローよ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "NFVは、ルータやファイアウォールの働きを、ふつうのサーバのソフトウェアで動かすこと。",
+      "say": "エヌエフブイは、ルータやファイアウォールの働きを、ふつうのサーバのソフトウェアで動かすこと。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "metan",
+      "text": "組み合わせて使うことも多いわ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "impact",
+      "who": "zundamon",
+      "text": "SDNは制御をまとめる、NFVは機器をソフトウェアにする、なのだ！",
+      "say": "エスディーエヌは制御をまとめる、エヌエフブイは機器をソフトウェアにする、なのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}
