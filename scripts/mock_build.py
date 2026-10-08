@@ -32,7 +32,7 @@ LEAD = 0.6        # 最初の無音
 GAP = 0.3         # 台詞と台詞の間
 SCENE_GAP = 0.55  # 場面が変わるときは少し長く
 TAIL = 1.5        # 最後の余韻
-BRAND_DEFAULT = False  # 最初と最後のチャンネル札。本人の OK（見本 build/brand_demo）が出たら True に
+BRAND_DEFAULT = True  # 最初と最後のチャンネル札。本人の OK（見本 build/brand_demo）が出たら True に
 
 
 _READ = None

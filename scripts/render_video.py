@@ -122,8 +122,11 @@ EMOTE_FONTS = ["C:/Windows/Fonts/meiryob.ttc", "/usr/share/fonts/opentype/noto/N
                "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc"]
 
 
-def emote_for(ln):
+def emote_for(ln, prev=None):
     t = (ln.get("text") or "").strip()
+    # 10/8 本人「ずんだもんが冗談を言ったら、それに答えつつ『…w』をめたんに」
+    if prev and prev.get("joke") and prev.get("who") == "zundamon" and ln.get("who") == "metan":
+        return "…w", (122, 104, 160)
     if ln.get("expr") == "surprise":
         return "！？", (229, 72, 77)
     if ln.get("joke"):
@@ -154,21 +157,29 @@ def emote_img(sym, color, size):
         im = Image.new("RGBA", (size * 3, size * 2), (0, 0, 0, 0))
         dr = ImageDraw.Draw(im)
         sw = max(4, size // 12)
-        dr.text((size * 0.3, size * 0.2), sym, font=font, fill=(23, 35, 58, 255), stroke_width=sw + 5,
-                stroke_fill=(23, 35, 58, 255))
-        dr.text((size * 0.3, size * 0.2), sym, font=font, fill=color + (255,), stroke_width=sw,
-                stroke_fill=(255, 255, 255, 255))
-        im = im.crop(im.getbbox()).rotate(-10 if sym != "？" else 10, resample=Image.BICUBIC, expand=True)
+        ink = (23, 35, 58, 255)
+        if sym == "…w":  # 字の「…」は四角い点になるので、丸を3つ描いてから w
+            r = size * 0.075
+            for j in range(3):
+                cx, cy = size * (0.45 + j * 0.28), size * 1.08
+                dr.ellipse((cx - r - sw, cy - r - sw, cx + r + sw, cy + r + sw), fill=ink)
+                dr.ellipse((cx - r - 3, cy - r - 3, cx + r + 3, cy + r + 3), fill=(255, 255, 255, 255))
+                dr.ellipse((cx - r, cy - r, cx + r, cy + r), fill=color + (255,))
+            wx, sym = size * 1.25, "w"
+        else:
+            wx = size * 0.3
+        dr.text((wx, size * 0.2), sym, font=font, fill=ink, stroke_width=sw + 5, stroke_fill=ink)
+        dr.text((wx, size * 0.2), sym, font=font, fill=color + (255,), stroke_width=sw, stroke_fill=(255, 255, 255, 255))
+        im = im.crop(im.getbbox()).rotate(-10 if k[0] != "？" else 10, resample=Image.BICUBIC, expand=True)
         _EMO[k] = im
     return _EMO[k]
 
 
-def paste_emote(frame, ln, t, x, y, w, kind):
-    """台詞 ln の始めの約0.9秒、(x, y) を頭の上として記号を出す。"""
-    e = emote_for(ln)
+def paste_emote(frame, ln, e, t, x, y, w, kind, side="left"):
+    """台詞 ln の始めの約0.9秒（「…w」は1.4秒）、(x, y) の近くに記号 e を出す。"""
     if not e or not ln.get("who"):
         return
-    p = (t - ln["start"]) / 0.9
+    p = (t - ln["start"]) / (1.4 if e[0] == "…w" else 0.9)
     if p < 0 or p > 1:
         return
     scale = 0.6 + p / 0.2 * 0.5 if p < 0.2 else (1.1 - (p - 0.2) / 0.1 * 0.1 if p < 0.3 else 1.0)
@@ -180,7 +191,9 @@ def paste_emote(frame, ln, t, x, y, w, kind):
         a = im.getchannel("A").point(lambda v: int(v * alpha))
         im = im.copy()
         im.putalpha(a)
-    frame.paste(im, (int(x - im.width / 2), int(y - im.height - 30 * p)), im)
+    # 横に長い記号は、顔にかからないよう相手の側へ寄せる
+    ax = 0.5 if im.width < im.height * 1.3 else (0.85 if side == "right" else 0.15)
+    frame.paste(im, (int(x - im.width * ax), int(y - im.height - 30 * p)), im)
 
 
 class Cast:
@@ -244,10 +257,11 @@ def main(vid, d):
                            "-shortest", "-movflags", "+faststart", str(out)], stdin=subprocess.PIPE)
     lines = data["lines"]
     # 記号は出しすぎるとうるさいので、前に出してから4秒以上あいた台詞だけ
-    emo_ok, last = set(), -99.0
+    emo_ok, last = {}, -99.0
     for i, ln in enumerate(lines):
-        if ln.get("who") and not ln["scene"].startswith("_") and emote_for(ln) and ln["start"] - last >= 4.0:
-            emo_ok.add(i)
+        e = emote_for(ln, lines[i - 1] if i else None)
+        if ln.get("who") and not ln["scene"].startswith("_") and e and (ln["start"] - last >= 4.0 or e[0] == "…w"):
+            emo_ok[i] = e
             last = ln["start"]
     for fi in range(n):
         t = fi / FPS
@@ -276,7 +290,8 @@ def main(vid, d):
             if me and li in emo_ok and (EMOTE_DEFAULT if data.get("emote") is None else data["emote"]):
                 # 頭の上：ずんだもん（左・右向き）は右寄り、めたん（右・左向き）は左寄り
                 hx = xs[key] + (cast.w * 0.92 if key == "zunda" else cast.w * 0.08)
-                paste_emote(frame, L, t, hx, h - im.height + (150 if kind == "long" else 190), cast.w, kind)
+                paste_emote(frame, L, emo_ok[li], t, hx, h - im.height + (150 if kind == "long" else 190), cast.w, kind,
+                            "right" if key == "metan" else "left")
         ff.stdin.write(frame.tobytes())
     ff.stdin.close()
     ff.wait()

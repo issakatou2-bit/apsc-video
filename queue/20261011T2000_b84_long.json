@@ -454,6 +454,13 @@
       "text": "漢字3文字の言葉ばかりなのだ。早口言葉の練習みたいなのだ。"
     },
     {
+      "scene": "map",
+      "step": 0,
+      "who": "metan",
+      "expr": "smile",
+      "text": "ふふ、早口で言わなくて大丈夫よ。"
+    },
+    {
       "scene": "cia",
       "step": 0,
       "sfx": "transition",
@@ -585,6 +592,13 @@
       "scene": "cia_bal",
       "step": 1,
       "who": "metan",
+      "expr": "smile",
+      "text": "ふふ、使い方は合っているわ。"
+    },
+    {
+      "scene": "cia_bal",
+      "step": 1,
+      "who": "metan",
       "text": "3つを確保し、維持することで、情報システムの信頼性も高まるの。"
     },
     {
@@ -711,6 +725,13 @@
       "who": "zundamon",
       "joke": true,
       "text": "ボクの「宿題やったのだ」にも、署名が要りそうなのだ。"
+    },
+    {
+      "scene": "log",
+      "step": 3,
+      "who": "metan",
+      "expr": "smile",
+      "text": "宿題は、署名より中身が大事よ。"
     },
     {
       "scene": "asset",
@@ -876,6 +897,13 @@
       "text": "空き巣に「来ないで」と手紙を書くより、鍵をかけるのが先なのだ。"
     },
     {
+      "scene": "vuln",
+      "step": 3,
+      "who": "metan",
+      "expr": "smile",
+      "text": "ふふ、そのとおりね。"
+    },
+    {
       "scene": "classify",
       "step": 0,
       "sfx": "transition",
@@ -1028,6 +1056,13 @@
       "who": "zundamon",
       "joke": true,
       "text": "隠れて使うより、堂々と申請するのだ。シャドーから卒業なのだ。"
+    },
+    {
+      "scene": "shadow_cia",
+      "step": 3,
+      "who": "metan",
+      "expr": "smile",
+      "text": "ふふ、いい心がけね。"
     },
     {
       "scene": "quiz",
@@ -1203,6 +1238,20 @@
       "verdict": "可",
       "fixes": [],
       "notes": "前回の39項目は反映されています。提示された材料との整合、定義と例の条件、出典、読み、字幕60字以内、冗長さに新しい問題は見当たりません。\n架空の店の明示と各章の冗談の数も適切です。joke:trueの設定は提示形式では確認できません。"
+    },
+    {
+      "by": "エマ（Claude）",
+      "date": "2026-10-08",
+      "round": "冗談への返し",
+      "verdict": "可",
+      "fixes": [
+        "insert_after 90: ふふ、いい心がけね。",
+        "insert_after 68: ふふ、そのとおりね。",
+        "insert_after 44: 宿題は、署名より中身が大事よ。",
+        "insert_after 24: ふふ、使い方は合っているわ。",
+        "insert_after 5: ふふ、早口で言わなくて大丈夫よ。"
+      ],
+      "notes": "10/8 本人「ずんだもんが冗談を言ったら、めたんが答えつつ…w」。中身（用語・正誤）に触れない短い返しだけを足した。"
     }
   ],
   "publish_at": "2026-10-11T20:00:00+09:00"
