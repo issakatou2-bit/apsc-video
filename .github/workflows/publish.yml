@@ -16,6 +16,9 @@ on:
       within_hours:
         description: "今から何時間以内に公開する分を処理するか"
         default: "30"
+      test_file:
+        description: "（試し）queue/ の台本のファイル名。書くと、YouTube に上げずに動画を作るだけ（成果物で確かめる）"
+        default: ""
 
 permissions:
   contents: write
@@ -51,7 +54,25 @@ jobs:
           done
           curl -s http://127.0.0.1:50021/version
 
+      - name: Test render (no upload)
+        if: ${{ github.event.inputs.test_file != '' && github.event.inputs.test_file != null }}
+        env:
+          APSC_BROWSER: chromium
+          PYTHONIOENCODING: utf-8
+        run: |
+          f="queue/${{ github.event.inputs.test_file }}"
+          id=$(python -c "import json,sys;print(json.load(open(sys.argv[1],encoding='utf-8'))['id'])" "$f")
+          python scripts/mock_build.py "$f" build/test
+          python scripts/render_video.py "$id" build/test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ github.event.inputs.test_file != '' && github.event.inputs.test_file != null }}
+        with:
+          name: test-render
+          path: build/test/*.mp4
+
       - name: Publish from the queue
+        if: ${{ github.event.inputs.test_file == '' || github.event.inputs.test_file == null }}
         env:
           APSC_BROWSER: chromium
           PYTHONIOENCODING: utf-8
@@ -61,6 +82,7 @@ jobs:
         run: python scripts/publish_queue.py --within-hours "${{ github.event.inputs.within_hours || '30' }}"
 
       - name: Commit the ledger
+        if: ${{ github.event.inputs.test_file == '' || github.event.inputs.test_file == null }}
         run: |
           git config user.name "apsc-video bot"
           git config user.email "actions@users.noreply.github.com"
