@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>frame</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Oswald:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Oswald:wght@500;600&display=swap">
 <!--
   動画の1枚を描くページ（2026-10-08 エマ）。render_video.py が Playwright で開き、
   setup(回のデータ) → setState(状態) → 撮影 をくり返す。立ち絵は描かない（Python 側でコマごとに重ねる）。
@@ -71,6 +71,24 @@ body{margin:0;background:#000}
 .brand .bs{font-size:40px;font-weight:700;color:#c9d6ea;line-height:1.5}
 .brand .bt{font-size:34px;font-weight:700;color:#ffe066;line-height:1.4;max-width:1400px}
 .brand .bar{width:180px;height:8px;background:#ffe066;border-radius:4px}
+.brand.end{background-color:#fbfaf6;background-image:linear-gradient(#e3e9f1 2px,transparent 2px),linear-gradient(90deg,#e3e9f1 2px,transparent 2px);background-size:48px 48px;color:var(--ink);align-content:start;justify-items:center;padding-top:120px}
+.short .brand.end{padding-top:200px}
+.brand.end .ecsub{font-size:36px;font-weight:900;color:var(--sub)}
+.brand.end .ecname{font-family:"Dela Gothic One","Zen Kaku Gothic New",sans-serif;font-size:104px;line-height:1.15;margin:6px 0 4px}
+.short .brand.end .ecname{font-size:84px}
+.brand.end .ecname .mk{background:linear-gradient(transparent 60%,var(--marker) 60%)}
+.brand.end .ecrow{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:1100px;margin-top:14px}
+.brand.end .chip{background:var(--ink);color:#fff;font-size:30px;font-weight:900;padding:8px 22px;border-radius:999px}
+.brand.end .chip.y{background:var(--marker);color:var(--ink)}
+.brand.end .pl{font-size:28px;font-weight:900;color:var(--sub);margin-top:26px}
+.brand.end .cta{margin-top:26px;font-size:40px;font-weight:900;background:#fff;border:4px solid var(--ink);border-radius:18px;padding:12px 30px;box-shadow:8px 8px 0 var(--ink)}
+.short .brand.end .cta{font-size:38px;max-width:900px;margin-top:40px}
+.short .brand.end .ecname{font-size:92px}
+.brand.end .today{margin-top:40px;width:860px;background:#fff;border:4px solid var(--ink);border-radius:22px;padding:26px 30px 30px;box-shadow:10px 10px 0 var(--ink);position:relative}
+.brand.end .today .lb{position:absolute;left:28px;top:-26px;background:var(--marker);color:var(--ink);font-size:30px;font-weight:900;padding:4px 18px;border-radius:10px;border:3px solid var(--ink)}
+.brand.end .today .term{font-weight:900;font-size:88px;line-height:1.2;margin-top:10px}
+.brand.end .today .nx{font-size:34px;font-weight:900;color:var(--sub);margin-top:14px;line-height:1.5}
+.brand.end .today .nx b{color:var(--ink);background:linear-gradient(transparent 60%,var(--marker) 60%)}
 .subt{position:absolute;left:400px;bottom:40px;width:1120px;min-height:150px;box-sizing:border-box;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:22px 30px;font-size:44px;font-weight:700;line-height:1.45}
 .short .subt{left:40px;bottom:520px;width:880px;font-size:44px}
 .subt .nm{position:absolute;left:24px;top:-26px;font-size:26px;font-weight:900;color:#fff;padding:2px 18px;border-radius:999px}
@@ -107,9 +125,22 @@ window.setState=(st)=>{
   const br=F.querySelector(".brand");
   if(st.scene==="_open"||st.scene==="_end"){
     br.classList.add("on");
+    const short=EP.format==="short";
+    br.classList.toggle("end",st.scene==="_end");
+    const fields=["経営戦略","ネットワーク","セキュリティ","サービスマネジメント","システム監査","午後問題の解き方"];
     br.innerHTML=st.scene==="_open"
       ?`<div class="bs">${esc(BRAND.sub)}</div><div class="bn">${esc(BRAND.name)}</div><div class="bar"></div><div class="bt">${esc(EP.title||"")}</div>`
-      :`<div class="bn">${esc(BRAND.name)}</div><div class="bar"></div><div class="bs">${esc(BRAND.end)}</div>`;
+      :short
+      ?`<div class="ecsub">${esc(BRAND.sub)}</div><div class="ecname">めたん先生の<br><span class="mk">IT試験ゼミ</span></div>
+        <div class="today"><span class="lb">今日の用語</span><div class="term">${esc(EP.title||"")}</div>
+          <div class="nx">つづきは 再生リスト<br><b>応用情報｜${esc((EP.topic||"").split("｜")[1]||"そのほか")}</b> で</div></div>
+        <div class="ecrow" style="margin-top:44px"><span class="chip y">毎日 ショートと解説</span><span class="chip">字幕は台本そのもの</span></div>
+        <div class="cta">くわしくは チャンネルの解説動画で ▶</div>`
+      :`<div class="ecsub">${esc(BRAND.sub)}</div><div class="ecname">めたん先生の<span class="mk">IT試験ゼミ</span></div>
+        <div class="ecrow"><span class="chip y">毎日 ショートと解説を公開</span><span class="chip">IPAの資料をもとに確かめた台本</span><span class="chip">字幕は台本そのもの</span></div>
+        <div class="pl">分野ごとの再生リスト</div>
+        <div class="ecrow">${fields.map(f=>`<span class="chip">${esc(f)}</span>`).join("")}</div>
+        <div class="cta">▶ チャンネル登録で、毎日の続きが届きます</div>`;
     F.querySelector(".subt").classList.add("off");F.querySelector(".tab").textContent="";
     return true;
   }

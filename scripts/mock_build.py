@@ -78,21 +78,25 @@ def main(script_path, out_dir):
     if spec.get("scenes") and spec.get("brand", BRAND_DEFAULT):
         lines = list(spec["lines"])
         if spec.get("format") != "short":
-            lines.insert(0, {"scene": "_open", "step": 0, "sfx": "impact", "who": "metan",
-                             "text": "めたん先生のIT試験ゼミ", "say": "めたん先生の、アイティー試験ゼミ。"})
+            # 10/8 本人「めたんが『めたん先生』と言うのはどうなの」→ 生徒役のずんだもんが呼ぶ。最初の画面は約1.5秒
+            lines.insert(0, {"scene": "_open", "step": 0, "sfx": "impact", "who": "zundamon", "speed": 1.7,
+                             "text": "めたん先生のIT試験ゼミ！", "say": "めたん先生の、アイティー試験ゼミ！"})
             lines.append({"scene": "_end", "step": 0, "sfx": "swish", "who": "zundamon",
-                          "text": "用語と解き方を、毎日ショート2本と解説1本で出しているのだ。"})
+                          "text": "分野ごとの再生リストで、続けて聞けるのだ。チャンネル登録で、毎日の続きが届くのだ！"})
         else:
-            lines.append({"scene": "_end", "step": 0, "sfx": "swish", "who": "metan",
-                          "text": "めたん先生のIT試験ゼミ", "say": "めたん先生の、アイティー試験ゼミ。"})
+            lines.append({"scene": "_end", "step": 0, "sfx": "swish", "who": "zundamon", "speed": 1.6,
+                          "text": "くわしくは、チャンネルの解説動画で、なのだ！"})
         spec = {**spec, "lines": lines}
     pieces, cues, timeline = [], [], []
-    t = LEAD
-    pieces.append(np.zeros(int(LEAD * SR)))
+    lead = 0.15 if spec["lines"] and spec["lines"][0].get("scene") == "_open" else LEAD
+    t = lead
+    pieces.append(np.zeros(int(lead * SR)))
     prev_scene = None
     for i, ln in enumerate(spec["lines"]):
         if prev_scene is not None:
             g = SCENE_GAP if ln["scene"] != prev_scene else GAP
+            if prev_scene == "_open":
+                g = 0.12
             pieces.append(np.zeros(int(g * SR)))
             t += g
         if ln.get("sfx"):
@@ -105,6 +109,8 @@ def main(script_path, out_dir):
                     cues.append((t + k, "pop", "b", -4.0))
         else:
             tune = spec.get("voice", {}).get(ln["who"]) or {"speed": spec["speed"][ln["who"]]}
+            if ln.get("speed"):
+                tune = {**tune, "speed": ln["speed"]}
             x = synth(ln.get("say") or to_say(ln["text"]), ln["who"], tune)
             dur = len(x) / SR
         timeline.append({**{k: v for k, v in ln.items() if k != "say"}, "i": i,
@@ -127,7 +133,7 @@ def main(script_path, out_dir):
     wav.unlink()
     meta = {"id": spec["id"], "format": spec.get("format"), "title": spec["title"],
             "topic": spec.get("topic"), "scenes": spec.get("scenes"),
-            "upload": spec.get("upload"), "thumb": spec.get("thumb"), "duration": round(len(y) / SR, 3), "lines": timeline}
+            "upload": spec.get("upload"), "thumb": spec.get("thumb"), "emote": spec.get("emote"), "duration": round(len(y) / SR, 3), "lines": timeline}
     (out / f"{spec['id']}.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"[info] {spec['id']}: {meta['duration']:.1f}秒・{len(timeline)}行 -> {mp3}")
     return 0

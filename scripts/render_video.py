@@ -115,6 +115,74 @@ def snapshot(vid, kind, states, page_url, out_dir, data=None):
     return files
 
 
+# 10/8 本人「ずんだもんとめたんの頭上や周りに、セリフや感情・表情に合わせて記号（！や？など色つき）を浮かばせたり
+# フェードアウトさせたり」→ 台詞の頭の約0.9秒、話す人の頭の近くに記号をぽんと出し、少し上がりながら消す。
+EMOTE_DEFAULT = False  # 本人の OK が出たら True に
+EMOTE_FONTS = ["C:/Windows/Fonts/meiryob.ttc", "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+               "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc"]
+
+
+def emote_for(ln):
+    t = (ln.get("text") or "").strip()
+    if ln.get("expr") == "surprise":
+        return "！？", (229, 72, 77)
+    if ln.get("joke"):
+        return "♪", (255, 95, 162)
+    if t.endswith("？"):
+        return "？", (47, 125, 225)
+    if t.endswith("！"):
+        return "！", (255, 140, 40)
+    if ln.get("expr") == "smile":
+        return "♪", (255, 95, 162)
+    return None
+
+
+_EMO = {}
+
+
+def emote_img(sym, color, size):
+    k = (sym, color, size)
+    if k not in _EMO:
+        from PIL import ImageDraw, ImageFont
+        font = None
+        for f in EMOTE_FONTS:
+            try:
+                font = ImageFont.truetype(f, size)
+                break
+            except OSError:
+                continue
+        im = Image.new("RGBA", (size * 3, size * 2), (0, 0, 0, 0))
+        dr = ImageDraw.Draw(im)
+        sw = max(4, size // 12)
+        dr.text((size * 0.3, size * 0.2), sym, font=font, fill=(23, 35, 58, 255), stroke_width=sw + 5,
+                stroke_fill=(23, 35, 58, 255))
+        dr.text((size * 0.3, size * 0.2), sym, font=font, fill=color + (255,), stroke_width=sw,
+                stroke_fill=(255, 255, 255, 255))
+        im = im.crop(im.getbbox()).rotate(-10 if sym != "？" else 10, resample=Image.BICUBIC, expand=True)
+        _EMO[k] = im
+    return _EMO[k]
+
+
+def paste_emote(frame, ln, t, x, y, w, kind):
+    """台詞 ln の始めの約0.9秒、(x, y) を頭の上として記号を出す。"""
+    e = emote_for(ln)
+    if not e or not ln.get("who"):
+        return
+    p = (t - ln["start"]) / 0.9
+    if p < 0 or p > 1:
+        return
+    scale = 0.6 + p / 0.2 * 0.5 if p < 0.2 else (1.1 - (p - 0.2) / 0.1 * 0.1 if p < 0.3 else 1.0)
+    alpha = 1.0 if p < 0.6 else max(0.0, 1 - (p - 0.6) / 0.4)
+    base = 120 if kind == "long" else 150
+    im = emote_img(e[0], e[1], base)
+    im = im.resize((max(1, int(im.width * scale)), max(1, int(im.height * scale))), Image.LANCZOS)
+    if alpha < 1:
+        a = im.getchannel("A").point(lambda v: int(v * alpha))
+        im = im.copy()
+        im.putalpha(a)
+    frame.paste(im, (int(x - im.width / 2), int(y - im.height - 30 * p)), im)
+
+
 class Cast:
     """立ち絵の部品を重ねた絵を、組み合わせごとに覚えておく。"""
 
@@ -175,6 +243,12 @@ def main(vid, d):
                            "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "medium", "-c:a", "aac", "-b:a", "192k",
                            "-shortest", "-movflags", "+faststart", str(out)], stdin=subprocess.PIPE)
     lines = data["lines"]
+    # 記号は出しすぎるとうるさいので、前に出してから4秒以上あいた台詞だけ
+    emo_ok, last = set(), -99.0
+    for i, ln in enumerate(lines):
+        if ln.get("who") and not ln["scene"].startswith("_") and emote_for(ln) and ln["start"] - last >= 4.0:
+            emo_ok.add(i)
+            last = ln["start"]
     for fi in range(n):
         t = fi / FPS
         si = max(i for i, x in enumerate(times) if x <= t + 1e-6)
@@ -199,6 +273,10 @@ def main(vid, d):
             im = cast.get(key, eye, brow, mouth, not me)
             bob = -8 * (1 - math.cos(math.pi * t / 0.5)) / 2 if me else 0
             frame.paste(im, (xs[key], h - im.height + round(bob) + (8 if me else 0)), im)
+            if me and li in emo_ok and (EMOTE_DEFAULT if data.get("emote") is None else data["emote"]):
+                # 頭の上：ずんだもん（左・右向き）は右寄り、めたん（右・左向き）は左寄り
+                hx = xs[key] + (cast.w * 0.92 if key == "zunda" else cast.w * 0.08)
+                paste_emote(frame, L, t, hx, h - im.height + (150 if kind == "long" else 190), cast.w, kind)
         ff.stdin.write(frame.tobytes())
     ff.stdin.close()
     ff.wait()
