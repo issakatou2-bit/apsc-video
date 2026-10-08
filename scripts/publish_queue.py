@@ -29,6 +29,30 @@ def fmt(sec):
     return f"{sec // 60}:{sec % 60:02d}"
 
 
+def retry_thumbs():
+    """10/8：サムネの上げすぎ（429）で付けられなかった分を、data/thumb_retry.json から付け直す。"""
+    p = ROOT / "data" / "thumb_retry.json"
+    if not p.exists():
+        return
+    import make_thumb
+    left = []
+    for it in json.loads(p.read_text(encoding="utf-8")):
+        try:
+            d = json.loads((ROOT / it["src"]).read_text(encoding="utf-8"))
+            d.setdefault("upload", {"title": d.get("title", "")})
+            if it.get("thumb"):
+                d["thumb"] = it["thumb"]
+            out = ROOT / "build" / f"thumb_{it['video_id']}.jpg"
+            out.parent.mkdir(exist_ok=True)
+            make_thumb.render(d, str(out))
+            make_thumb.set_thumbnail(it["video_id"], out)
+            print(f"[info] サムネを付け直した: {it['video_id']}")
+        except Exception as e:
+            print(f"[warn] サムネの付け直しはまた次に: {it['video_id']}（{str(e)[:60]}）")
+            left.append(it)
+    p.write_text(json.dumps(left, ensure_ascii=False, indent=1) + chr(10), encoding="utf-8")
+
+
 def pick_title(d, timeline):
     """10/8 本人「題は伸びる方で」→ 日付が偶数の日は B 型、奇数の日は C 型で比べる（title_b・title_c が無ければ title）。"""
     up = d["upload"]
@@ -90,6 +114,7 @@ def main():
     import mock_build
     import render_video
     import upload_youtube
+    retry_thumbs()
     ledger = ROOT / "mock" / "published.md"
     for f, d in todo:
         out = ROOT / "build" / "queue"

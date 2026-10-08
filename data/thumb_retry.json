@@ -1,0 +1,43 @@
+[
+ {
+  "video_id": "FTrgcs7FWNE",
+  "src": "published/20261009T2000_strategy4.json",
+  "thumb": {}
+ },
+ {
+  "video_id": "k6Aq4tiXhmY",
+  "src": "episodes/strategy1.json",
+  "thumb": {
+   "main": "SWOT・¦ファイブフォース",
+   "sub": "競争の基本戦略まで",
+   "no": "第1回"
+  }
+ },
+ {
+  "video_id": "IZBgYVcUle8",
+  "src": "episodes/strategy2.json",
+  "thumb": {
+   "main": "PPMの¦［4分類］",
+   "sub": "花形・金のなる木・問題児・負け犬",
+   "no": "第2回"
+  }
+ },
+ {
+  "video_id": "-52am8FlWi8",
+  "src": "episodes/strategy3.json",
+  "thumb": {
+   "main": "VRIOと¦コアコンピタンス",
+   "sub": "バリューチェーン・ドメイン",
+   "no": "第3回"
+  }
+ },
+ {
+  "video_id": "T6ZMLueOu1M",
+  "src": "episodes/pm2_r07a.json",
+  "thumb": {
+   "main": "見出しが¦［地図］になる",
+   "sub": "設問ごとに 手がかり → 解答例",
+   "no": "令和7年度秋期 問2"
+  }
+ }
+]
