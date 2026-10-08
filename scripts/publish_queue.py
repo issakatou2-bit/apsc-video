@@ -29,6 +29,19 @@ def fmt(sec):
     return f"{sec // 60}:{sec % 60:02d}"
 
 
+def pick_title(d, timeline):
+    """10/8 本人「題は伸びる方で」→ 日付が偶数の日は B 型、奇数の日は C 型で比べる（title_b・title_c が無ければ title）。"""
+    up = d["upload"]
+    day = int(d["publish_at"][8:10])
+    key = "title_b" if day % 2 == 0 else "title_c"
+    t = up.get(key) or up["title"]
+    sec = timeline["duration"]
+    t = t.replace("{min}", str(max(1, round(sec / 60)))).replace("{sec}", str(int(round(sec / 5) * 5)))
+    d["title_variant"] = key if up.get(key) else "title"
+    d["title_used"] = t
+    return t[:100]
+
+
 def description(d, timeline):
     up = d["upload"]
     parts = [up["summary"]]
@@ -87,8 +100,9 @@ def main():
         render_video.main(d["id"], str(out))
         timeline = json.loads((out / f"{d['id']}.json").read_text(encoding="utf-8"))
         desc, tags = description(d, timeline)
+        title = pick_title(d, timeline)
         try:
-            vid = upload_youtube.upload(out / f"{d['id']}.mp4", d["upload"]["title"], desc, tags,
+            vid = upload_youtube.upload(out / f"{d['id']}.mp4", title, desc, tags,
                                         publish_at=d["publish_at"])
         except Exception as e:  # 10/8：1日に上げられる本数の上限（uploadLimitExceeded）に当たった
             if "uploadLimitExceeded" in str(e):

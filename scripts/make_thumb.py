@@ -66,7 +66,7 @@ def kind(ch):
     return "o"
 
 
-def wrap(text, limit=7):
+def wrap(text, limit=5):
     """言葉の途中で折り返さないように、2行に分ける位置を決める（「の」「で」などの後、文字の種類の切れ目）。"""
     plain = re.sub(r"[［］]", "", text)
     if len(plain) <= limit:
@@ -94,10 +94,11 @@ def wrap(text, limit=7):
     return text
 
 
-def render(d, out):
+def render(d, out, style=None):
     from playwright.sync_api import sync_playwright
     t = texts(d)
     t["main"] = wrap(t["main"])
+    t["style"] = style or t.get("style") or os.environ.get("APSC_THUMB_STYLE", "note")
     img_dir = (ROOT / "build" / "thumbparts")
     if not img_dir.exists():
         make_parts(img_dir)
@@ -144,4 +145,4 @@ def set_thumbnail(video_id, path):
 
 if __name__ == "__main__":
     d = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
-    print(render(d, sys.argv[2]))
+    print(render(d, sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else None))

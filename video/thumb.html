@@ -1,41 +1,81 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>thumb</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@700;900&family=Oswald:wght@600;700&display=swap">
 <!--
-  長編のサムネ（1280×720）。2026-10-08 本人「めたんとずんだもん両方。ならんでタイトルの方を向いて、笑顔系でランダムに表情」。
-  scripts/make_thumb.py が draw(データ) を呼んで撮る。2人とも元の絵が左向きなので、反転せず右に並べると題（左）を向く。
+  長編のサムネ（1280×720）。scripts/make_thumb.py が draw(データ) を呼んで撮る。
+  10/8 本人「めたんとずんだもん両方。ならんでタイトルの方を向いて、笑顔系でランダムに表情」「もっとおしゃれに」。
+  d.style で見た目を選ぶ：note（方眼ノート）・night（夜の教室）・split（斜め分割）。2人とも元の絵が左向き＝題を向く。
 -->
 <style>
 body{margin:0;background:#000}
-.t{--ink:#17233a;--mk:#ffe066;--red:#d9443a;position:relative;width:1280px;height:720px;overflow:hidden;background:var(--ink);color:#fff;font-family:"Zen Kaku Gothic New","Yu Gothic",sans-serif}
-.grid{position:absolute;inset:0;opacity:.08;background-image:linear-gradient(#fff 3px,transparent 3px),linear-gradient(90deg,#fff 3px,transparent 3px);background-size:64px 64px}
-.tag{position:absolute;left:48px;top:40px;background:var(--mk);color:var(--ink);font-weight:900;font-size:40px;padding:4px 22px;border-radius:10px}
-.no{position:absolute;left:50px;top:116px;font-size:36px;font-weight:900;color:#c9d6ea}
-.mainbox{position:absolute;left:44px;top:176px;width:700px;height:330px;display:flex;align-items:center}
-.main{font-size:130px;font-weight:900;line-height:1.08;letter-spacing:.01em}
+.t{--ink:#17233a;--mk:#ffe066;--red:#e5484d;position:relative;width:1280px;height:720px;overflow:hidden;font-family:"Zen Kaku Gothic New","Yu Gothic",sans-serif}
+.disp{font-family:"Dela Gothic One","Zen Kaku Gothic New",sans-serif;font-weight:400}
+.mainbox{position:absolute;display:flex;align-items:center}
+.main{line-height:1.12;letter-spacing:.01em}
 .main .ln{display:block;white-space:nowrap}
-.main .hl{color:var(--mk)}
-.sub{position:absolute;left:48px;bottom:48px;width:700px;font-size:42px;font-weight:900;color:var(--mk);line-height:1.3}
-.badge{position:absolute;right:34px;top:30px;background:var(--red);color:#fff;font-size:38px;font-weight:900;padding:6px 22px;border-radius:999px;transform:rotate(3deg);z-index:5}
 .pp{position:absolute}.pp img{position:absolute;left:0;top:0;width:100%}.pp img.b{position:relative;display:block}
+/* キャラを白ふちのシール風に */
+.sticker{filter:drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(10px 14px 0 rgba(0,0,0,.22))}
+
+/* ===== A. note：方眼ノート ===== */
+.note{background:#fbfaf6}
+.note .grid{position:absolute;inset:0;background-image:linear-gradient(#e3e9f1 2px,transparent 2px),linear-gradient(90deg,#e3e9f1 2px,transparent 2px);background-size:48px 48px}
+.note .margin{position:absolute;left:96px;top:0;bottom:0;width:4px;background:#f2a7b8}
+.note .tag{position:absolute;left:130px;top:42px;background:var(--ink);color:#fff;font-weight:900;font-size:34px;padding:6px 22px;border-radius:8px}
+.note .no{position:absolute;left:134px;top:108px;font-family:"Oswald";font-weight:700;font-size:44px;color:#9aa8bd;letter-spacing:.06em}
+.note .mainbox{left:124px;top:170px;width:640px;height:330px}
+.note .main{color:var(--ink);font-size:120px}
+.note .main .hl,.note .main .ln:last-child{background:linear-gradient(transparent 60%,var(--mk) 60%)}
+.note .sub{position:absolute;left:130px;bottom:58px;width:640px;font-size:38px;font-weight:900;color:#4a5872}
+.note .badge{position:absolute;right:46px;top:38px;background:var(--mk);color:var(--ink);font-weight:900;font-size:34px;padding:16px 22px 12px;transform:rotate(5deg);box-shadow:4px 6px 0 rgba(0,0,0,.15)}
+.note .badge::before{content:"";position:absolute;left:50%;top:-14px;width:80px;height:24px;margin-left:-40px;background:rgba(255,255,255,.7);transform:rotate(-4deg)}
+
+/* ===== B. night：夜の教室 ===== */
+.night{background:radial-gradient(circle at 78% 58%,#3b5aa8 0,#1d2c57 34%,#0e1630 70%)}
+.night .grid{position:absolute;inset:0;opacity:.07;background-image:linear-gradient(#fff 2px,transparent 2px),linear-gradient(90deg,#fff 2px,transparent 2px);background-size:56px 56px}
+.night .spot{position:absolute;left:740px;top:120px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,224,102,.35),rgba(255,224,102,0) 65%)}
+.night .tag{position:absolute;left:56px;top:44px;color:var(--mk);font-weight:900;font-size:34px;letter-spacing:.08em;border-bottom:4px solid var(--mk);padding-bottom:4px}
+.night .no{position:absolute;left:58px;top:104px;font-family:"Oswald";font-weight:700;font-size:40px;color:#9fb4e6}
+.night .mainbox{left:50px;top:170px;width:720px;height:330px}
+.night .main{color:#fff;font-size:118px;text-shadow:0 0 24px rgba(120,170,255,.55),0 6px 0 #0a1024}
+.night .main .hl{color:var(--mk)}
+.night .sub{position:absolute;left:56px;bottom:56px;width:700px;font-size:38px;font-weight:900;color:#d7e2ff}
+.night .badge{position:absolute;right:40px;top:40px;background:var(--red);color:#fff;font-weight:900;font-size:34px;padding:8px 24px;border-radius:999px;box-shadow:0 0 0 5px rgba(255,255,255,.18)}
+
+/* ===== C. split：斜め分割 ===== */
+.split{background:#f6f8fa}
+.split .band{position:absolute;left:-120px;top:0;width:900px;height:720px;background:var(--ink);transform:skewX(-12deg);transform-origin:top left}
+.split .band2{position:absolute;left:770px;top:0;width:26px;height:720px;background:var(--mk);transform:skewX(-12deg);transform-origin:top left}
+.split .bigno{position:absolute;right:30px;bottom:-60px;font-family:"Oswald";font-weight:700;font-size:420px;line-height:1;color:#e3e9f1}
+.split .tag{position:absolute;left:52px;top:44px;background:var(--mk);color:var(--ink);font-weight:900;font-size:32px;padding:4px 18px;border-radius:6px}
+.split .no{position:absolute;left:54px;top:104px;font-weight:900;font-size:34px;color:#c9d6ea}
+.split .mainbox{left:48px;top:170px;width:660px;height:330px}
+.split .main{color:#fff;font-size:116px}
+.split .main .hl{color:var(--mk)}
+.split .sub{position:absolute;left:52px;bottom:54px;width:640px;font-size:36px;font-weight:900;color:var(--mk)}
+.split .badge{position:absolute;right:40px;top:40px;background:var(--red);color:#fff;font-weight:900;font-size:32px;padding:8px 20px;border-radius:8px;transform:rotate(-3deg)}
 </style>
 <body><div id="host"></div>
 <script>
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const who=(k,e,x,y,w)=>`<div class="pp" style="left:${x}px;top:${y}px;width:${w}px">`+
+const who=(k,e,x,y,w)=>`<div class="pp sticker" style="left:${x}px;top:${y}px;width:${w}px">`+
   ["body","ra_base","la_base","brow_"+e.brow,"eye_"+e.eye,"mouth_"+e.mouth].map((p,i)=>`<img ${i?"":'class="b"'} src="${window.IMG}/${k}_${p}.webp" alt="">`).join("")+`</div>`;
+const DECOR={note:'<div class="grid"></div><div class="margin"></div>',night:'<div class="grid"></div><div class="spot"></div>',split:'<div class="band"></div><div class="band2"></div>'};
 window.draw=(d)=>{
+  const st=d.style||"note";
   const main=esc(d.main).split("¦").map(l=>`<span class="ln">${l.replace(/［(.+?)］/g,'<span class="hl">$1</span>')}</span>`).join("");
-  document.getElementById("host").innerHTML=`<div class="t"><div class="grid"></div>
+  const num=(d.no||"").match(/第(\d+)回/);
+  document.getElementById("host").innerHTML=`<div class="t ${st}">${DECOR[st]}
+    ${st==="split"&&num?`<div class="bigno">${num[1].padStart(2,"0")}</div>`:""}
     <div class="tag">${esc(d.tag)}</div>${d.no?`<div class="no">${esc(d.no)}</div>`:""}
     ${d.badge?`<div class="badge">${esc(d.badge)}</div>`:""}
-    <div class="mainbox"><div class="main">${main}</div></div>
+    <div class="mainbox"><div class="main disp">${main}</div></div>
     ${d.sub?`<div class="sub">${esc(d.sub)}</div>`:""}
-    ${who("metan",d.metan,960,150,360)}${who("zunda",d.zunda,730,215,330)}</div>`;
+    ${who("metan",d.metan,955,175,350)}${who("zunda",d.zunda,735,240,320)}</div>`;
   const m=document.querySelector(".main"),box=document.querySelector(".mainbox");
-  let f=130;while((m.scrollHeight>box.clientHeight||m.scrollWidth>box.clientWidth)&&f>60){f-=6;m.style.fontSize=f+"px"}
-  return document.fonts.ready.then(()=>true);
+  return document.fonts.ready.then(()=>{let f=parseFloat(getComputedStyle(m).fontSize);
+    while((m.scrollHeight>box.clientHeight||m.scrollWidth>box.clientWidth)&&f>56){f-=4;m.style.fontSize=f+"px"}return true});
 };
 </script>
 </body>
