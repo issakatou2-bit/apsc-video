@@ -86,8 +86,14 @@ def main():
         render_video.main(d["id"], str(out))
         timeline = json.loads((out / f"{d['id']}.json").read_text(encoding="utf-8"))
         desc, tags = description(d, timeline)
-        vid = upload_youtube.upload(out / f"{d['id']}.mp4", d["upload"]["title"], desc, tags,
-                                    publish_at=d["publish_at"])
+        try:
+            vid = upload_youtube.upload(out / f"{d['id']}.mp4", d["upload"]["title"], desc, tags,
+                                        publish_at=d["publish_at"])
+        except Exception as e:  # 10/8：1日に上げられる本数の上限（uploadLimitExceeded）に当たった
+            if "uploadLimitExceeded" in str(e):
+                print("[stop] YouTube の1日のアップロード上限に当たったので、今日はここまで（残りは棚のまま次の回に）")
+                return 0
+            raise
         d["video_id"] = vid
         (done / f.name).write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         f.unlink()
