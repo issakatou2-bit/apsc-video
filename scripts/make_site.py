@@ -218,6 +218,23 @@ def main(argv):
             continue
         if d.get("format") != "short" and d.get("video_id") and d.get("scenes"):
             items.append(d)
+    # 最初の日に手で上げた長編（published/ に無い）。data/early_videos.json の episode で台本を引く
+    for x in json.loads((ROOT / "data" / "early_videos.json").read_text(encoding="utf-8")):
+        if not x.get("episode"):
+            continue
+        d = json.loads((ROOT / "episodes" / f"{x['episode']}.json").read_text(encoding="utf-8"))
+        d["video_id"], d["topic"] = x["video_id"], x["topic"]
+        d.setdefault("upload", None)
+        if not d["upload"]:
+            srcs = []
+            if any("シラバス" in m for m in d.get("materials", [])):
+                srcs.append("IPA 応用情報技術者試験 シラバス Ver.7.2")
+            for sc in d.get("scenes", {}).values():  # 画面の出典をまとめる
+                t = (sc.get("src") or "").replace("出典：", "")
+                if t and t not in srcs:
+                    srcs.append(t)
+            d["upload"] = {"title": d["title"], "summary": x.get("summary", ""), "sources": srcs}
+        items.append(d)
     seen = set()
     items = [d for d in items if not (d["id"] in seen or seen.add(d["id"]))]
     for d in items:
