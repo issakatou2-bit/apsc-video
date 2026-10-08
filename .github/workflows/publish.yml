@@ -39,11 +39,23 @@ jobs:
           python-version: "3.12"
 
       - name: Install
+        # 10/8 Ubuntu の apt の置き場がとても遅く（100〜200KB/秒）、ブラウザの部品と字体の取得で止まった。
+        # apt を使わない：ブラウザは入っている Google Chrome、ffmpeg と日本語の字体は GitHub から取る。
+        timeout-minutes: 15
         run: |
-          sudo apt-get update -q
-          sudo apt-get install -y -q ffmpeg fonts-noto-cjk
           pip install -q requests numpy scipy pillow playwright google-api-python-client google-auth
-          python -m playwright install --with-deps chromium
+          google-chrome --version
+          if ! command -v ffmpeg > /dev/null; then
+            curl -sSL -o /tmp/ff.tar.xz https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz
+            mkdir -p /tmp/ff && tar -xJf /tmp/ff.tar.xz -C /tmp/ff --strip-components=1
+            echo "/tmp/ff/bin" >> "$GITHUB_PATH"
+          fi
+          mkdir -p ~/.fonts
+          for w in Bold Regular; do
+            curl -sSL -o ~/.fonts/NotoSansCJKjp-$w.otf https://github.com/notofonts/noto-cjk/raw/main/Sans/OTF/Japanese/NotoSansCJKjp-$w.otf
+          done
+          fc-cache -f > /dev/null
+          ls -la ~/.fonts
 
       - name: Start VOICEVOX engine
         run: |
@@ -57,7 +69,7 @@ jobs:
       - name: Test render (no upload)
         if: ${{ github.event.inputs.test_file != '' && github.event.inputs.test_file != null }}
         env:
-          APSC_BROWSER: chromium
+          APSC_BROWSER: chrome
           PYTHONIOENCODING: utf-8
         run: |
           f="queue/${{ github.event.inputs.test_file }}"
@@ -74,7 +86,7 @@ jobs:
       - name: Publish from the queue
         if: ${{ github.event.inputs.test_file == '' || github.event.inputs.test_file == null }}
         env:
-          APSC_BROWSER: chromium
+          APSC_BROWSER: chrome
           PYTHONIOENCODING: utf-8
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}

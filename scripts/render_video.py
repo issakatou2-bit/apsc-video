@@ -118,7 +118,7 @@ def snapshot(vid, kind, states, page_url, out_dir, data=None):
 # 10/8 本人「ずんだもんとめたんの頭上や周りに、セリフや感情・表情に合わせて記号（！や？など色つき）を浮かばせたり
 # フェードアウトさせたり」→ 台詞の頭の約0.9秒、話す人の頭の近くに記号をぽんと出し、少し上がりながら消す。
 EMOTE_DEFAULT = True  # 10/8 本人「記号おけです。今後も増やしていきましょう」
-EMOTE_FONTS = ["C:/Windows/Fonts/meiryob.ttc", "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+EMOTE_FONTS = ["C:/Windows/Fonts/meiryob.ttc", str(pathlib.Path.home() / ".fonts" / "NotoSansCJKjp-Bold.otf"), "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
                "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc"]
 
 
