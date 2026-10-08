@@ -97,7 +97,8 @@ def wrap(text, limit=5):
 def render(d, out, style=None, channel=False, scale=1):
     from playwright.sync_api import sync_playwright
     t = texts(d)
-    t["main"] = wrap(t["main"])
+    t["main"] = "¦".join(wrap(part) if len(re.sub(r"[［］]", "", part)) > 7 else part
+                         for part in wrap(t["main"]).split("¦"))  # 長い行は、もう1回だけ分ける（3行まで）
     t["channel"] = channel
     # 10/8 本人「A か C」→ 用語の回は A（ノート、動画の画面とそろう）、午後の回は C（斜め分割）
     t["style"] = style or t.get("style") or ("split" if "午後" in (d.get("topic") or "") else "note")

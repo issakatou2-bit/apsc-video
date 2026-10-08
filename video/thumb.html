@@ -27,8 +27,8 @@ body{margin:0;background:#000}
 .note .margin{position:absolute;left:96px;top:0;bottom:0;width:4px;background:#f2a7b8}
 .note .tag{position:absolute;left:130px;top:42px;background:var(--ink);color:#fff;font-weight:900;font-size:34px;padding:6px 22px;border-radius:8px}
 .note .no{position:absolute;left:134px;top:108px;font-family:"Oswald";font-weight:700;font-size:44px;color:#9aa8bd;letter-spacing:.06em}
-.note .mainbox{left:124px;top:170px;width:640px;height:330px}
-.note .main{color:var(--ink);font-size:120px}
+.note .mainbox{left:120px;top:150px;width:780px;height:350px}
+.note .main{color:var(--ink);font-size:150px}
 .note .main .hl,.note .main .ln:last-child{background:linear-gradient(transparent 60%,var(--mk) 60%)}
 .note .sub{position:absolute;left:130px;bottom:58px;width:640px;font-size:38px;font-weight:900;color:#4a5872}
 .note .badge{position:absolute;right:46px;top:38px;background:var(--mk);color:var(--ink);font-weight:900;font-size:34px;padding:16px 22px 12px;transform:rotate(5deg);box-shadow:4px 6px 0 rgba(0,0,0,.15)}
@@ -40,21 +40,21 @@ body{margin:0;background:#000}
 .night .spot{position:absolute;left:740px;top:120px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,224,102,.35),rgba(255,224,102,0) 65%)}
 .night .tag{position:absolute;left:56px;top:44px;color:var(--mk);font-weight:900;font-size:34px;letter-spacing:.08em;border-bottom:4px solid var(--mk);padding-bottom:4px}
 .night .no{position:absolute;left:58px;top:104px;font-family:"Oswald";font-weight:700;font-size:40px;color:#9fb4e6}
-.night .mainbox{left:50px;top:170px;width:720px;height:330px}
-.night .main{color:#fff;font-size:118px;text-shadow:0 0 24px rgba(120,170,255,.55),0 6px 0 #0a1024}
+.night .mainbox{left:50px;top:150px;width:820px;height:350px}
+.night .main{color:#fff;font-size:148px;text-shadow:0 0 24px rgba(120,170,255,.55),0 6px 0 #0a1024}
 .night .main .hl{color:var(--mk)}
 .night .sub{position:absolute;left:56px;bottom:56px;width:700px;font-size:38px;font-weight:900;color:#d7e2ff}
 .night .badge{position:absolute;right:40px;top:40px;background:var(--red);color:#fff;font-weight:900;font-size:34px;padding:8px 24px;border-radius:999px;box-shadow:0 0 0 5px rgba(255,255,255,.18)}
 
 /* ===== C. split：斜め分割 ===== */
 .split{background:#f6f8fa}
-.split .band{position:absolute;left:-120px;top:0;width:900px;height:720px;background:var(--ink);transform:skewX(-12deg);transform-origin:top left}
-.split .band2{position:absolute;left:770px;top:0;width:26px;height:720px;background:var(--mk);transform:skewX(-12deg);transform-origin:top left}
+.split .band{position:absolute;left:-120px;top:0;width:960px;height:720px;background:var(--ink);transform:skewX(-12deg);transform-origin:top left}
+.split .band2{position:absolute;left:830px;top:0;width:26px;height:720px;background:var(--mk);transform:skewX(-12deg);transform-origin:top left}
 .split .bigno{position:absolute;right:30px;bottom:-60px;font-family:"Oswald";font-weight:700;font-size:420px;line-height:1;color:#e3e9f1}
 .split .tag{position:absolute;left:52px;top:44px;background:var(--mk);color:var(--ink);font-weight:900;font-size:32px;padding:4px 18px;border-radius:6px}
 .split .no{position:absolute;left:54px;top:104px;font-weight:900;font-size:34px;color:#c9d6ea}
-.split .mainbox{left:48px;top:170px;width:660px;height:330px}
-.split .main{color:#fff;font-size:116px}
+.split .mainbox{left:48px;top:150px;width:720px;height:350px}
+.split .main{color:#fff;font-size:146px}
 .split .main .hl{color:var(--mk)}
 .split .sub{position:absolute;left:52px;bottom:54px;width:560px;font-size:32px;font-weight:900;color:var(--mk)}
 .split .badge{position:absolute;right:40px;top:40px;background:var(--red);color:#fff;font-weight:900;font-size:32px;padding:8px 20px;border-radius:8px;transform:rotate(-3deg)}
@@ -75,7 +75,7 @@ window.draw=(d)=>{
     ${d.badge?`<div class="badge">${esc(d.badge)}</div>`:""}
     <div class="mainbox"><div class="main disp">${main}</div></div>
     ${d.sub?`<div class="sub">${esc(d.sub)}</div>`:""}
-    ${who("metan",d.metan,955,175,350)}${who("zunda",d.zunda,735,240,320)}
+    ${who("metan",d.metan,995,250,300)}${who("zunda",d.zunda,830,300,270)}
     ${d.channel?`<div class="chan"><b>めたん先生のIT試験ゼミ</b><span>応用情報・情報処理安全確保支援士</span></div>`:""}</div>`;
   const m=document.querySelector(".main"),box=document.querySelector(".mainbox");
   return document.fonts.ready.then(()=>{let f=parseFloat(getComputedStyle(m).fontSize);
