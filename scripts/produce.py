@@ -16,6 +16,7 @@
 
 使い方:
   python scripts/produce.py episodes/xxx.json --publish-at 2026-10-09T20:00:00+09:00
+  python scripts/produce.py episodes/xxx.json --publish-at auto   # 空いているいちばん早い枠に
   （--dry-run で、ヒロに送る文を表示するだけ）
 """
 import argparse
@@ -36,6 +37,24 @@ CODEX = CODEX_DIR / "codex-x86_64-pc-windows-msvc.exe"
 WORK = ROOT / "build" / "codex"
 USAGE_LIMIT = 45.0  # 週の使用量（全プロジェクト共通、上限50%）がこれを超えたら頼まない
 NAME = {"metan": "めたん", "zundamon": "ずんだもん"}
+# 10/8 本人「9本/日が上限？影響もデメリットもないなら上限までやろう」→ 1日9枠（ショート6・長編3）。
+# 前からある 7:00・19:00・20:00 はそのまま。棚が足りない日は、埋まった枠だけ出す。
+SLOTS = {"short": ["07:00", "09:00", "12:00", "15:00", "19:00", "21:00"], "long": ["20:00", "17:30", "22:00"]}
+
+
+def free_slot(fmt, start=None):
+    """queue/・published/ で使われていない、いちばん早い枠（明後日から）。"""
+    used = set()
+    for f in list((ROOT / "queue").glob("*.json")) + list((ROOT / "published").glob("*.json")):
+        used.add(f.name[:13])  # 例 20261011T0700
+    day = start or (datetime.date.today() + datetime.timedelta(days=2))
+    for _ in range(400):
+        for hm in SLOTS["short" if fmt == "short" else "long"]:
+            key = day.strftime("%Y%m%d") + "T" + hm.replace(":", "")
+            if key not in used:
+                return f"{day.isoformat()}T{hm}:00+09:00"
+        day += datetime.timedelta(days=1)
+    raise SystemExit("[stop] 空き枠が見つからない")
 
 
 def rules_text():
@@ -203,6 +222,8 @@ def main():
     if verdict != "可":
         print(f"[stop] {a.max_rounds}回で「可」にならなかった。本人に知らせる")
         return 2
+    if a.publish_at == "auto":
+        a.publish_at = free_slot(d.get("format"))
     if a.publish_at:
         q = ROOT / "queue"
         q.mkdir(exist_ok=True)

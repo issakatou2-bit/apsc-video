@@ -23,11 +23,15 @@ DESC = "めたん先生のIT試験ゼミ：応用情報技術者試験・情報�
 def lists_for(topic):
     """topic から入れる再生リストの名前（1つ以上）。"""
     head, _, field = (topic or "").partition("｜")
+    if head == "試験の制度":
+        return ["応用情報｜試験の制度"]
     names = []
     if field:
         names.append(f"応用情報｜{field}")
     if "午後" in head:
         names.append("応用情報｜午後問題の解き方")
+    if "午前" in head:  # 10/8 午前の過去問1問ショート
+        names.append("応用情報｜午前の過去問")
     return names or ["応用情報｜そのほか"]
 
 
