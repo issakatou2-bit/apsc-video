@@ -18,3 +18,4 @@ token.json
 
 # 投稿用の鍵・許可（手元だけ）
 /.secrets/
+/site/

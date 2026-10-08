@@ -1,0 +1,52 @@
+# 公開した長編の台本から記事を作り、GitHub Pages に出す（scripts/make_site.py）。
+# 2026-10-08 エマ。本人「記事は公開していいよ」。毎晩の投稿（publish）が終わったあとと、記事の作り方を直したときに動く。
+# 公開されるのは site/（記事と顔の絵）だけ。
+name: pages
+
+on:
+  workflow_run:
+    workflows: [publish]
+    types: [completed]
+  push:
+    branches: [main]
+    paths: ["scripts/make_site.py", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          pip install -q pillow
+          python scripts/make_site.py site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
