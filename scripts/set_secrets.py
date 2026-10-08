@@ -7,7 +7,8 @@
   （鍵を入れる操作はエマがしない決まりなので、本人が自分のターミナルで動かす）
 
 使い方（本人）:
-  py scripts/set_secrets.py
+  py scripts/set_secrets.py            # YouTube の許可
+  py scripts/set_secrets.py --buffer   # Buffer の API キー（10/9 追加。打った文字は画面に出ない）
 """
 import json
 import pathlib
@@ -26,6 +27,10 @@ def put(name, value):
 
 
 def main():
+    if "--buffer" in sys.argv:
+        import getpass
+        key = getpass.getpass("Buffer の API キーを貼りつけて Enter（画面には出ません）: ").strip()
+        return 0 if key and put("BUFFER_API_KEY", key) else 1
     tok = json.loads((ROOT / ".secrets" / "youtube_token.json").read_text(encoding="utf-8"))
     ok = all([put("YOUTUBE_CLIENT_ID", tok["client_id"]),
               put("YOUTUBE_CLIENT_SECRET", tok["client_secret"]),

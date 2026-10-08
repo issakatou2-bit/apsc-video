@@ -153,6 +153,11 @@ def main():
             playlists.add(vid, d.get("topic"))
         except Exception as e:
             print(f"[warn] 再生リストに入れられなかった: {e}")
+        try:  # 10/9：ショートを TikTok・Instagram・X にも（Buffer、キーがあるときだけ）
+            import social
+            social.schedule(d, out / f"{d['id']}.mp4")
+        except Exception as e:
+            print(f"[warn] SNS への予約ができなかった: {e}")
         if d.get("replace_video_id"):  # 10/8：作り直した版を上げたら、古い版の予約を外して非公開に（消さない）
             from googleapiclient.discovery import build as gbuild
             yt = gbuild("youtube", "v3", credentials=upload_youtube.credentials())
