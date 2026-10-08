@@ -52,6 +52,7 @@ body{margin:0;background:#000}
 .fz svg{position:absolute;inset:0}
 .cards3{display:grid;gap:12px}
 .cards3 .card{display:grid;gap:2px;padding:10px 26px}.cards3 h3{margin:0;font-size:40px;font-weight:900}.cards3 p{margin:0;font-size:30px;font-weight:700;color:var(--sub)}
+.cards3.many{gap:8px}.cards3.many .card{padding:6px 22px;box-shadow:5px 5px 0 var(--ink)}.cards3.many h3{font-size:34px}.cards3.many p{font-size:26px}
 .qz .q{font-size:38px;font-weight:900;line-height:1.5}
 .qz .ch{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .qz .ch div{background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 22px;font-size:40px;font-weight:900}
@@ -81,7 +82,7 @@ const B={
   levels:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="lv">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div></div>`,
   grid:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="grid"><div></div>${s.cols.map(c=>`<div class="ax">${esc(c)}</div>`).join("")}${[0,1].map(r=>`<div class="ax">${esc(s.rows[r])}</div>`+[0,1].map(c=>{const k=r*2+c,x=s.cells[k];return at(s.order?s.order[k]:k+1,`<div class="tg">${esc(x.tag)}</div><div class="tx">${esc(x.text)}</div>`,"cell")}).join("")).join("")}</div></div>`,
   forces:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="fz"><svg viewBox="0 0 1120 540" width="1120" height="540"><g stroke="#17233a" stroke-width="5" fill="none"><line x1="560" y1="120" x2="560" y2="200"/><line x1="560" y1="340" x2="560" y2="420"/><line x1="260" y1="270" x2="330" y2="270"/><line x1="790" y1="270" x2="860" y2="270"/></g></svg>${at(1,esc(s.center),"f c")}${at(2,esc(s.top),"f t")}${at(3,esc(s.bottom),"f b")}${at(4,esc(s.left),"f l")}${at(5,esc(s.right),"f r")}</div></div>`,
-  cards:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="cards3">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div>${s.src?`<div class="src">${esc(s.src)}</div>`:""}</div>`,
+  cards:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="cards3${s.items.length>=4?" many":""}">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div>${s.src?`<div class="src">${esc(s.src)}</div>`:""}</div>`,
   qa:s=>`<div class="stack qa">${at(0,`<span class="qn">${esc(s.n)}</span>${esc(s.q)}`,"qq")}${at(1,`<div class="lb">本文の手がかり</div><div class="cl">${esc(s.clue).replace(/［(.+?)］/g,'<span class="mk">$1</span>')}</div>`,"card")}${at(2,`<div class="lb">解答例</div><div class="an">${esc(s.ans)}</div>`,"card ansc")}${s.src?`<div class="src">${esc(s.src)}</div>`:""}</div>`,
   quiz:s=>`<div class="stack qz">${at(0,esc(s.q),"q")}<div class="ch${s.cols===1?" one":""}">${s.choices.map((c,i)=>`<div data-choice="${i}">${esc(c)}</div>`).join("")}</div><div class="cnt" data-count></div><div class="src">${esc(s.src)}</div></div>`,
 };

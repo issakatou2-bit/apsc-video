@@ -17,3 +17,6 @@
 | 2026-10-09 | ショート | PPMの4分類（花形・金のなる木・問題児・負け犬）｜応用情報技術者試験 経営戦略 | https://youtu.be/R1_f5dwJDII | published/20261009T0700_short_ppm4.json | 可（予約 2026-10-09T07:00:00+09:00） |
 | 2026-10-09 | ショート | ファイブフォース分析の5つの力｜応用情報技術者試験 経営戦略 | https://youtu.be/J_BsN-nxxYM | published/20261009T1900_short_ff.json | 可（予約 2026-10-09T19:00:00+09:00） |
 | 2026-10-09 | 長編 | 成長マトリクス（アンゾフ）｜応用情報技術者試験 経営戦略 第4回 | https://youtu.be/FTrgcs7FWNE | published/20261009T2000_strategy4.json | 可（予約 2026-10-09T20:00:00+09:00） |
+| 2026-10-10 | ショート | DHCPは何を配る？｜応用情報技術者試験 ネットワーク | https://youtu.be/dBB60UZpFoQ | published/20261010T0700_short_dhcp.json | 可（予約 2026-10-10T07:00:00+09:00） |
+| 2026-10-10 | ショート | NATとNAPTの違い｜応用情報技術者試験 ネットワーク | https://youtu.be/QuWwCfxqYgE | published/20261010T1900_short_napt.json | 可（予約 2026-10-10T19:00:00+09:00） |
+| 2026-10-10 | 長編 | ネットワークの基本（IPアドレス・DNS・DHCP・NAT・ルーティング）｜応用情報技術者試験 ネットワーク | https://youtu.be/u52yuDFalkI | published/20261010T2000_net_basics.json | 可（予約 2026-10-10T20:00:00+09:00） |

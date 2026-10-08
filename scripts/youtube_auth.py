@@ -21,8 +21,11 @@ from googleapiclient.discovery import build
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SECRETS = ROOT / ".secrets"
+# 10/8：予約の変更（videos.update）に youtube.force-ssl、視聴者維持率などに yt-analytics.readonly を足した
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload",
-          "https://www.googleapis.com/auth/youtube.readonly"]
+          "https://www.googleapis.com/auth/youtube.readonly",
+          "https://www.googleapis.com/auth/youtube.force-ssl",
+          "https://www.googleapis.com/auth/yt-analytics.readonly"]
 
 
 def main():

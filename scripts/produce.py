@@ -85,6 +85,7 @@ def message(d, rnd, prev):
 {{"verdict": "可" または "直せば可" または "不可",
  "fixes": [
   {{"op": "replace", "line": 台詞の番号, "text": "直した後の字幕（60字以内）", "why": "理由を短く"}},
+  {{"op": "replace", "line": 台詞の番号, "say": "直した後の読み（カナ）", "why": "…"}}　← 読みだけ直すとき（字幕はそのまま）
   {{"op": "delete", "line": 台詞の番号, "why": "…"}},
   {{"op": "insert_after", "line": 台詞の番号, "who": "metan か zundamon", "text": "…", "why": "…"}},
   {{"op": "scene", "scene": "場面の名前", "path": "items.0.desc のような場所", "value": "直した後の文", "why": "…"}}
@@ -141,8 +142,11 @@ def apply(d, fixes):
             log.append(f"範囲外の番号 {f['line']} を飛ばした")
             continue
         if f["op"] == "replace":
-            lines[i]["text"] = f["text"]
-            lines[i].pop("say", None)
+            if f.get("text"):
+                lines[i]["text"] = f["text"]
+                lines[i].pop("say", None)
+            if f.get("say"):
+                lines[i]["say"] = f["say"]
         elif f["op"] == "delete":
             lines.pop(i)
         elif f["op"] == "insert_after":

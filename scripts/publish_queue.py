@@ -65,6 +65,10 @@ def main():
         if at <= limit:
             todo.append((f, d))
     print(f"[info] 棚 {len(items)}本・今回 {len(todo)}本")
+    import os
+    if todo and not a.dry_run and not (ROOT / ".secrets" / "youtube_token.json").exists()             and not os.environ.get("YOUTUBE_REFRESH_TOKEN"):
+        print("[info] 投稿の許可（Secrets）がまだ無いので、何もせず終わる（scripts/set_secrets.py を本人が実行）")
+        return 0
     if a.dry_run:
         for f, d in todo:
             print(" ", f.name, d["publish_at"], d["upload"]["title"])
