@@ -102,7 +102,7 @@ jobs:
         run: |
           git config user.name "apsc-video bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A queue published mock/published.md
+          git add -A queue published mock/published.md data
           git diff --cached --quiet || git commit -m "予約公開：棚から投稿（Actions）"
           git pull --rebase -q origin main  # 作業中に棚へ足された分と重ならないように
           git push
