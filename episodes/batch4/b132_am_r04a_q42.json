@@ -1,0 +1,140 @@
+{
+  "id": "b132_am_r04a_q42",
+  "format": "short",
+  "title": "WAF（令和4年度秋期 午前 問42）",
+  "topic": "応用情報 午前｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和4年度 秋期 応用情報技術者試験 午前 問42（問題冊子 p.19）：WAF による防御が有効な攻撃として，最も適切なものはどれか。ア DNS サーバに対する DNS キャッシュポイズニング イ REST API サービスに対する API の脆弱性を狙った攻撃 ウ SMTP サーバの第三者不正中継の脆弱性を悪用したフィッシングメールの配信 エ 電子メールサービスに対する電子メール爆弾（解答例：イ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】WAFの問題 令和4年度秋期 問42",
+    "title_b": "【応用情報 午前】WAFの問題 令和4年度秋期 問42",
+    "title_c": "WAFを{sec}秒で｜令和4年度秋期 午前 問42【応用情報】",
+    "summary": "令和4年度秋期 午前 問42（WAF）を解きます。WAF が守るのは Web の通信だと分かれば、選択肢を分けられます。",
+    "sources": [
+      "令和4年度 秋期 応用情報技術者試験 午前 問42（問題冊子 p.19、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_qs.pdf",
+      "令和4年度 秋期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "セキュリティ",
+      "WAF",
+      "Webアプリケーション",
+      "REST API",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "WAF による防御が有効な攻撃として，最も適切なものはどれか。",
+      "choices": [
+        "ア　DNS サーバに対する DNS キャッシュポイズニング",
+        "イ　REST API サービスに対する API の脆弱性を狙った攻撃",
+        "ウ　SMTP サーバの第三者不正中継の脆弱性を悪用したフィッシングメールの配信",
+        "エ　電子メールサービスに対する電子メール爆弾"
+      ],
+      "answer": 1,
+      "src": "出典：令和4年度 秋期 応用情報技術者試験 午前 問42",
+      "cols": 1
+    },
+    "why": {
+      "type": "cards",
+      "head": "WAF が見るもの",
+      "items": [
+        {
+          "name": "WAF",
+          "desc": "Web アプリケーションファイアウォール。Web の通信（HTTP）の中身を見て、攻撃を止める"
+        },
+        {
+          "name": "REST API（イ）",
+          "desc": "HTTP でやり取りする API。だから WAF で守れる"
+        },
+        {
+          "name": "DNS・メール（ア・ウ・エ）",
+          "desc": "Web の通信ではないので、WAF の守備範囲の外"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "WAFはファイアウォールだから、メールでもDNSでも、何でも守れるのだ！",
+      "say": "ワフはファイアウォールだから、メールでもディーエヌエスでも、何でも守れるのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "半分はずれよ。WAFが守るのは、ある通信だけなの。3秒で考えてみて。",
+      "say": "半分はずれよ。ワフが守るのは、ある通信だけなの。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "正解はイ、REST APIへの攻撃よ。",
+      "say": "正解はイ、レストエーピーアイへの攻撃よ。",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "WAFは、Webアプリケーションファイアウォール。Webの通信の中身を見て、攻撃を止めるの。",
+      "say": "ワフは、ウェブアプリケーションファイアウォール。ウェブの通信の中身を見て、攻撃を止めるの。"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "REST APIは、HTTPでやり取りするしくみ。だからWAFで守れるわ。",
+      "say": "レストエーピーアイは、エイチティーティーピーでやり取りするしくみ。だからワフで守れるわ。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "アはDNS、ウとエはメールの攻撃。Webの通信ではないから、WAFの外ね。",
+      "say": "アはディーエヌエス、ウとエはメールの攻撃。ウェブの通信ではないから、ワフの外ね。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なるほど。WAFのWはWebのW。Webの通信を守るのだ！",
+      "say": "なるほど。ワフのダブリューは、ウェブのダブリュー。ウェブの通信を守るのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

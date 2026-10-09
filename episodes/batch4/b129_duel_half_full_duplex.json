@@ -1,0 +1,150 @@
+{
+  "id": "b129_duel_half_full_duplex",
+  "format": "short",
+  "title": "半二重と全二重の違い",
+  "topic": "応用情報｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 中分類10 ネットワーク 2.(2) 伝送方式と回線（用語例 単方向，半二重，全二重）"
+  ],
+  "upload": {
+    "title": "【応用情報 ネットワーク】半二重と全二重の違いとは？かわりばんこか同時か",
+    "title_b": "【応用情報 ネットワーク】半二重と全二重の違いとは？かわりばんこか同時か",
+    "title_c": "半二重と全二重の違いを{sec}秒で｜かわりばんこか同時か【応用情報】",
+    "summary": "取り違えやすい半二重と全二重を対決させて、違い（かわりばんこか同時か）を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（10 ネットワーク 2.(2) 伝送方式と回線） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "ネットワーク",
+      "半二重",
+      "全二重",
+      "単方向",
+      "伝送方式",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "q": {
+      "type": "title",
+      "lines": [
+        "半二重と",
+        "全二重"
+      ],
+      "mark": 1
+    },
+    "duel": {
+      "type": "grid",
+      "head": "半二重と全二重の対決",
+      "cols": [
+        "半二重",
+        "全二重"
+      ],
+      "rows": [
+        "名前",
+        "ちがい"
+      ],
+      "cells": [
+        {
+          "tag": "かわりばんこ",
+          "text": "両方向に送れるが、同時にはどちらか一方だけ"
+        },
+        {
+          "tag": "同時に",
+          "text": "両方向に、同時に送れる"
+        },
+        {
+          "tag": "たとえ",
+          "text": "トランシーバー（「どうぞ」で交代）"
+        },
+        {
+          "tag": "たとえ",
+          "text": "電話（同時に話せる）"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "q",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "両方向に送れるなら、それが全二重なのだ！"
+    },
+    {
+      "scene": "q",
+      "step": 0,
+      "who": "metan",
+      "text": "半分はずれよ。同時に送れるかどうかが大事なの。3秒で考えてみて。"
+    },
+    {
+      "scene": "q",
+      "step": 0,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "duel",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "半二重は、両方向に送れるけれど、同時にはどちらか一方だけ。"
+    },
+    {
+      "scene": "duel",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "全二重は、両方向に、同時に送れるのよ。"
+    },
+    {
+      "scene": "duel",
+      "step": 2,
+      "who": "metan",
+      "text": "LANのケーブルでも、つなぐ機器どうしの設定が半二重と全二重で食いちがうと、通信が遅くなることがあるわ。"
+    },
+    {
+      "scene": "duel",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "トランシーバーは、話し終わったら「どうぞ」で交代するから半二重。電話は同時に話せるから全二重ね。"
+    },
+    {
+      "scene": "duel",
+      "step": 4,
+      "who": "zundamon",
+      "text": "なるほど。一方向にしか送れないテレビの放送は、どっちでもないのだ。"
+    },
+    {
+      "scene": "duel",
+      "step": 4,
+      "who": "metan",
+      "text": "そう。それは単方向。半二重はかわりばんこ、全二重は同時、と覚えてね。",
+      "expr": "smile"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

@@ -1,0 +1,136 @@
+{
+  "id": "b137_am_r04h_q36",
+  "format": "short",
+  "title": "SAML（令和4年度春期 午前 問36）",
+  "topic": "応用情報 午前｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和4年度 春期 応用情報技術者試験 午前 問36（問題冊子 p.17）：複数のシステムやサービスの間で利用される SAML（Security Assertion Markup Language）はどれか。ア システムの負荷や動作状況に関する情報を送信するための仕様 イ 脆弱性に関する情報や脅威情報を交換するための仕様 ウ 通信を暗号化し，VPN を実装するための仕様 エ 認証や認可に関する情報を交換するための仕様（解答例：エ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】SAMLの問題 令和4年度春期 問36",
+    "title_b": "【応用情報 午前】SAMLの問題 令和4年度春期 問36",
+    "title_c": "SAMLを{sec}秒で｜令和4年度春期 午前 問36【応用情報】",
+    "summary": "令和4年度春期 午前 問36（SAML）を解きます。SAML は認証の結果を、サービスの間で受け渡すしくみです。",
+    "sources": [
+      "令和4年度 春期 応用情報技術者試験 午前 問36（問題冊子 p.17、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_qs.pdf",
+      "令和4年度 春期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "セキュリティ",
+      "SAML",
+      "シングルサインオン",
+      "認証",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "複数のシステムやサービスの間で利用される SAML（Security Assertion Markup Language）はどれか。",
+      "choices": [
+        "ア　システムの負荷や動作状況に関する情報を送信するための仕様",
+        "イ　脆弱性に関する情報や脅威情報を交換するための仕様",
+        "ウ　通信を暗号化し，VPN を実装するための仕様",
+        "エ　認証や認可に関する情報を交換するための仕様"
+      ],
+      "answer": 3,
+      "src": "出典：令和4年度 春期 応用情報技術者試験 午前 問36",
+      "cols": 1
+    },
+    "why": {
+      "type": "cards",
+      "head": "SAML のしくみ",
+      "items": [
+        {
+          "name": "SAML（エ）",
+          "desc": "「この人は認証済み」という情報を、システムやサービスの間で受け渡す"
+        },
+        {
+          "name": "できること",
+          "desc": "一度ログインすれば、別のサービスにも入れる（シングルサインオン）"
+        },
+        {
+          "name": "ほかの選択肢",
+          "desc": "ア 動作状況の送信、イ 脅威情報の交換、ウ VPN。どれも認証の受け渡しではない"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "SAMLは、セキュリティの言語だから、通信を暗号にする仕様なのだ！",
+      "say": "サムルは、セキュリティの言語だから、通信を暗号にする仕様なのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "半分はずれよ。何の情報をやり取りするかが大事なの。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "正解はエ。認証や認可の情報を交換するための仕様よ。",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "SAMLは、「この人はもう認証済みです」という情報を、サービスの間で受け渡すの。",
+      "say": "サムルは、「この人はもう認証済みです」という情報を、サービスの間で受け渡すの。"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "だから、一度ログインすれば、別のサービスにもそのまま入れる。シングルサインオンね。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "名前のアサーションは、「主張」という意味。認証済みだと主張する書類のイメージよ。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なるほど。SAMLは、認証済みのお知らせを運ぶのだ！",
+      "say": "なるほど。サムルは、認証済みのお知らせを運ぶのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

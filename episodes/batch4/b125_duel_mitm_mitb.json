@@ -1,0 +1,146 @@
+{
+  "id": "b125_duel_mitm_mitb",
+  "format": "short",
+  "title": "中間者攻撃とMITB攻撃の違い",
+  "topic": "応用情報｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 中分類11 セキュリティ 4.(7) 攻撃手法（用語例 中間者（Man-in-the-middle）攻撃，MITB（Man-in-the-browser）攻撃）"
+  ],
+  "upload": {
+    "title": "【応用情報 セキュリティ】中間者攻撃とMITB攻撃の違いとは？通信の途中かブラウザの中か",
+    "title_b": "【応用情報 セキュリティ】中間者攻撃とMITB攻撃の違いとは？通信の途中かブラウザの中か",
+    "title_c": "中間者攻撃とMITB攻撃の違いを{sec}秒で｜通信の途中かブラウザの中か【応用情報】",
+    "summary": "取り違えやすい中間者攻撃とMITB攻撃を対決させて、違い（通信の途中かブラウザの中か）を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（11 セキュリティ 4.(7) 攻撃手法） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "セキュリティ",
+      "中間者攻撃",
+      "MITB攻撃",
+      "MITB",
+      "中間者攻撃",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "q": {
+      "type": "title",
+      "lines": [
+        "中間者攻撃と",
+        "MITB攻撃"
+      ],
+      "mark": 1
+    },
+    "duel": {
+      "type": "grid",
+      "head": "中間者攻撃とMITB攻撃の対決",
+      "cols": [
+        "中間者攻撃（MITM）",
+        "MITB 攻撃（Man-in-the-browser）"
+      ],
+      "rows": [
+        "名前",
+        "ちがい"
+      ],
+      "cells": [
+        {
+          "tag": "通信の途中",
+          "text": "利用者とサーバの間に割り込み、やり取りを盗み見たり書きかえたりする"
+        },
+        {
+          "tag": "ブラウザの中",
+          "text": "利用者の PC に入ったマルウェアが、ブラウザの中で書きかえる"
+        },
+        {
+          "tag": "暗号の通信で守りやすい",
+          "text": "正しい証明書の確認などで気付ける"
+        },
+        {
+          "tag": "暗号の通信でも防げない",
+          "text": "暗号にする前のブラウザの中で書きかえる"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "q",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "中間者攻撃もMITB攻撃も、通信の途中で書きかえる攻撃なのだ！",
+      "say": "中間者攻撃もエムアイティービー攻撃も、通信の途中で書きかえる攻撃なのだ！"
+    },
+    {
+      "scene": "q",
+      "step": 0,
+      "who": "metan",
+      "text": "半分はずれよ。どこで書きかえるかがちがうの。3秒で考えてみて。"
+    },
+    {
+      "scene": "q",
+      "step": 0,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "duel",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "中間者攻撃は、利用者とサーバの間に割り込んで、やり取りを盗み見たり、書きかえたりする攻撃。"
+    },
+    {
+      "scene": "duel",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "MITB攻撃は、利用者のPCに入ったマルウェアが、ブラウザの中で書きかえる攻撃よ。",
+      "say": "エムアイティービー攻撃は、利用者のピーシーに入ったマルウェアが、ブラウザの中で書きかえる攻撃よ。"
+    },
+    {
+      "scene": "duel",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "ネットバンキングの送金先を、画面はそのままで、こっそり書きかえる例が知られているわ。"
+    },
+    {
+      "scene": "duel",
+      "step": 4,
+      "who": "zundamon",
+      "text": "なるほど。ブラウザの中なら、通信を暗号にしても、間に合わないのだ。"
+    },
+    {
+      "scene": "duel",
+      "step": 4,
+      "who": "metan",
+      "text": "そう。ミドルは通信の途中、ブラウザはブラウザの中、と名前で覚えてね。",
+      "expr": "smile"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

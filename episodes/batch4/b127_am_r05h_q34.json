@@ -1,0 +1,138 @@
+{
+  "id": "b127_am_r05h_q34",
+  "format": "short",
+  "title": "トランスポート層のプロトコル（令和5年度春期 午前 問34）",
+  "topic": "応用情報 午前｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和5年度 春期 応用情報技術者試験 午前 問34（問題冊子 p.19）：IP ネットワークのプロトコルのうち，OSI 基本参照モデルのトランスポート層に位置するものはどれか。ア HTTP イ ICMP ウ SMTP エ UDP（解答例：エ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】トランスポート層のプロトコルの問題 令和5年度春期 問34",
+    "title_b": "【応用情報 午前】トランスポート層のプロトコルの問題 令和5年度春期 問34",
+    "title_c": "トランスポート層のプロトコルを{sec}秒で｜令和5年度春期 午前 問34【応用情報】",
+    "summary": "令和5年度春期 午前 問34（トランスポート層のプロトコル）を解きます。4つのプロトコルを層で分けます。",
+    "sources": [
+      "令和5年度 春期 応用情報技術者試験 午前 問34（問題冊子 p.19、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/ps6vr70000010d6y-att/2023r05h_ap_am_qs.pdf",
+      "令和5年度 春期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/ps6vr70000010d6y-att/2023r05h_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "ネットワーク",
+      "UDP",
+      "TCP",
+      "OSI基本参照モデル",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "IP ネットワークのプロトコルのうち，OSI 基本参照モデルのトランスポート層に位置するものはどれか。",
+      "choices": [
+        "ア　HTTP",
+        "イ　ICMP",
+        "ウ　SMTP",
+        "エ　UDP"
+      ],
+      "answer": 3,
+      "src": "出典：令和5年度 春期 応用情報技術者試験 午前 問34"
+    },
+    "why": {
+      "type": "cards",
+      "head": "層で分ける",
+      "items": [
+        {
+          "name": "アプリケーション層",
+          "desc": "HTTP（ア）・SMTP（ウ）。Web やメールのやり取り"
+        },
+        {
+          "name": "トランスポート層",
+          "desc": "UDP（エ）・TCP。どのアプリに届けるか（ポート番号）"
+        },
+        {
+          "name": "ネットワーク層",
+          "desc": "IP・ICMP（イ）。宛先まで運ぶ、届いたかの確認やエラーの知らせ"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "pingで使うICMPは、届いたかを確かめるから、トランスポート層なのだ！",
+      "say": "ピングで使うアイシーエムピーは、届いたかを確かめるから、トランスポート層なのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "そこが引っかけよ。トランスポート層にあるものはどれか。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "正解はエ、UDPよ。",
+      "say": "正解はエ、ユーディーピーよ。",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "HTTPとSMTPは、Webやメールのやり取りをする、アプリケーション層のプロトコル。",
+      "say": "エイチティーティーピーとエスエムティーピーは、ウェブやメールのやり取りをする、アプリケーション層のプロトコル。"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "UDPとTCPがトランスポート層。ポート番号で、どのアプリに届けるかを決めるの。",
+      "say": "ユーディーピーとティーシーピーがトランスポート層。ポート番号で、どのアプリに届けるかを決めるの。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "ICMPは、IPと同じネットワーク層。届いたかの確認やエラーの知らせを運ぶわ。",
+      "say": "アイシーエムピーは、アイピーと同じネットワーク層。届いたかの確認やエラーの知らせを運ぶわ。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なるほど。トランスポート層は、TCPとUDPの2つなのだ！",
+      "say": "なるほど。トランスポート層は、ティーシーピーとユーディーピーの2つなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}
