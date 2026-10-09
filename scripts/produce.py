@@ -131,14 +131,17 @@ def codex_usage():
 
 def ask_hiro(msg, tag):
     WORK.mkdir(parents=True, exist_ok=True)
-    thread = (WORK / "thread.txt").read_text().strip()
+    # 10/10 1つの会話に全部の監査を積み続けたら長くなりすぎて、返事が来なくなった → 監査ごとに新しい会話にする
+    #（2回目の監査には、前回の指摘を文に入れて渡している）
     mfile, ofile = WORK / f"msg_{tag}.txt", WORK / f"last_{tag}.txt"
     mfile.write_text(msg, encoding="utf-8")
+    ofile.unlink(missing_ok=True)
     args = [str(CODEX), "exec", "-C", str(ROOT), "-s", "read-only", "--skip-git-repo-check",
-            "-m", "gpt-6.1-sol", "-c", 'model_reasoning_effort="medium"', "--json", "-o", str(ofile),
-            "resume", thread, "-"]
-    with open(mfile, "rb") as fin, open(WORK / f"run_{tag}.jsonl", "wb") as fout:
-        subprocess.run(args, stdin=fin, stdout=fout, stderr=subprocess.DEVNULL, timeout=1200)
+            "-m", "gpt-6.1-sol", "-c", 'model_reasoning_effort="medium"', "--json", "-o", str(ofile), "-"]
+    with open(mfile, "rb") as fin, open(WORK / f"run_{tag}.jsonl", "wb") as fout, open(WORK / f"err_{tag}.txt", "wb") as ferr:
+        subprocess.run(args, stdin=fin, stdout=fout, stderr=ferr, timeout=1200)
+    if not ofile.exists():
+        raise RuntimeError(f"Codex の返事が無い（build/codex/err_{tag}.txt を見る）")
     return ofile.read_text(encoding="utf-8")
 
 
