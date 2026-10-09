@@ -11,6 +11,9 @@
 
 使い方:
   python scripts/import_1005.py build/r1005 origin/claude/results-1007 103 104 ... --to episodes/batch3
+  python scripts/import_1005.py build/r1005 <ブランチ> 143 144 ... --audited --to episodes/batch3
+    （10/9 1005 での1回目の監査と直し（指示書 Opus-13）の成果を、同じ id の台本に上書きで戻す。
+     <id>.audit.md の中身を台本の audit に足す。このあと produce.py で Codex の最後の確認）
 """
 import argparse
 import json
@@ -66,6 +69,7 @@ def main():
     ap.add_argument("ref")
     ap.add_argument("nums", nargs="+")
     ap.add_argument("--to", default="episodes/batch3")
+    ap.add_argument("--audited", action="store_true")
     a = ap.parse_args()
     out = ROOT / a.to
     out.mkdir(parents=True, exist_ok=True)
@@ -76,8 +80,19 @@ def main():
                  if x.endswith(".json")]
         for name in names:
             d = json.loads(git(a.repo, "show", f"{a.ref}:apsc-video/out/{n}/{name}"))
-            d["id"] = f"b{n}_{pathlib.Path(name).stem}"
-            if d["id"] in known:
+            if a.audited:
+                d["id"] = pathlib.Path(name).stem
+                try:
+                    note = git(a.repo, "show", f"{a.ref}:apsc-video/out/{n}/{d['id']}.audit.md")
+                except subprocess.CalledProcessError:
+                    note = ""
+                head = note[:300]  # 判断は audit.md の最初のほうに書く決まり
+                verdict = "不可" if ("不可" in head and "直せば可" not in head) else "直した"
+                d.setdefault("audit", []).append({"by": "1005（Claude、指示書 Opus-13）", "round": "1回目の監査と直し",
+                                                  "verdict": verdict, "notes": note[:4000]})
+            else:
+                d["id"] = f"b{n}_{pathlib.Path(name).stem}"
+            if d["id"] in known and not a.audited:
                 print(f"[skip] {d['id']} はもうある")
                 continue
             d["voice"], d["bgm"] = VOICE.get(d.get("format"), VOICE["long"])
