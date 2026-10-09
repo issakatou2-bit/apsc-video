@@ -90,6 +90,10 @@ body{margin:0;background:#000}
 .qz .stp{position:absolute;left:6px;top:50%;width:84px;height:84px;margin-top:-42px;border:9px solid var(--red);border-radius:50%}
 .qz .okc{position:absolute;right:-14px;top:-28px;background:var(--red);color:#fff;font-size:30px;font-weight:900;padding:4px 20px;border-radius:999px;transform:rotate(4deg)}
 .qz .ch.one .stp{width:64px;height:64px;margin-top:-32px;border-width:7px}
+
+/* 言った瞬間のマーカー（台詞の "mark"）と、回って止まる数字（台詞の "countup"）10/9 */
+.mkx{background:linear-gradient(transparent 56%,var(--marker) 56%,var(--marker) 92%,transparent 92%) no-repeat 0 0/100% 100%;padding:0 .06em}
+.cu{display:inline-block}
 .src{font-size:24px;color:var(--sub)}
 .brand{position:absolute;inset:0;display:none;background:var(--ink);color:#fff;z-index:5;text-align:center;align-content:center;justify-items:center;gap:22px;padding:0 120px}
 .brand.on{display:grid}
@@ -186,6 +190,7 @@ window.setState=(st)=>{
       const cnt=sc.querySelector("[data-count]");cnt.textContent=st.count?st.count:"";
     }
   });
+  applyMarks(st);
   F.querySelector(".tab").innerHTML=[...(st.chapter||"")].map(c=>`<span>${esc(c)}</span>`).join("");
   F.querySelector(".tab").style.visibility="";
   const sub=F.querySelector(".subt");
@@ -194,13 +199,32 @@ window.setState=(st)=>{
   return true;
 };
 
+
+// ---------- 言葉に印をつける（マーカー・数字） ----------
+function unwrap(cls){F.querySelectorAll("."+cls).forEach(e=>{e.replaceWith(document.createTextNode(e.textContent))});F.normalize()}
+function wrapWord(root,word,cls){
+  if(!root||!word)return null;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
+  while((n=w.nextNode())){
+    if(n.parentElement.closest(".hid,."+cls))continue;
+    const i=n.data.indexOf(word);if(i<0)continue;
+    const r=document.createRange();r.setStart(n,i);r.setEnd(n,i+word.length);
+    const sp=document.createElement("span");sp.className=cls;r.surroundContents(sp);return sp;
+  }
+  return null;
+}
+function applyMarks(st){
+  unwrap("mkx");unwrap("cu");
+  const sc=F.querySelector(`.sc[data-sc="${st.scene}"]`);if(!sc)return;
+  (st.marks||[]).forEach(wd=>wrapWord(sc,wd,"mkx"));
+}
 // ---------- 演出（10/9）：fx(状態) で動きを組み、fxSeek(ミリ秒) でその時点の見た目にする ----------
-let FX=[],FXEND=null,FXDUR=0;
+let FX=[],FXEND=null,FXDUR=0,FXT=[];
 const BACK="cubic-bezier(.34,1.56,.64,1)",IO="cubic-bezier(.65,0,.35,1)",OUT="cubic-bezier(.2,.8,.2,1)";
 const R=el=>{const r=el.getBoundingClientRect(),f=F.getBoundingClientRect();return{x:r.left-f.left,y:r.top-f.top,w:r.width,h:r.height}};
 function A(el,kf,o){const a=el.animate(kf,{fill:"both",...o});a.pause();FX.push(a);return a}
-window.fxClear=()=>{FX.forEach(a=>a.cancel());FX=[];F.querySelectorAll(".fxl").forEach(e=>e.remove());if(FXEND)FXEND(true);FXEND=null;FXDUR=0};
-window.fxSeek=(ms)=>{FX.forEach(a=>{a.currentTime=ms});if(FXEND)FXEND(ms>=FXDUR);return true};
+window.fxClear=()=>{FX.forEach(a=>a.cancel());FX=[];FXT=[];F.querySelectorAll(".fxl").forEach(e=>e.remove());if(FXEND)FXEND(true);FXEND=null;FXDUR=0};
+window.fxSeek=(ms)=>{FX.forEach(a=>{a.currentTime=ms});FXT.forEach(f=>f(ms));if(FXEND)FXEND(ms>=FXDUR);return true};
 // 章の札：線と文字が出て、文字が縮みながら左上の章の札そのものになる（10/9 本人 OK）
 function fxChapter(chapter){
   const tab=F.querySelector(".tab"),W=F.clientWidth;
@@ -268,6 +292,17 @@ window.fx=(st)=>{
     if(f.kind==="quiz")d=Math.max(d,fxQuiz(sc));
     else if(f.kind==="answer")d=Math.max(d,fxAnswer(sc));
     else if(f.kind==="reveal")d=Math.max(d,fxReveal(sc,f.from));
+  }
+  if(sc&&f.mark){
+    const m=[...sc.querySelectorAll(".mkx")].find(e=>e.textContent===f.mark);
+    if(m){A(m,[{backgroundSize:"0% 100%"},{backgroundSize:"100% 100%"}],{duration:350,delay:120,easing:IO});d=Math.max(d,470)}
+  }
+  if(sc&&f.countup){
+    const num=f.countup.match(/[0-9.]+/);const sp=num?wrapWord(sc,num[0],"cu"):null;
+    if(sp){const to=parseFloat(num[0]),dec=(num[0].split(".")[1]||"").length;
+      FXT.push(ms=>{const p=Math.min(1,Math.max(0,ms/550)),e=1-Math.pow(1-p,3);sp.textContent=(to*e).toFixed(dec)});
+      A(sp,[{transform:"scale(1)"},{transform:"scale(1.18)",offset:.4},{transform:"scale(1)"}],{duration:320,delay:560,easing:BACK});
+      d=Math.max(d,900)}
   }
   FXDUR=d;fxSeek(0);return d;
 };

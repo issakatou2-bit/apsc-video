@@ -69,10 +69,15 @@ async ([kind, st]) => {
 
 def states_of(data):
     """時刻表から、画面が変わる時刻と、その時の状態の一覧を作る。"""
-    out, chapter, last_who = [], "", None
+    out, chapter, last_who, marks, mscene = [], "", None, [], None
     for ln in data["lines"]:
         chapter = ln.get("chapter") or chapter
-        base = {"scene": ln["scene"], "step": ln["step"], "chapter": chapter}
+        if ln["scene"] != mscene:  # マーカーは場面ごとに積み上げる
+            marks, mscene = [], ln["scene"]
+        if ln.get("mark"):
+            marks = marks + [ln["mark"]]
+        base = {"scene": ln["scene"], "step": ln["step"], "chapter": chapter, "marks": marks,
+                "_mark": ln.get("mark"), "_countup": ln.get("countup")}
         if ln.get("who"):
             last_who = {"who": ln["who"], "name": {"metan": "めたん", "zundamon": "ずんだもん"}[ln["who"]],
                         "text": ln["text"]}
@@ -114,6 +119,10 @@ def add_fx(states, data):
                     f["kind"] = "answer"
             else:
                 f.update({"kind": "reveal", "from": prev["step"]})
+        if st.get("_mark") and not (prev and prev.get("_mark") == st["_mark"] and prev.get("text") == st.get("text")):
+            f["mark"] = st["_mark"]
+        if st.get("_countup"):
+            f["countup"] = st["_countup"]
         if f:
             st["fx"] = f
         prev = st
