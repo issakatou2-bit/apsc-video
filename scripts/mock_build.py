@@ -58,9 +58,10 @@ def synth(text, who, tune):
     q["speedScale"] = tune.get("speed", 1.0)
     q["pitchScale"] = tune.get("pitch", PITCH.get(who, 0.0))
     q["intonationScale"] = tune.get("intonation", 1.0)
-    q["prePhonemeLength"] = 0.0
-    q["postPhonemeLength"] = 0.05
-    q["pauseLengthScale"] = 0.85
+    # 間（10/9 コレスポの聞き比べでは 前0.1・後0.25・句読点1.25倍が自然だった。apsc は聞き比べ中）
+    q["prePhonemeLength"] = tune.get("pre", 0.0)
+    q["postPhonemeLength"] = tune.get("post", 0.05)
+    q["pauseLengthScale"] = tune.get("pause", 0.85)
     q["outputSamplingRate"] = SR
     r = requests.post(f"{URL}/synthesis", params={"speaker": spk}, json=q, timeout=120)
     r.raise_for_status()
@@ -111,6 +112,8 @@ def main(script_path, out_dir):
             tune = spec.get("voice", {}).get(ln["who"]) or {"speed": spec["speed"][ln["who"]]}
             if ln.get("speed"):
                 tune = {**tune, "speed": ln["speed"]}
+            if spec.get("timing"):  # 台本ごとの間の上書き（聞き比べ用）
+                tune = {**tune, **spec["timing"]}
             x = synth(ln.get("say") or to_say(ln["text"]), ln["who"], tune)
             dur = len(x) / SR
         timeline.append({**{k: v for k, v in ln.items() if k != "say"}, "i": i,
