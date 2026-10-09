@@ -68,6 +68,9 @@ def numbered(d):
         if ln.get("who"):
             say = ln.get("say") or mock_build.to_say(ln["text"])
             extra = f"（読み：{say}）" if say != ln["text"] else ""
+            k = mock_build.kana(say)  # 10/9 実際に読む音も見せて、読み間違いを見つけてもらう
+            if k:
+                extra += f"〔音：{k}〕"
             out.append(f"{i}. [{ln['scene']}/{ln['step']}] {NAME[ln['who']]}：{ln['text']}{extra}"
                        + ("【冗談】" if ln.get("joke") else ""))
         else:
@@ -98,7 +101,7 @@ def message(d, rnd, prev):
 1. 誤り・材料との食い違い・言い換えで意味が変わった所（最優先）
 2. 言い過ぎ・断定しすぎ・材料で確かめられない断定
 3. 冗長（決まりの2。出典の読み上げ、前置き、同じことの2回目。消しても正しさと分かりやすさが変わらない台詞）
-4. 出典（場面の src）、読み、冗談
+4. 出典（場面の src）、読み（〔音：〕は合成音声が実際に読むカタカナ。用語・人名・英字の読み間違いがあれば say で直す）、冗談
 {prev}
 ## 返事の形（JSON だけ。``` で囲まない。説明の文を外に書かない）
 {{"verdict": "可" または "直せば可" または "不可",

@@ -50,6 +50,22 @@ def to_say(text):
     return text
 
 
+def kana(text, speaker=2):
+    """10/9 本人「平文ちゃんと読めててすごい。読み方も監査対象？」→ VOICEVOX が実際に読む音（カタカナ）を返す。
+    監査（produce.py）に渡して、読み間違いを見つけてもらう。エンジンが無ければ空。"""
+    try:
+        r = requests.post(f"{URL}/audio_query", params={"text": text, "speaker": speaker}, timeout=30)
+        r.raise_for_status()
+        out = []
+        for ap in r.json().get("accent_phrases", []):
+            out.append("".join(m["text"] for m in ap["moras"]))
+            if ap.get("pause_mora"):
+                out.append("・")
+        return "".join(out)
+    except Exception:
+        return ""
+
+
 def synth(text, who, tune):
     """tune: {"speaker", "speed", "pitch", "intonation"}。10/7 本人「ずんだもんは棒読み、めたんは上ずって聞こえる」
     → 抑揚（intonationScale）と高さを台本の json で決められるようにした。"""

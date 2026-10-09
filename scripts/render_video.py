@@ -91,7 +91,7 @@ def states_of(data):
 
 # 10/9 本人「こういうギミックどんどん入れていきましょう」→ 章の札・クイズの出題（本人 OK）、正解の発表・一覧が順番に・
 # マーカー（見本 OK）。frame.html の fx(状態) が動きを組み、snapshot が1コマずつ撮る。本物の動画の見本で OK が出たら True に。
-FX_DEFAULT = False
+FX_DEFAULT = True  # 10/9 本人「他は良さそう」（章の札・クイズ・正解・一覧・揺れ）
 
 
 def add_fx(states, data):
