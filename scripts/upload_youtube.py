@@ -65,12 +65,24 @@ def upload(video, title, desc, tags, privacy="public", publish_at=None, channel=
     body = {"snippet": {"title": title, "description": desc, "tags": [t for t in tags if t != "Shorts"],
                         "categoryId": "27", "defaultLanguage": "ja", "defaultAudioLanguage": "ja"},
             "status": status}
-    media = MediaFileUpload(str(video), chunksize=8 * 1024 * 1024, resumable=True, mimetype="video/mp4")
-    req = yt.videos().insert(part="snippet,status", body=body, media_body=media)
-    resp = None
-    while resp is None:
-        _, resp = req.next_chunk()
-    return resp["id"]
+    # 10/9 コレスポの共有ノウハウ：アップロードが 410 Gone（受け口が切れた）や 5xx で失敗することがある。
+    # 15秒・45秒あけて最大3回やり直す（サーバー側の失敗なので二重にはならない）。403 などはすぐ止める。
+    import time
+    from googleapiclient.errors import HttpError
+    for attempt, wait in enumerate((15, 45, None)):
+        try:
+            media = MediaFileUpload(str(video), chunksize=8 * 1024 * 1024, resumable=True, mimetype="video/mp4")
+            req = yt.videos().insert(part="snippet,status", body=body, media_body=media)
+            resp = None
+            while resp is None:
+                _, resp = req.next_chunk()
+            return resp["id"]
+        except HttpError as e:
+            code = int(getattr(e.resp, "status", 0) or 0)
+            if wait is None or not (code == 410 or code >= 500):
+                raise
+            print(f"[warn] アップロードが {code} で失敗、{wait}秒あけてやり直す（{attempt + 1}回目）")
+            time.sleep(wait)
 
 
 def main():

@@ -100,7 +100,8 @@ jobs:
         run: python scripts/publish_queue.py --within-hours "${{ github.event.inputs.within_hours || '30' }}"
 
       - name: Commit the ledger
-        if: ${{ github.event.inputs.test_file == '' || github.event.inputs.test_file == null }}
+        # 1本失敗して前の段が赤でも、済んだ分の記録は必ず残す（残さないと次の回に同じ動画をもう一度上げてしまう）
+        if: ${{ always() && (github.event.inputs.test_file == '' || github.event.inputs.test_file == null) }}
         run: |
           git config user.name "apsc-video bot"
           git config user.email "actions@users.noreply.github.com"

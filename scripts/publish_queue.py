@@ -116,62 +116,82 @@ def main():
     import upload_youtube
     retry_thumbs()
     ledger = ROOT / "mock" / "published.md"
+    failed = []
     for f, d in todo:
-        out = ROOT / "build" / "queue"
-        out.mkdir(parents=True, exist_ok=True)
-        src = out / f"{d['id']}.src.json"
-        src.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
-        mock_build.main(str(src), str(out))
-        render_video.main(d["id"], str(out))
-        timeline = json.loads((out / f"{d['id']}.json").read_text(encoding="utf-8"))
-        desc, tags = description(d, timeline)
-        title = pick_title(d, timeline)
+        # 10/9 コレスポの共有ノウハウ：1本の失敗で後の分まで止めない（失敗した分は棚に残り、次の回にやり直す）
         try:
-            vid = upload_youtube.upload(out / f"{d['id']}.mp4", title, desc, tags,
-                                        publish_at=d["publish_at"])
-        except Exception as e:  # 10/8：1日に上げられる本数の上限（uploadLimitExceeded）に当たった
-            if "uploadLimitExceeded" in str(e):
-                print("[stop] YouTube の1日のアップロード上限に当たったので、今日はここまで（残りは棚のまま次の回に）")
-                return 0
-            raise
-        d["video_id"] = vid
-        if THUMB and d.get("format", "long") == "long":
-            try:
-                import make_thumb
-                jpg = make_thumb.render(d, out / f"{d['id']}.jpg")
-                make_thumb.set_thumbnail(vid, jpg)
-                print("[info] サムネを設定した")
-            except Exception as e:
-                print(f"[warn] サムネを設定できなかった: {e}")
-        try:  # 10/8：台本から字幕を上げる（失敗しても投稿は止めない）
-            import captions
-            captions.upload(vid, timeline)
+            r = publish_one(f, d, done, ledger)
         except Exception as e:
-            print(f"[warn] 字幕を上げられなかった: {e}")
-        try:  # 10/8：分野ごとの再生リストに入れる（失敗しても投稿は止めない）
-            import playlists
-            playlists.add(vid, d.get("topic"))
-        except Exception as e:
-            print(f"[warn] 再生リストに入れられなかった: {e}")
-        try:  # 10/9：ショートを TikTok・Instagram・X にも（Buffer、キーがあるときだけ）
-            import social
-            social.schedule(d, out / f"{d['id']}.mp4")
-        except Exception as e:
-            print(f"[warn] SNS への予約ができなかった: {e}")
-        if d.get("replace_video_id"):  # 10/8：作り直した版を上げたら、古い版の予約を外して非公開に（消さない）
-            from googleapiclient.discovery import build as gbuild
-            yt = gbuild("youtube", "v3", credentials=upload_youtube.credentials())
-            yt.videos().update(part="status", body={"id": d["replace_video_id"], "status": {
-                "privacyStatus": "private", "selfDeclaredMadeForKids": False}}).execute()
-            print(f"[info] 古い版 {d['replace_video_id']} の予約を外して非公開にした")
-        (done / f.name).write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        f.unlink()
-        kind = "ショート" if d.get("format") == "short" else "長編"
-        with ledger.open("a", encoding="utf-8") as w:
-            w.write(f"| {d['publish_at'][:10]} | {kind} | {d['upload']['title']} | https://youtu.be/{vid} | published/{f.name} | "
-                    f"{(d.get('audit') or [{}])[-1].get('verdict', '')}（予約 {d['publish_at']}） |\n")
-        print(f"[info] 予約しました: https://youtu.be/{vid}（{d['publish_at']} に公開）")
+            print(f"[error] {f.name} で失敗（棚に残して次へ）: {str(e)[:300]}")
+            failed.append(f.name)
+            continue
+        if r == "limit":
+            return 1 if failed else 0
+    if failed:
+        print(f"[error] 失敗 {len(failed)}本: {', '.join(failed)}")
+        return 1
     return 0
+
+
+def publish_one(f, d, done, ledger):
+    import mock_build
+    import render_video
+    import upload_youtube
+    out = ROOT / "build" / "queue"
+    out.mkdir(parents=True, exist_ok=True)
+    src = out / f"{d['id']}.src.json"
+    src.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+    mock_build.main(str(src), str(out))
+    render_video.main(d["id"], str(out))
+    timeline = json.loads((out / f"{d['id']}.json").read_text(encoding="utf-8"))
+    desc, tags = description(d, timeline)
+    title = pick_title(d, timeline)
+    try:
+        vid = upload_youtube.upload(out / f"{d['id']}.mp4", title, desc, tags,
+                                    publish_at=d["publish_at"])
+    except Exception as e:  # 10/8：1日に上げられる本数の上限（uploadLimitExceeded）に当たった
+        if "uploadLimitExceeded" in str(e):
+            print("[stop] YouTube の1日のアップロード上限に当たったので、今日はここまで（残りは棚のまま次の回に）")
+            return "limit"
+        raise
+    d["video_id"] = vid
+    if THUMB and d.get("format", "long") == "long":
+        try:
+            import make_thumb
+            jpg = make_thumb.render(d, out / f"{d['id']}.jpg")
+            make_thumb.set_thumbnail(vid, jpg)
+            print("[info] サムネを設定した")
+        except Exception as e:
+            print(f"[warn] サムネを設定できなかった: {e}")
+    try:  # 10/8：台本から字幕を上げる（失敗しても投稿は止めない）
+        import captions
+        captions.upload(vid, timeline)
+    except Exception as e:
+        print(f"[warn] 字幕を上げられなかった: {e}")
+    try:  # 10/8：分野ごとの再生リストに入れる（失敗しても投稿は止めない）
+        import playlists
+        playlists.add(vid, d.get("topic"))
+    except Exception as e:
+        print(f"[warn] 再生リストに入れられなかった: {e}")
+    try:  # 10/9：ショートを TikTok・Instagram・X にも（Buffer、キーがあるときだけ）
+        import social
+        social.schedule(d, out / f"{d['id']}.mp4")
+    except Exception as e:
+        print(f"[warn] SNS への予約ができなかった: {e}")
+    if d.get("replace_video_id"):  # 10/8：作り直した版を上げたら、古い版の予約を外して非公開に（消さない）
+        from googleapiclient.discovery import build as gbuild
+        yt = gbuild("youtube", "v3", credentials=upload_youtube.credentials())
+        yt.videos().update(part="status", body={"id": d["replace_video_id"], "status": {
+            "privacyStatus": "private", "selfDeclaredMadeForKids": False}}).execute()
+        print(f"[info] 古い版 {d['replace_video_id']} の予約を外して非公開にした")
+    (done / f.name).write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    f.unlink()
+    kind = "ショート" if d.get("format") == "short" else "長編"
+    with ledger.open("a", encoding="utf-8") as w:
+        w.write(f"| {d['publish_at'][:10]} | {kind} | {d['upload']['title']} | https://youtu.be/{vid} | published/{f.name} | "
+                f"{(d.get('audit') or [{}])[-1].get('verdict', '')}（予約 {d['publish_at']}） |\n")
+    print(f"[info] 予約しました: https://youtu.be/{vid}（{d['publish_at']} に公開）")
+    return "ok"
 
 
 if __name__ == "__main__":
