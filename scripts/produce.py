@@ -225,6 +225,7 @@ def main():
         if rnd == a.max_rounds and fixes and all(f.get("op") == "replace" and f.get("say") and not f.get("text")
                                                  and not f.get("who") for f in fixes):
             verdict = "可"
+            d["audit"][-1]["verdict"] = "可"
             d["audit"][-1]["notes"] += "（最後の直しが読みだけだったので、当てて可とした）"
             path.write_text(json.dumps(d, ensure_ascii=False, indent=2) + chr(10), encoding="utf-8")
             break
