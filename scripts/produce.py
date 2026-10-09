@@ -218,6 +218,13 @@ def main():
         d = json.loads(path.read_text(encoding="utf-8"))
         if verdict == "可" and not fixes:
             break
+        # 10/9 最後の回の直しが「読み（say）だけ」なら、当てた時点で可とみなす（字幕・画面・中身は変わらないため）
+        if rnd == a.max_rounds and fixes and all(f.get("op") == "replace" and f.get("say") and not f.get("text")
+                                                 and not f.get("who") for f in fixes):
+            verdict = "可"
+            d["audit"][-1]["notes"] += "（最後の直しが読みだけだったので、当てて可とした）"
+            path.write_text(json.dumps(d, ensure_ascii=False, indent=2) + chr(10), encoding="utf-8")
+            break
         if verdict == "不可":
             print("[stop] 「不可」なので止めた。台本を書き直す")
             return 2
