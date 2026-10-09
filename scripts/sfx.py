@@ -208,7 +208,49 @@ def notify(variant="a"):
     return _norm(y * _env(len(y), 0.002, 0.1), 0.4)
 
 
+# ---------------------------------------------------------------- キャラの横の記号（10/9 エマが足した）
+def emote(variant="q"):
+    """10/9 本人「SE はついてる？小さめで自然にならしたい」。記号ごとの小さな音。
+    q＝？（ふわっと上がる）、excl＝！（ぽん）、drop＝汗（しずくのぴちょん）、ding＝電球（ちーん）、
+    twinkle＝きらきら（3つの鈴）、hehe＝…w（くすっと下がる2音）。"""
+    if variant == "drop":
+        t = _t(0.22)
+        f = 1500 * np.exp(-t * 9) + 500
+        x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 22)
+        return _norm(_lp(x, 4000) * _env(len(t), 0.002, 0.05), 0.6)
+    if variant == "ding":
+        t = _t(1.0)
+        x = sum(a * np.sin(2 * np.pi * 1568 * m * t) * np.exp(-t * d)
+                for a, m, d in ((1, 1, 4), (0.35, 2.0, 7), (0.15, 3.01, 11)))
+        return _norm(x * _env(len(t), 0.004, 0.25), 0.4)
+    if variant == "twinkle":
+        y = np.zeros(_n(0.9))
+        for t0, f in ((0, 2093), (0.08, 2637), (0.16, 3136)):
+            t = _t(0.6)
+            k = (np.sin(2 * np.pi * f * t) + 0.25 * np.sin(2 * np.pi * 2.01 * f * t)) * np.exp(-t * 10)
+            a = _n(t0)
+            y[a:a + len(k)] += k[:len(y) - a]
+        return _norm(y * _env(len(y), 0.002, 0.2), 0.35)
+    if variant == "hehe":
+        y = np.zeros(_n(0.35))
+        for t0, f in ((0, 880), (0.11, 740)):
+            t = _t(0.18)
+            k = np.sin(2 * np.pi * f * t) * np.exp(-t * 26)
+            a = _n(t0)
+            y[a:a + len(k)] += k[:len(y) - a]
+        return _norm(_lp(y, 3000), 0.5)
+    if variant == "excl":
+        t = _t(0.18)
+        x = (np.sin(2 * np.pi * 784 * t) + 0.3 * np.sin(2 * np.pi * 1568 * t)) * np.exp(-t * 24)
+        return _norm(x * _env(len(t), 0.002, 0.04), 0.55)
+    t = _t(0.2)  # q
+    f = 520 + 420 * (t / 0.2) ** 0.8
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 14)
+    return _norm(_lp(x, 3500) * _env(len(t), 0.004, 0.05), 0.5)
+
+
 KINDS = {
+    "emote": ("キャラの横の記号", emote),
     "swish": ("札が飛び込む", swish),
     "roll": ("数字が回る", roll),
     "stop": ("数字が止まる", stop),

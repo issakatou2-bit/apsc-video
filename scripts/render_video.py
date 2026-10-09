@@ -127,7 +127,7 @@ EMOTE_FONTS = ["C:/Windows/Fonts/meiryob.ttc", str(pathlib.Path.home() / ".fonts
 FIX_HEADS = ("半分はずれ", "はずれ", "違う", "ちがう", "惜しい", "おしい", "いいえ", "そうじゃない", "残念")
 GOT_IT = ("なるほど", "分かったのだ", "わかったのだ", "そういうことなのだ", "分かってきたのだ")
 SPECIAL = ("sweat", "bulb", "sparkle", "…w")  # 4秒の間あけを待たずに出す
-EMOTE_EXTRA = False  # 汗・電球・きらきら。見本（build/brand_demo/demo_emote2.mp4）に本人の OK が出たら True に
+EMOTE_EXTRA = True  # 10/9 本人「だいぶ自然になりました いいと思います」
 
 
 def emote_for(ln, prev=None, extra=None):
@@ -246,6 +246,34 @@ def shape_img(sym, color, size):
             star(cx, cy, r + 5, white)
             star(cx, cy, r, color + (255,))
     return im.crop(im.getbbox())
+
+
+# 10/9 本人「SE はついてる？小さめで自然にならしたい」→ 記号ごとの小さな音（sfx.emote）。mock_build が声に混ぜる。
+EMOTE_SFX = False  # 見本に本人の OK が出たら True に
+EMOTE_SOUND = {"？": "q", "！": "excl", "！？": "excl", "♪": "hehe", "…w": "hehe",
+               "sweat": "drop", "bulb": "ding", "sparkle": "twinkle"}
+
+
+def pick_emotes(lines, data):
+    """台詞の番号 → (記号, 色, 付ける人)。出しすぎるとうるさいので、前に出してから4秒以上あいた台詞だけ（特別な記号は除く）。"""
+    if not (EMOTE_DEFAULT if data.get("emote") is None else data["emote"]):
+        return {}
+    emo_ok, last = {}, -99.0
+    for i, ln in enumerate(lines):
+        prev = next((x for x in reversed(lines[:i]) if x.get("who")), None)  # 考える時間をとばした前の台詞
+        e = emote_for(ln, prev, data.get("emote_extra"))
+        if ln.get("who") and not ln["scene"].startswith("_") and e and (ln["start"] - last >= 4.0 or e[0] in SPECIAL):
+            emo_ok[i] = e
+            last = ln["start"]
+    return emo_ok
+
+
+def emote_cues(lines, data):
+    """記号の音：(秒, 種類, 案, 追加の音量dB)。sound_mix.mix の cues に足す。"""
+    if not (EMOTE_SFX if data.get("emote_sfx") is None else data["emote_sfx"]):
+        return []
+    return [(lines[i]["start"] + 0.05, "emote", EMOTE_SOUND[e[0]], -9.0)
+            for i, e in pick_emotes(lines, data).items() if e[0] in EMOTE_SOUND]
 
 
 _SPR = {}
@@ -382,14 +410,7 @@ def main(vid, d):
                            "-pix_fmt", "yuv420p", "-crf", "20", "-preset", "medium", "-c:a", "aac", "-b:a", "192k",
                            "-shortest", "-movflags", "+faststart", str(out)], stdin=subprocess.PIPE)
     lines = data["lines"]
-    # 記号は出しすぎるとうるさいので、前に出してから4秒以上あいた台詞だけ
-    emo_ok, last = {}, -99.0
-    for i, ln in enumerate(lines):
-        prev = next((x for x in reversed(lines[:i]) if x.get("who")), None)  # 考える時間をとばした前の台詞
-        e = emote_for(ln, prev, data.get("emote_extra"))
-        if ln.get("who") and not ln["scene"].startswith("_") and e and (ln["start"] - last >= 4.0 or e[0] in SPECIAL):
-            emo_ok[i] = e
-            last = ln["start"]
+    emo_ok = pick_emotes(lines, data)
     for fi in range(n):
         t = fi / FPS
         si = max(i for i, x in enumerate(times) if x <= t + 1e-6)
@@ -416,7 +437,7 @@ def main(vid, d):
             frame.paste(im, (xs[key], h - im.height + round(bob) + (8 if me else 0)), im)
             if speaking and li in emo_ok and emo_ok[li][2] == who and emo_ok[li][0] in ("sweat", "bulb", "sparkle"):
                 paste_sprite(frame, emo_ok[li][0], L["start"], t, (xs[key], h - im.height, im.width, im.height, key), kind)
-            elif speaking and li in emo_ok and emo_ok[li][2] == who and (EMOTE_DEFAULT if data.get("emote") is None else data["emote"]):
+            elif speaking and li in emo_ok and emo_ok[li][2] == who:
                 # 頭の上：ずんだもん（左・右向き）は右寄り、めたん（右・左向き）は左寄り
                 hx = xs[key] + (cast.w * 0.92 if key == "zunda" else cast.w * 0.08)
                 paste_emote(frame, L, emo_ok[li], t, hx, h - im.height + (150 if kind == "long" else 190), cast.w, kind,
