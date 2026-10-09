@@ -90,15 +90,13 @@
       "step": 0,
       "sfx": "swish",
       "who": "zundamon",
-      "text": "JavaScriptでcookieを読めなくするのが、Secure属性なのだ！",
-      "say": "ジャバスクリプトデクッキーヲヨメナクスルノガ、セキュアゾクセイナノダ！"
+      "text": "JavaScriptでcookieを読めなくするのが、Secure属性なのだ！"
     },
     {
       "scene": "quiz",
       "step": 0,
       "who": "metan",
-      "text": "送信の条件と、読み出しの制限は別よ。Secure属性の働きを、3秒で考えてみて。",
-      "say": "ソウシンノジョウケント、ヨミダシノセイゲンハベツヨ。セキュアゾクセイノハタラキヲ、サンビョウデカンガエテミテ。"
+      "text": "送信の条件と、読み出しの制限は別よ。Secure属性の働きを、3秒で考えてみて。"
     },
     {
       "scene": "quiz",
@@ -136,15 +134,13 @@
       "step": 4,
       "sfx": "pop",
       "who": "metan",
-      "text": "JavaScriptからcookieを読めなくするのは、HttpOnly属性よ。",
-      "say": "ジャバスクリプトカラクッキーヲヨメナクスルノハ、エイチティーティーピーオンリーゾクセイヨ。"
+      "text": "JavaScriptからcookieを読めなくするのは、HttpOnly属性よ。"
     },
     {
       "scene": "why",
       "step": 4,
       "who": "zundamon",
-      "text": "Secureはhttpsだけ、HttpOnlyはJavaScriptから読めない、なのだ！",
-      "say": "セキュアはエイチティーティーピーエスだけ、エイチティーティーピーオンリーはジャバスクリプトから読めない、なのだ！"
+      "text": "Secureはhttpsだけ、HttpOnlyはJavaScriptから読めない、なのだ！"
     }
   ],
   "bgm": "assets/bgm/everyday.mp3",

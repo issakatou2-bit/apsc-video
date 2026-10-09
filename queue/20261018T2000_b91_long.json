@@ -269,8 +269,7 @@
       "sfx": "transition",
       "chapter": "第2章 NAND・NOR・XOR",
       "who": "metan",
-      "text": "第2章は、NAND、NOR、XORよ。",
-      "say": "ダイニショウハ、ナンド、ノア、エックスオアヨ。"
+      "text": "第2章は、NAND、NOR、XORよ。"
     },
     {
       "scene": "gates",
@@ -358,8 +357,7 @@
       "step": 3,
       "sfx": "pop",
       "who": "metan",
-      "text": "CPUの中のレジスタなどに使われているわ。",
-      "say": "シーピーユーノナカノレジスタナドニツカワレテイルワ。"
+      "text": "CPUの中のレジスタなどに使われているわ。"
     },
     {
       "scene": "ff",
@@ -379,8 +377,7 @@
       "sfx": "transition",
       "chapter": "第4章 FPGA・ASIC・SoC",
       "who": "metan",
-      "text": "第4章。カスタムICとシステムLSIの話よ。",
-      "say": "第4章。カスタムアイシーと、システムエルエスアイの話よ。"
+      "text": "第4章。カスタムICとシステムLSIの話よ。"
     },
     {
       "scene": "ic",
@@ -460,8 +457,7 @@
       "step": 3,
       "sfx": "pop",
       "who": "metan",
-      "text": "D/Aコンバータは、デジタル信号をアナログ信号に変えるの。",
-      "say": "ディーエーコンバータハ、デジタルシンゴウヲアナログシンゴウニカエルノ。"
+      "text": "D/Aコンバータは、デジタル信号をアナログ信号に変えるの。"
     },
     {
       "scene": "emb",

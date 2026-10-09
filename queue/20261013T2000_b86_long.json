@@ -609,8 +609,7 @@
       "scene": "summary",
       "step": 4,
       "who": "zundamon",
-      "text": "次は、ファイアウォールやVPN、TLSでネットワークを守る回なのだ！",
-      "say": "次は、ファイアウォールや、ブイピーエヌ、ティーエルエスでネットワークを守る回なのだ！"
+      "text": "次は、ファイアウォールやVPN、TLSでネットワークを守る回なのだ！"
     }
   ],
   "bgm": "assets/bgm/nighter.mp3",

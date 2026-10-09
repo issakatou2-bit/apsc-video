@@ -115,8 +115,7 @@
       "step": 2,
       "sfx": "transition",
       "who": "metan",
-      "text": "pingは、ICMPを使って相手にメッセージを送り、返事が来るかを見るの。",
-      "say": "ピングハ、アイシーエムピーヲツカッテアイテニメッセージヲオクリ、ヘンジガクルカヲミルノ。"
+      "text": "pingは、ICMPを使って相手にメッセージを送り、返事が来るかを見るの。"
     },
     {
       "scene": "s_grid",
@@ -129,8 +128,7 @@
       "step": 4,
       "sfx": "pop",
       "who": "metan",
-      "text": "tracerouteは、途中のルータからの応答を使って、相手までの経路を調べる道具よ。",
-      "say": "トレースルートハ、トチュウノルータカラノオウトウヲツカッテ、アイテマデノケイロヲシラベルドウグヨ。"
+      "text": "tracerouteは、途中のルータからの応答を使って、相手までの経路を調べる道具よ。"
     },
     {
       "scene": "s_grid",
@@ -143,8 +141,7 @@
       "step": 4,
       "sfx": "impact",
       "who": "zundamon",
-      "text": "pingで返事を確かめ、tracerouteで経路を調べるのだ！",
-      "say": "ピングデヘンジヲタシカメ、トレースルートデケイロヲシラベルノダ！"
+      "text": "pingで返事を確かめ、tracerouteで経路を調べるのだ！"
     }
   ],
   "bgm": "assets/bgm/everyday.mp3",

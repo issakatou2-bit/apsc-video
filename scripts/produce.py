@@ -107,7 +107,7 @@ def message(d, rnd, prev):
 {{"verdict": "可" または "直せば可" または "不可",
  "fixes": [
   {{"op": "replace", "line": 台詞の番号, "text": "直した後の字幕（60字以内）", "why": "理由を短く"}},
-  {{"op": "replace", "line": 台詞の番号, "say": "直した後の読み（カナ）", "why": "…"}}　← 読みだけ直すとき（字幕はそのまま）
+  {{"op": "replace", "line": 台詞の番号, "say": "直した後の読み", "why": "…"}}　← 読みだけ直すとき（字幕はそのまま）。**台詞全体をカタカナにしない**：読み違えた言葉だけをカタカナにして、ほかは漢字のまま書く（全部カタカナだと抑揚が崩れ、助詞の「は」を「ハ」と読む）
   {{"op": "replace", "line": 台詞の番号, "who": "metan か zundamon", "text": "…", "why": "…"}}　← 話す人も変えるとき
   {{"op": "delete", "line": 台詞の番号, "why": "…"}},
   {{"op": "insert_after", "line": 台詞の番号, "who": "metan か zundamon", "text": "…", "why": "…"}},

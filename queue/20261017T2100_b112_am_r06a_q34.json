@@ -112,8 +112,7 @@
       "scene": "why",
       "step": 1,
       "who": "zundamon",
-      "text": "pingで通信できるか調べるのにも、ICMPを使うのだ？",
-      "say": "ピングデツウシンデキルカシラベルノニモ、アイシーエムピーヲツカウノダ？"
+      "text": "pingで通信できるか調べるのにも、ICMPを使うのだ？"
     },
     {
       "scene": "why",
@@ -127,8 +126,7 @@
       "step": 4,
       "sfx": "pop",
       "who": "metan",
-      "text": "アはRARP、イはNAT、エはDHCPの説明ね。",
-      "say": "アはアールアープ、イはナット、エはディーエイチシーピーの説明ね。"
+      "text": "アはRARP、イはNAT、エはDHCPの説明ね。"
     },
     {
       "scene": "why",
