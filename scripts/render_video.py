@@ -248,6 +248,59 @@ def shape_img(sym, color, size):
     return im.crop(im.getbbox())
 
 
+_SPR = {}
+
+
+def sprite(name, width):
+    k = (name, width)
+    if k not in _SPR:
+        im = Image.open(ROOT / "assets" / "emotes" / f"{name}.png").convert("RGBA")
+        _SPR[k] = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+    return _SPR[k]
+
+
+def _put(frame, im, cx, cy, scale=1.0, alpha=1.0, rot=0.0):
+    if scale <= 0.02 or alpha <= 0.01:
+        return
+    if rot:
+        im = im.rotate(rot, resample=Image.BICUBIC, expand=True)
+    if abs(scale - 1) > 0.01:
+        im = im.resize((max(1, int(im.width * scale)), max(1, int(im.height * scale))), Image.LANCZOS)
+    if alpha < 1:
+        im = im.copy()
+        im.putalpha(im.getchannel("A").point(lambda v: int(v * alpha)))
+    frame.paste(im, (int(cx - im.width / 2), int(cy - im.height / 2)), im)
+
+
+def paste_sprite(frame, name, t0, t, box, kind):
+    """10/9 本人「汗・電球・きらきら もっと自然でデザインよく」→ SVG で描いた絵を、それぞれの動きで出す。
+    box = (左, 上, 幅, 高さ, key)：立ち絵の位置。頭のまわりに置く。"""
+    x0, y0, cw, chh, key = box
+    k = 1.0 if kind == "long" else 1.2
+    life = 1.6
+    p = (t - t0) / life
+    if p < 0 or p > 1:
+        return
+    fade = min(1.0, p / 0.12) * (1.0 if p < 0.65 else max(0.0, 1 - (p - 0.65) / 0.35))
+    face = 1 if key == "zunda" else -1  # 顔の向き（ずんだもんは右、めたんは左を向く）
+    hx = x0 + cw * (0.47 if key == "zunda" else 0.53)  # 頭のまんなか
+    hy = y0 + chh * 0.17
+    if name == "sweat":  # 頭の横（顔の向きと反対側の少し上）に1粒、少しずつ下へ
+        _put(frame, sprite("sweat", int(78 * k)), hx - face * cw * 0.22, hy + chh * 0.03 + 26 * k * p, alpha=fade)
+    elif name == "bulb":  # 顔の側の斜め上でぽんと出て、光がふわっと（真上だとショートで字幕にかかる）
+        pop = 0.55 + p / 0.18 * 0.6 if p < 0.18 else (1.15 - (p - 0.18) / 0.1 * 0.15 if p < 0.28 else 1.0)
+        pop *= 1 + 0.03 * math.sin(t * 12)
+        _put(frame, sprite("bulb", int(130 * k)), hx + face * cw * 0.36, hy - chh * 0.06, pop, fade)
+    else:  # きらきら：大きさの違う3つが、少しずつずれてまたたく
+        for dx, dy, size, delay in ((-0.30, -0.10, 96, 0.0), (0.26, -0.20, 60, 0.12), (-0.08, -0.26, 44, 0.24)):
+            q = (p - delay) / 0.62
+            if not 0 <= q <= 1:
+                continue
+            tw = math.sin(math.pi * q)
+            _put(frame, sprite("sparkle", int(size * k)), hx + face * cw * dx * -1 + 0, hy + chh * dy,
+                 0.35 + 0.65 * tw, fade, rot=20 * q)
+
+
 def paste_emote(frame, ln, e, t, x, y, w, kind, side="left"):
     """台詞 ln の始めの約0.9秒（「…w」は1.4秒）、(x, y) の近くに記号 e を出す。"""
     if not e or not ln.get("who"):
@@ -361,7 +414,9 @@ def main(vid, d):
             im = cast.get(key, eye, brow, mouth, not me)
             bob = -8 * (1 - math.cos(math.pi * t / 0.5)) / 2 if me else 0
             frame.paste(im, (xs[key], h - im.height + round(bob) + (8 if me else 0)), im)
-            if speaking and li in emo_ok and emo_ok[li][2] == who and (EMOTE_DEFAULT if data.get("emote") is None else data["emote"]):
+            if speaking and li in emo_ok and emo_ok[li][2] == who and emo_ok[li][0] in ("sweat", "bulb", "sparkle"):
+                paste_sprite(frame, emo_ok[li][0], L["start"], t, (xs[key], h - im.height, im.width, im.height, key), kind)
+            elif speaking and li in emo_ok and emo_ok[li][2] == who and (EMOTE_DEFAULT if data.get("emote") is None else data["emote"]):
                 # 頭の上：ずんだもん（左・右向き）は右寄り、めたん（右・左向き）は左寄り
                 hx = xs[key] + (cast.w * 0.92 if key == "zunda" else cast.w * 0.08)
                 paste_emote(frame, L, emo_ok[li], t, hx, h - im.height + (150 if kind == "long" else 190), cast.w, kind,
