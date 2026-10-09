@@ -94,6 +94,12 @@
     {
       "scene": "quiz",
       "step": 0,
+      "who": "metan",
+      "text": "A社がB社に、B社がC社に開発を任せたとき、プログラムの著作権は誰のものかの問題よ。"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
       "sfx": "swish",
       "who": "zundamon",
       "text": "お金を出して頼んだA社が、プログラムの持ち主なのだ！",
@@ -155,5 +161,23 @@
       "text": "頼む側が権利を持ちたいなら、契約で取決めをしておくことが大事ね。"
     }
   ],
-  "bgm": "assets/bgm/everyday.mp3"
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "1005（Claude、指示書 Opus-13）",
+      "round": "1回目の監査と直し",
+      "verdict": "直した",
+      "notes": "# b132_am_r04a_q78 監査（Opus-13・作業170）\n\n確認日：2026-10-09（日本時間）\n\n## 判断\n**可**（直す所はありません）。見積もり 約39.4秒 → 約39.4秒\n\n## 直した所\nなし。\n\n## PDF で確かめたこと\n- 問題冊子：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_qs.pdf の p.37 を頁の画像で読んだ。問題文と4つの選択肢が台本の `quiz` と一致（読点「，」→「、」だけ。改変なし）。\n- 解答例：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_ans.pdf（問78 の正答は ウ。台本の `answer` と一致）\n- 場面の `src`（出典：令和4年度 秋期 応用情報技術者試験 午前 問78）と `upload.sources` も一致。型（勘違い →「3秒で考えてみて」＋3秒の間）がある。字幕はどれも60字以内。英字に読み（say）がある。\n\n## Codex に特に見てほしいこと\n- 職務著作で「社員ではなく会社（C 社）のもの」とする説明。「取決めがなければ」の条件付きで言えているか。\n"
+    },
+    {
+      "by": "エマ（Claude）",
+      "date": "2026-10-10",
+      "round": "要約を足す",
+      "verdict": "直した",
+      "fixes": [
+        "insert 0: A社がB社に、B社がC社に開発を任せたとき、プログラムの著作権は誰のものかの問題よ。"
+      ],
+      "notes": "10/9 本人の決まり（長い問題文は最初に要約）"
+    }
+  ]
 }

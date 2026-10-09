@@ -1078,5 +1078,13 @@
       "text": "重みを足して、数を入れて確かめるのだ！"
     }
   ],
-  "bgm": "assets/bgm/nighter.mp3"
+  "bgm": "assets/bgm/nighter.mp3",
+  "audit": [
+    {
+      "by": "1005（Claude、指示書 Opus-13）",
+      "round": "1回目の監査と直し",
+      "verdict": "直した",
+      "notes": "# b142_long 監査（Opus-13・作業178）\n\n確認日：2026-10-09（日本時間）\n\n## 判断\n**可（直す所はありません）**\n\n## 直した所\nなし。\n\n## PDF で確かめたこと\n- シラバス Ver.7.2：https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf の 1 基礎理論 1. 離散数学 (1)〜(3)（p.3）を本文で読んだ。材料の引用と合っている。\n- 令和5年度 秋期 午前 問1：https://www.ipa.go.jp/shiken/mondai-kaiotu/ps6vr70000010d6y-att/2023r05a_ap_am_qs.pdf p.4 を頁の画像で読んだ。問題文と選択肢4つが一致（原文の x/2 は分数の形。1行で書いたことは出典に書いてある）。正答 ウ（解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/ps6vr70000010d6y-att/2023r05a_ap_am_ans.pdf）と一致。\n- 令和元年度 秋期 午前 問1：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_ap_am_qs.pdf p.3 を頁の画像で読んだ。問題文と選択肢4つが一致。正答 ウ（解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_ap_am_ans.pdf）と一致。\n- 令和4年度 秋期 午前 問1：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_qs.pdf p.3 を頁の画像で読んだ。問題文と選択肢4つが一致。正答 イ（解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_ans.pdf）と一致。\n- 令和2年度 10月 午前 問1：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d05l-att/2020r02o_ap_am_qs.pdf p.3 を頁の画像で読んだ。問題文と選択肢4つが一致。正答 エ（解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d05l-att/2020r02o_ap_am_ans.pdf）と一致。\n- 計算をすべて確かめた：1011＝11、13＝1101、0.625＝0.101、0.1＝0.000110011…、101011＝53（8進）、10101111＝AF＝175、−6＝11111010、1101を左へ1つ→11010＝26、15²＝225＝11100001。問1 の確かめ（ア8・イ9・ウ1・エ0）、問4 の B＝20 の確かめ（ア約2.6・エ約6・イ約43・ウ約66、20ビットの数は約52万〜約105万）も正しい。\n- 英字・記号に読み（say）がある。字幕はどれも60字以内。冗談は2つで、どちらもすぐ次にめたんの短い返し（joke なし）。\n\n## Codex に特に見てほしいこと\n- 長さ：字幕の字数で約3,550字。1秒7字で約8.5分。長編の目安（10〜15分）より短め。\n- 「0がプラスの側に入るから、プラスは127まで」は、2の補数の範囲のやさしい言い方として言い過ぎでないか。\n"
+    }
+  ]
 }

@@ -153,5 +153,13 @@
       "text": "なるほど。製品と市場の、今と新しいで4つなのだ！"
     }
   ],
-  "bgm": "assets/bgm/everyday.mp3"
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "1005（Claude、指示書 Opus-13）",
+      "round": "1回目の監査と直し",
+      "verdict": "直した",
+      "notes": "# b137_am_r04h_q68 監査（Opus-13・作業174）\n\n確認日：2026-10-09（日本時間）\n\n## 判断\n**可（直す所はありません）**。見積もり 約41.9秒 → 約41.9秒\n\n## 直した所\nなし。\n\n## PDF で確かめたこと\n- 問題冊子：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_qs.pdf の p.30 を頁の画像で読んだ。問題文と4つの選択肢が台本の `quiz` と一致（読点「，」→「、」だけ。改変なし）。\n- 解答例：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_ans.pdf（問68 の正答は ウ。台本の `answer` と一致）\n- 場面の `src`（出典：令和4年度 春期 応用情報技術者試験 午前 問68）と `upload.sources` も一致。型（勘違い →「3秒で考えてみて」＋3秒の間）がある。字幕はどれも60字以内。英字に読み（say）がある。\n\n## Codex に特に見てほしいこと\n- 「イはバランススコアカード、エは製品ライフサイクル」は選択肢の中身からの判断。合っているか。\n"
+    }
+  ]
 }
