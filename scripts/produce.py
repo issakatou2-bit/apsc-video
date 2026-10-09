@@ -35,7 +35,7 @@ import split_lines  # noqa: E402
 CODEX_DIR = pathlib.Path("C:/Users/issak/Desktop/metan3D/tools/codex")
 CODEX = CODEX_DIR / "codex-x86_64-pc-windows-msvc.exe"
 WORK = ROOT / "build" / "codex"
-USAGE_LIMIT = 45.0  # 週の使用量（全プロジェクト共通、上限50%）がこれを超えたら頼まない
+USAGE_LIMIT = 95.0  # 10/9 本人「リセットあるから気にしないで使っていいよ」（前は全プロジェクト共通の50%の決まりで45%）
 NAME = {"metan": "めたん", "zundamon": "ずんだもん"}
 # 10/8 本人「9本/日が上限？影響もデメリットもないなら上限までやろう」→ 1日9枠（ショート6・長編3）。
 # 前からある 7:00・19:00・20:00 はそのまま。棚が足りない日は、埋まった枠だけ出す。

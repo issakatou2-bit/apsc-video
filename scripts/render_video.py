@@ -249,7 +249,7 @@ def shape_img(sym, color, size):
 
 
 # 10/9 本人「SE はついてる？小さめで自然にならしたい」→ 記号ごとの小さな音（sfx.emote）。mock_build が声に混ぜる。
-EMOTE_SFX = False  # 見本に本人の OK が出たら True に
+EMOTE_SFX = True  # 10/9 本人「SE ちょっと小さいかな？」→ 4dB 上げて本番に
 EMOTE_SOUND = {"？": "q", "！": "excl", "！？": "excl", "♪": "hehe", "…w": "hehe",
                "sweat": "drop", "bulb": "ding", "sparkle": "twinkle"}
 
@@ -272,7 +272,7 @@ def emote_cues(lines, data):
     """記号の音：(秒, 種類, 案, 追加の音量dB)。sound_mix.mix の cues に足す。"""
     if not (EMOTE_SFX if data.get("emote_sfx") is None else data["emote_sfx"]):
         return []
-    return [(lines[i]["start"] + 0.05, "emote", EMOTE_SOUND[e[0]], -9.0)
+    return [(lines[i]["start"] + 0.05, "emote", EMOTE_SOUND[e[0]], -5.0)
             for i, e in pick_emotes(lines, data).items() if e[0] in EMOTE_SOUND]
 
 
