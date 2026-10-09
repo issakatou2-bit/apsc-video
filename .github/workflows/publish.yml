@@ -63,6 +63,8 @@ jobs:
 
       - name: Start VOICEVOX engine
         run: |
+          # 10/10 Docker Hub の認証が一時的に失敗して止まった → 取得を3回までやり直す
+          for t in 1 2 3; do docker pull -q voicevox/voicevox_engine:cpu-latest && break; echo "pull failed ($t)"; sleep $((t*20)); done
           docker run -d --rm -p 50021:50021 --name voicevox voicevox/voicevox_engine:cpu-latest
           for i in $(seq 1 60); do
             if curl -s http://127.0.0.1:50021/version > /dev/null; then echo "VOICEVOX ready"; break; fi
