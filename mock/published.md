@@ -20,3 +20,6 @@
 | 2026-10-10 | ショート | DHCPは何を配る？｜応用情報技術者試験 ネットワーク | https://youtu.be/dBB60UZpFoQ | published/20261010T0700_short_dhcp.json | 可（予約 2026-10-10T07:00:00+09:00） |
 | 2026-10-10 | ショート | NATとNAPTの違い｜応用情報技術者試験 ネットワーク | https://youtu.be/QuWwCfxqYgE | published/20261010T1900_short_napt.json | 可（予約 2026-10-10T19:00:00+09:00） |
 | 2026-10-10 | 長編 | ネットワークの基本（IPアドレス・DNS・DHCP・NAT・ルーティング）｜応用情報技術者試験 ネットワーク | https://youtu.be/u52yuDFalkI | published/20261010T2000_net_basics.json | 可（予約 2026-10-10T20:00:00+09:00） |
+| 2026-10-10 | 長編 | 午後問1の解き方 ― 企業グループのセキュリティ対策（令和7年度秋期）｜応用情報技術者試験 午後 | https://youtu.be/2QmnuiWfbZs | published/20261010T1730_pm1_r07a.json | 可（予約 2026-10-10T17:30:00+09:00） |
+| 2026-10-10 | 長編 | ネットワークの基本（IPアドレス・DNS・DHCP・NAT・ルーティング）｜応用情報技術者試験 ネットワーク | https://youtu.be/_Lb__6wybtU | published/20261010T2000_net_basics_fix.json | 可（予約 2026-10-10T20:00:00+09:00） |
+| 2026-10-10 | 長編 | 午後問5の解き方 ― クラウドサービスへの移行（令和7年度秋期）｜応用情報技術者試験 午後 | https://youtu.be/QKEJgEi-9Yo | published/20261010T2200_pm5_r07a.json | 可（予約 2026-10-10T22:00:00+09:00） |
