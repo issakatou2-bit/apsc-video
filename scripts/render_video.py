@@ -84,7 +84,39 @@ def states_of(data):
         else:
             out.append((ln["start"], {**base, **(last_who or {})}))
     out[0] = (0.0, out[0][1])
+    if FX_DEFAULT if data.get("fx") is None else data["fx"]:
+        add_fx(out, data)
     return out
+
+
+# 10/9 本人「こういうギミックどんどん入れていきましょう」→ 章の札・クイズの出題（本人 OK）、正解の発表・一覧が順番に・
+# マーカー（見本 OK）。frame.html の fx(状態) が動きを組み、snapshot が1コマずつ撮る。本物の動画の見本で OK が出たら True に。
+FX_DEFAULT = False
+
+
+def add_fx(states, data):
+    """前の状態と比べて、画面が変わるところに演出の種類を付ける（"fx": {kind, from, chapter}）。"""
+    scenes = data.get("scenes") or {}
+    prev = None
+    for _, st in states:
+        if st.get("count") or st["scene"].startswith("_"):
+            prev = st
+            continue
+        typ = (scenes.get(st["scene"]) or {}).get("type")
+        f = {}
+        if st.get("chapter") and (prev is None or st["chapter"] != prev.get("chapter")):
+            f["chapter"] = True
+        if prev is None or st["scene"] != prev["scene"]:
+            f.update({"kind": "quiz"} if typ == "quiz" else {"kind": "reveal", "from": -1})
+        elif st["step"] > prev["step"]:
+            if typ == "quiz":
+                if st["step"] >= 2 > prev["step"]:
+                    f["kind"] = "answer"
+            else:
+                f.update({"kind": "reveal", "from": prev["step"]})
+        if f:
+            st["fx"] = f
+        prev = st
 
 
 def snapshot(vid, kind, states, page_url, out_dir, data=None):
@@ -102,16 +134,30 @@ def snapshot(vid, kind, states, page_url, out_dir, data=None):
         generic = bool(data and data.get("scenes"))
         if generic:
             pg.evaluate("ep => window.setup(ep)", data)
+        anim = {}
         for i, (_, st) in enumerate(states):
             if generic:
                 pg.evaluate("st => window.setState(st)", st)
+                dur = pg.evaluate("st => window.fx ? window.fx(st) : 0", st)
             else:
                 pg.evaluate(SNAP_JS, [vid, st])
+                dur = 0
             pg.wait_for_timeout(60)
+            frame = pg.locator(".frame")
+            if dur:
+                fs = []
+                for k in range(int(dur / 1000 * FPS) + 1):
+                    pg.evaluate("ms => window.fxSeek(ms)", k * 1000 / FPS)
+                    a = out_dir / f"st_{i:04d}_{k:03d}.jpg"
+                    frame.screenshot(path=str(a), type="jpeg", quality=92)
+                    fs.append(a)
+                anim[i] = fs
+                pg.evaluate("ms => window.fxSeek(ms)", dur + 100)
             f = out_dir / f"st_{i:04d}.png"
-            pg.locator(".frame").screenshot(path=str(f))
+            frame.screenshot(path=str(f))
             files.append(f)
         b.close()
+    snapshot.anim = anim
     return files
 
 
@@ -252,6 +298,20 @@ def shape_img(sym, color, size):
 EMOTE_SFX = True  # 10/9 本人「SE ちょっと小さいかな？」→ 4dB 上げて本番に
 EMOTE_SOUND = {"？": "q", "！": "excl", "！？": "excl", "♪": "hehe", "…w": "hehe",
                "sweat": "drop", "bulb": "ding", "sparkle": "twinkle"}
+
+
+def shake_times(lines, data):
+    """ずんだもんの勘違い（次のめたんの台詞が「半分はずれ」などで始まる）の台詞の頭。"""
+    if not (FX_DEFAULT if data.get("fx") is None else data["fx"]):
+        return []
+    out = []
+    for i, ln in enumerate(lines):
+        if ln.get("who") != "zundamon" or ln.get("joke"):
+            continue
+        nxt = next((x for x in lines[i + 1:] if x.get("who")), None)
+        if nxt and nxt["who"] == "metan" and (nxt.get("text") or "").startswith(FIX_HEADS):
+            out.append(ln["start"])
+    return out
 
 
 def pick_emotes(lines, data):
@@ -411,11 +471,18 @@ def main(vid, d):
                            "-shortest", "-movflags", "+faststart", str(out)], stdin=subprocess.PIPE)
     lines = data["lines"]
     emo_ok = pick_emotes(lines, data)
+    anim = getattr(snapshot, "anim", {})
+    shakes = shake_times(lines, data)
     for fi in range(n):
         t = fi / FPS
         si = max(i for i, x in enumerate(times) if x <= t + 1e-6)
         frame = imgs[si]
-        if si > 0 and t - times[si] < FADE and states[si][1]["scene"] != states[si - 1][1]["scene"]:
+        k = int((t - times[si]) * FPS)
+        if si in anim and k < len(anim[si]):
+            frame = Image.open(anim[si][k]).convert("RGB")
+            if frame.size != (w, h):
+                frame = frame.resize((w, h))
+        elif si > 0 and si not in anim and t - times[si] < FADE and states[si][1]["scene"] != states[si - 1][1]["scene"]:
             frame = Image.blend(imgs[si - 1], imgs[si], (t - times[si]) / FADE)
         frame = frame.copy()
         li = max(i for i, ln in enumerate(lines) if ln["start"] <= t + 1e-6) if t >= lines[0]["start"] else 0
@@ -442,6 +509,10 @@ def main(vid, d):
                 hx = xs[key] + (cast.w * 0.92 if key == "zunda" else cast.w * 0.08)
                 paste_emote(frame, L, emo_ok[li], t, hx, h - im.height + (150 if kind == "long" else 190), cast.w, kind,
                             "right" if key == "metan" else "left")
+        for t0 in shakes:  # 勘違いの台詞の頭で、画面が小さくぶるっと揺れる（0.38秒）
+            if 0 <= t - t0 < 0.38:
+                dx = round(14 * math.sin((t - t0) / 0.38 * math.pi * 5) * (1 - (t - t0) / 0.38))
+                frame = frame.transform(frame.size, Image.AFFINE, (1, 0, -dx, 0, 1, 0), fillcolor=(246, 248, 250))
         ff.stdin.write(frame.tobytes())
     ff.stdin.close()
     ff.wait()

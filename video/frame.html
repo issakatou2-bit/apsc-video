@@ -63,6 +63,33 @@ body{margin:0;background:#000}
 .qa .card{display:grid;gap:6px;padding:14px 24px}.qa .lb{font-size:24px;font-weight:900;color:var(--sub)}
 .qa .cl{font-size:32px;font-weight:700;line-height:1.5}.qa .an{font-size:38px;font-weight:900;color:var(--red)}
 .qa .ansc{border-color:var(--red);box-shadow:8px 8px 0 var(--red)}
+
+/* ===== 10/9 演出（本人 OK：章の札・クイズの出題／見本 OK：正解の発表・一覧が順番に・マーカー）。render_video が fx(状態) → fxSeek(ミリ秒) で1コマずつ撮る ===== */
+.mk{background-repeat:no-repeat;background-size:100% 100%}
+.fxl{position:absolute;inset:0;z-index:4;pointer-events:none}
+.fxcover{position:absolute;inset:0;background-color:var(--paper);background-image:linear-gradient(var(--grid) 2px,transparent 2px),linear-gradient(90deg,var(--grid) 2px,transparent 2px);background-size:48px 48px}
+.fxcard{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:28px}
+.fxno{font-weight:900;font-size:44px;letter-spacing:.04em;color:var(--sub);opacity:0;transform-origin:0 0;white-space:pre}
+.fxln{width:1100px;height:6px;background:var(--ink);border-radius:3px;transform:scaleX(0)}
+.short .fxln{width:860px}
+.fxchars{display:flex;gap:14px}
+.fxc{border:5px solid var(--ink);border-radius:14px;background:#fff;display:grid;place-items:center;font-weight:900;box-shadow:8px 8px 0 var(--ink);transform:scale(0);color:var(--ink)}
+.fxtab{position:absolute;background:var(--ink);opacity:0;border-radius:0 0 14px 14px}
+.tab span{white-space:pre}
+/* クイズはウィンドウの形 */
+.qz .win{position:relative;background:#fff;border:4px solid var(--ink);border-radius:14px;box-shadow:10px 10px 0 var(--ink);overflow:hidden}
+.qz .tb{height:48px;background:var(--ink);color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 20px;font-weight:900;font-size:26px}
+.qz .tb span:last-child{letter-spacing:.4em}
+.qz .wb{padding:18px 26px 22px;display:grid;gap:16px}
+.qz{position:relative}
+.qz .cnt{position:absolute;right:-26px;top:-30px;z-index:2;width:104px;height:104px;border-radius:50%;background:var(--marker);border:5px solid var(--ink);display:grid;place-items:center;font-size:64px;color:var(--ink)}
+.qz .cnt:empty{display:none}
+.qz .ch div{position:relative}
+.qz .ch div.dim{opacity:.3}
+.qz .ch div.ok{background:#fff4c2;border-color:var(--ink);box-shadow:none;transform:scale(1.03)}
+.qz .stp{position:absolute;left:6px;top:50%;width:84px;height:84px;margin-top:-42px;border:9px solid var(--red);border-radius:50%}
+.qz .okc{position:absolute;right:-14px;top:-28px;background:var(--red);color:#fff;font-size:30px;font-weight:900;padding:4px 20px;border-radius:999px;transform:rotate(4deg)}
+.qz .ch.one .stp{width:64px;height:64px;margin-top:-32px;border-width:7px}
 .src{font-size:24px;color:var(--sub)}
 .brand{position:absolute;inset:0;display:none;background:var(--ink);color:#fff;z-index:5;text-align:center;align-content:center;justify-items:center;gap:22px;padding:0 120px}
 .brand.on{display:grid}
@@ -109,7 +136,7 @@ const B={
   forces:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="fz"><svg viewBox="0 0 1120 540" width="1120" height="540"><g stroke="#17233a" stroke-width="5" fill="none"><line x1="560" y1="120" x2="560" y2="200"/><line x1="560" y1="340" x2="560" y2="420"/><line x1="260" y1="270" x2="330" y2="270"/><line x1="790" y1="270" x2="860" y2="270"/></g></svg>${at(1,esc(s.center),"f c")}${at(2,esc(s.top),"f t")}${at(3,esc(s.bottom),"f b")}${at(4,esc(s.left),"f l")}${at(5,esc(s.right),"f r")}</div></div>`,
   cards:s=>`<div class="stack">${at(0,esc(s.head),"head")}<div class="cards3${s.items.length>=4?" many":""}">${s.items.map((it,i)=>at(i+1,`<h3>${esc(it.name)}</h3><p>${esc(it.desc)}</p>`,"card")).join("")}</div>${s.src?`<div class="src">${esc(s.src)}</div>`:""}</div>`,
   qa:s=>`<div class="stack qa">${at(0,`<span class="qn">${esc(s.n)}</span>${esc(s.q)}`,"qq")}${at(1,`<div class="lb">本文の手がかり</div><div class="cl">${esc(s.clue).replace(/［(.+?)］/g,'<span class="mk">$1</span>')}</div>`,"card")}${at(2,`<div class="lb">解答例</div><div class="an">${esc(s.ans)}</div>`,"card ansc")}${s.src?`<div class="src">${esc(s.src)}</div>`:""}</div>`,
-  quiz:s=>`<div class="stack qz">${at(0,esc(s.q),"q")}<div class="ch${s.cols===1?" one":""}">${s.choices.map((c,i)=>`<div data-choice="${i}">${esc(c)}</div>`).join("")}</div><div class="cnt" data-count></div><div class="src">${esc(s.src)}</div></div>`,
+  quiz:s=>`<div class="stack qz"><div class="win"><div class="tb"><span>問題</span><span>_ □ ×</span></div><div class="wb">${at(0,esc(s.q),"q")}<div class="ch${s.cols===1?" one":""}">${s.choices.map((c,i)=>`<div data-choice="${i}">${esc(c)}</div>`).join("")}</div></div></div><div class="cnt num" data-count></div><div class="src">${esc(s.src)}</div></div>`,
 };
 let EP=null,F=null;
 window.setup=(ep)=>{
@@ -150,15 +177,99 @@ window.setState=(st)=>{
     sc.querySelectorAll("[data-at]").forEach(e=>e.classList.toggle("hid",+e.dataset.at>st.step));
     if(sc.dataset.type==="quiz"){
       const s=EP.scenes[st.scene];
-      sc.querySelectorAll("[data-choice]").forEach(c=>c.classList.toggle("ok",st.step>=2&&+c.dataset.choice===s.answer));
+      sc.querySelectorAll("[data-choice]").forEach(c=>{
+        const ok=st.step>=2&&+c.dataset.choice===s.answer;
+        c.classList.toggle("ok",ok);c.classList.toggle("dim",st.step>=2&&!ok);
+        c.querySelectorAll(".stp,.okc").forEach(e=>e.remove());
+        if(ok)c.insertAdjacentHTML("beforeend",'<span class="stp"></span><span class="okc">正解！</span>');
+      });
       const cnt=sc.querySelector("[data-count]");cnt.textContent=st.count?st.count:"";
     }
   });
-  F.querySelector(".tab").textContent=st.chapter||"";
+  F.querySelector(".tab").innerHTML=[...(st.chapter||"")].map(c=>`<span>${esc(c)}</span>`).join("");
+  F.querySelector(".tab").style.visibility="";
   const sub=F.querySelector(".subt");
   if(st.who){sub.classList.remove("off");const nm=sub.querySelector(".nm");nm.textContent=NAME[st.who];nm.className="nm "+st.who;sub.querySelector(".tx").textContent=st.text}
   else sub.classList.add("off");
   return true;
+};
+
+// ---------- 演出（10/9）：fx(状態) で動きを組み、fxSeek(ミリ秒) でその時点の見た目にする ----------
+let FX=[],FXEND=null,FXDUR=0;
+const BACK="cubic-bezier(.34,1.56,.64,1)",IO="cubic-bezier(.65,0,.35,1)",OUT="cubic-bezier(.2,.8,.2,1)";
+const R=el=>{const r=el.getBoundingClientRect(),f=F.getBoundingClientRect();return{x:r.left-f.left,y:r.top-f.top,w:r.width,h:r.height}};
+function A(el,kf,o){const a=el.animate(kf,{fill:"both",...o});a.pause();FX.push(a);return a}
+window.fxClear=()=>{FX.forEach(a=>a.cancel());FX=[];F.querySelectorAll(".fxl").forEach(e=>e.remove());if(FXEND)FXEND(true);FXEND=null;FXDUR=0};
+window.fxSeek=(ms)=>{FX.forEach(a=>{a.currentTime=ms});if(FXEND)FXEND(ms>=FXDUR);return true};
+// 章の札：線と文字が出て、文字が縮みながら左上の章の札そのものになる（10/9 本人 OK）
+function fxChapter(chapter){
+  const tab=F.querySelector(".tab"),W=F.clientWidth;
+  const sp=chapter.indexOf(" "),label=sp>0?chapter.slice(0,sp):"",title=sp>0?chapter.slice(sp+1):chapter;
+  const n=[...title].length,size=Math.min(150,Math.floor((W*0.82-(n-1)*14)/n)),fs=Math.round(size*0.733);
+  const L=document.createElement("div");L.className="fxl";
+  L.innerHTML=`<div class="fxcover"></div><div class="fxtab"></div><div class="fxcard">${label?`<div class="fxno">${esc(label)}</div>`:""}<div class="fxln"></div><div class="fxchars">${[...title].map(c=>`<div class="fxc" style="width:${size}px;height:${Math.round(size*1.13)}px;font-size:${fs}px">${esc(c)}</div>`).join("")}</div><div class="fxln"></div></div>`;
+  F.appendChild(L);
+  const no=L.querySelector(".fxno"),lns=[...L.querySelectorAll(".fxln")],cs=[...L.querySelectorAll(".fxc")],bg=L.querySelector(".fxtab"),cv=L.querySelector(".fxcover");
+  const spans=[...tab.children];
+  cs.forEach(c=>c.style.transform="none");const card=cs.map(R),noR=no?R(no):null;cs.forEach(c=>c.style.transform="");
+  const tb=R(tab);
+  lns.forEach((l,i)=>A(l,[{transform:"scaleX(0)"},{transform:"scaleX(1)"}],{duration:250,delay:i*50,easing:OUT}));
+  if(no)A(no,[{opacity:0},{opacity:1}],{duration:200,delay:200});
+  cs.forEach((c,i)=>A(c,[{transform:"scale(0) rotate(-8deg)"},{transform:"scale(1)"}],{duration:350,delay:250+i*40,easing:BACK}));
+  const T0=Math.max(850,250+n*40+300),D=450,k=34/fs;
+  const off=label?[...label].length+1:0;
+  cs.forEach((c,i)=>{const s=R(spans[off+i]),r=card[i];
+    A(c,[{transform:"translate(0px,0px) scale(1)",backgroundColor:"rgb(255,255,255)",borderColor:"rgba(23,35,58,1)",boxShadow:"8px 8px 0 rgba(23,35,58,1)",color:"rgb(23,35,58)"},
+         {transform:`translate(${(s.x+s.w/2)-(r.x+r.w/2)}px,${(s.y+s.h/2)-(r.y+r.h/2)}px) scale(${k})`,backgroundColor:"rgba(255,255,255,0)",borderColor:"rgba(23,35,58,0)",boxShadow:"0 0 0 rgba(23,35,58,0)",color:"rgb(255,255,255)"}],
+      {duration:D,delay:T0+i*15,easing:IO,fill:"forwards"})});
+  if(no){const s0=R(spans[0]);A(no,[{transform:"translate(0px,0px) scale(1)",color:"rgb(74,88,114)"},{transform:`translate(${s0.x-noR.x}px,${s0.y-noR.y}px) scale(${34/44})`,color:"rgb(255,255,255)"}],{duration:D,delay:T0,easing:IO,fill:"forwards"})}
+  lns.forEach(l=>A(l,[{opacity:1},{opacity:0}],{duration:150,delay:T0,fill:"forwards"}));
+  const x0=Math.min(noR?noR.x:1e9,card[0].x)-30,y0=(noR?noR.y:card[0].y)-20,x1=card[n-1].x+card[n-1].w+30,y1=card[0].y+card[0].h+20;
+  Object.assign(bg.style,{left:tb.x+"px",top:tb.y+"px",width:tb.w+"px",height:tb.h+"px",transformOrigin:"0 0"});
+  A(bg,[{opacity:0,transform:`translate(${x0-tb.x}px,${y0-tb.y}px) scale(${(x1-x0)/tb.w},${(y1-y0)/tb.h})`},{opacity:.25,offset:.35},{opacity:1,transform:"translate(0px,0px) scale(1,1)"}],{duration:D,delay:T0,easing:IO});
+  A(cv,[{opacity:1},{opacity:0}],{duration:300,delay:T0+150});
+  tab.style.visibility="hidden";
+  FXEND=(done)=>{tab.style.visibility=done?"":"hidden";L.style.display=done?"none":""};
+  return T0+D+n*15+30;
+}
+// クイズの出題：細い帯が横に伸び、縦に開いてウィンドウになる（10/9 本人 OK）
+function fxQuiz(sc){
+  const win=sc.querySelector(".win"),wb=sc.querySelector(".wb"),chs=[...sc.querySelectorAll("[data-choice]")];
+  const H=win.offsetHeight;
+  A(win,[{transform:"scaleX(0)"},{transform:"scaleX(1)"}],{duration:140,easing:OUT});
+  A(win,[{height:"56px"},{height:"56px",offset:.32},{height:H+"px"}],{duration:440,easing:BACK});
+  A(wb,[{opacity:0},{opacity:1}],{duration:180,delay:380});
+  chs.forEach((c,i)=>A(c,[{opacity:0,transform:"translateY(24px)"},{opacity:1,transform:"none"}],{duration:350,delay:500+i*60,easing:BACK}));
+  return 500+chs.length*60+350;
+}
+// 正解の発表：ほかが暗く → 正解がぐっと寄る → ○ → 「正解！」（10/9 見本 OK）
+function fxAnswer(sc){
+  const chs=[...sc.querySelectorAll("[data-choice]")],ok=sc.querySelector("[data-choice].ok");if(!ok)return 0;
+  chs.filter(c=>c!==ok).forEach(c=>A(c,[{opacity:1},{opacity:.3}],{duration:250}));
+  A(ok,[{transform:"scale(1)",backgroundColor:"#ffffff"},{transform:"scale(1.08)",backgroundColor:"#fff4c2",offset:.4},{transform:"scale(1.03)",backgroundColor:"#fff4c2"}],{duration:320,delay:150,easing:BACK});
+  A(ok.querySelector(".stp"),[{opacity:0,transform:"scale(1.8) rotate(-20deg)"},{opacity:1,transform:"scale(1) rotate(0deg)"}],{duration:260,delay:330,easing:BACK});
+  A(ok.querySelector(".okc"),[{transform:"scale(0) rotate(-8deg)"},{transform:"scale(1) rotate(4deg)"}],{duration:280,delay:450,easing:BACK});
+  return 760;
+}
+// 一覧・札が順番に出る＋マーカーが引かれる（10/9 見本 OK）
+function fxReveal(sc,from){
+  const els=[...sc.querySelectorAll("[data-at]")].filter(e=>!e.classList.contains("hid")&&+e.dataset.at>from);
+  let end=0;
+  els.forEach((e,i)=>{const d=i*90;A(e,[{opacity:0,transform:"translateY(36px)"},{opacity:1,transform:"none"}],{duration:420,delay:d,easing:BACK});end=Math.max(end,d+420);
+    e.querySelectorAll(".mk").forEach(m=>{A(m,[{backgroundSize:"0% 100%"},{backgroundSize:"100% 100%"}],{duration:350,delay:d+220,easing:IO});end=Math.max(end,d+570)})});
+  return end;
+}
+window.fx=(st)=>{
+  fxClear();const f=st.fx;if(!f)return 0;
+  const sc=F.querySelector(`.sc[data-sc="${st.scene}"]`);
+  let d=0;
+  if(f.chapter&&st.chapter)d=Math.max(d,fxChapter(st.chapter));
+  if(sc){
+    if(f.kind==="quiz")d=Math.max(d,fxQuiz(sc));
+    else if(f.kind==="answer")d=Math.max(d,fxAnswer(sc));
+    else if(f.kind==="reveal")d=Math.max(d,fxReveal(sc,f.from));
+  }
+  FXDUR=d;fxSeek(0);return d;
 };
 </script>
 </body>

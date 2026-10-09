@@ -138,7 +138,7 @@ def main(script_path, out_dir):
     wav.unlink()
     meta = {"id": spec["id"], "format": spec.get("format"), "title": spec["title"],
             "topic": spec.get("topic"), "scenes": spec.get("scenes"),
-            "upload": spec.get("upload"), "thumb": spec.get("thumb"), "emote": spec.get("emote"), "emote_extra": spec.get("emote_extra"), "emote_sfx": spec.get("emote_sfx"), "duration": round(len(y) / SR, 3), "lines": timeline}
+            "upload": spec.get("upload"), "thumb": spec.get("thumb"), "emote": spec.get("emote"), "emote_extra": spec.get("emote_extra"), "emote_sfx": spec.get("emote_sfx"), "fx": spec.get("fx"), "duration": round(len(y) / SR, 3), "lines": timeline}
     (out / f"{spec['id']}.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"[info] {spec['id']}: {meta['duration']:.1f}秒・{len(timeline)}行 -> {mp3}")
     return 0
