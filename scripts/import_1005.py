@@ -22,6 +22,7 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
 TYPES = {"title", "list", "levels", "grid", "forces", "cards", "quiz"}
 VOICE = {
     "long": ({"zundamon": {"speaker": 3, "speed": 1.43, "pitch": 0.0, "intonation": 1.35},
@@ -105,6 +106,11 @@ def main():
                 ok += 1
             (out / f"{d['id']}.json").write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"[info] 取り込み：形に問題なし {ok}本・要確認 {bad}本 -> {out.relative_to(ROOT)}")
+    try:  # 10/10 文全体カタカナの say を、漢字で読ませる形に（音素が同じものだけ）
+        import fix_says
+        fix_says.main([str(out.relative_to(ROOT))])
+    except Exception as e:
+        print(f"[warn] say の見直しができなかった（音声ソフトが止まっている？）: {e}")
     return 0
 
 
