@@ -1,0 +1,170 @@
+{
+  "id": "b129_duel_ppp_pppoe",
+  "format": "short",
+  "title": "PPPとPPPoEの違い",
+  "topic": "応用情報｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 中分類10 ネットワーク 3.(1)② データリンク層のプロトコル（用語例 PPP，PPPoE）",
+    "IPA 令和4年度 春期 応用情報技術者試験 午前 問32（問題冊子 p.16）：シリアル回線で使用するものと同じデータリンクのコネクション確立やデータ転送を，LAN 上で実現するプロトコルはどれか。ア MPLS イ PPP ウ PPPoE エ PPTP（解答：ウ）"
+  ],
+  "upload": {
+    "title": "【応用情報 ネットワーク】PPPとPPPoEの違いとは？2点の線か LAN の上か",
+    "title_b": "【応用情報 ネットワーク】PPPとPPPoEの違いとは？2点の線か LAN の上か",
+    "title_c": "PPPとPPPoEの違いを{sec}秒で｜2点の線か LAN の上か【応用情報】",
+    "summary": "取り違えやすいPPPとPPPoEを対決させて、違い（2点の線か LAN の上か）を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（10 ネットワーク 3.(1)② データリンク層のプロトコル） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf",
+      "令和4年度 春期 応用情報技術者試験 午前 問32（要約） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_qs.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "ネットワーク",
+      "PPP",
+      "PPPoE",
+      "データリンク層",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "q": {
+      "type": "title",
+      "lines": [
+        "PPPと",
+        "PPPoE"
+      ],
+      "mark": 1,
+      "src": "出典：IPA 応用情報技術者試験 シラバス Ver.7.2 中分類10 ネットワーク、RFC 1661・2516（PPP・PPPoEの仕組み）"
+    },
+    "duel": {
+      "type": "grid",
+      "head": "PPPとPPPoEの対決",
+      "cols": [
+        "PPP",
+        "PPPoE"
+      ],
+      "rows": [
+        "仕組み",
+        "利用例"
+      ],
+      "cells": [
+        {
+          "tag": "2点をつなぐ",
+          "text": "2点間でデータを転送するデータリンク層のプロトコル"
+        },
+        {
+          "tag": "LAN の上で",
+          "text": "PPPのデータをイーサネットのフレームに入れて運ぶ"
+        },
+        {
+          "tag": "例",
+          "text": "昔のダイヤルアップ接続"
+        },
+        {
+          "tag": "例",
+          "text": "プロバイダ接続に使われる場合がある。PPPの認証機能を利用できる"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "src": "出典：IPA 令和4年度 春期 応用情報技術者試験 午前 問32、RFC 1661・2516。仕組み・利用例・認証機能を要約"
+    }
+  },
+  "lines": [
+    {
+      "scene": "q",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "PPPoEも、PPPと同じで、シリアル回線で使うものなのだ！"
+    },
+    {
+      "scene": "q",
+      "step": 0,
+      "who": "metan",
+      "text": "イーサネット上で使うための仕組みよ。oEの意味を、3秒で考えてみて。"
+    },
+    {
+      "scene": "q",
+      "step": 0,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "duel",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "PPPは、2点間でデータを転送するデータリンク層のプロトコル。ダイヤルアップ接続が例よ。"
+    },
+    {
+      "scene": "duel",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "PPPoEは、PPPのデータをイーサネットのフレームに入れて運ぶ仕組み。oEはover Ethernetよ。"
+    },
+    {
+      "scene": "duel",
+      "step": 4,
+      "who": "zundamon",
+      "text": "なるほど。中身は同じでも、乗っている道がちがうのだ。"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "1005（Claude、指示書 Opus-13）",
+      "round": "1回目の監査と直し",
+      "verdict": "直した",
+      "notes": "# b129_duel_ppp_pppoe 監査（Opus-13・作業168）\n\n確認日：2026-10-09（日本時間）\n\n## 判断\n**直せば可 → 直した**（中身の誤りはありません）。見積もり 約42.1秒 → 約37.1秒\n\n## 直した所\n| # | 元の文 | 直した文 | 理由 |\n|---|---|---|---|\n| 1 | 「令和4年度春期の午前、問32でも、この説明の答えがPPPoEだったわ。」 | （削除） | 長さを縮めるため。中身は下の確認のとおり正しい |\n\n## 確かめたこと\n- シラバス Ver.7.2（https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf）10 ネットワーク 3.(1)② の用語例に PPP・PPPoE がある。\n- 令和4年度 春期 午前 問32（https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_qs.pdf p.16 を頁の画像で確認、正答 ウ PPPoE）：「シリアル回線で使用するものと同じデータリンクのコネクション確立やデータ転送を，LAN 上で実現するプロトコル」。台本の説明と合う。\n- 型：ずんだもんの勘違い → めたんが直す →「3秒で考えてみて」＋3秒の間。対決の表（名前／ちがい、行ごとの順）と台詞の順が合っている。字幕はどれも60字以内。英字の略語に読み（say）がある。\n\n## Codex に特に見てほしいこと\n- 表の例（昔のダイヤルアップ接続、光回線などでプロバイダにつなぐとき）は一般的な例。問題が無いか。\n"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-10",
+      "round": 1,
+      "verdict": "直せば可",
+      "fixes": [
+        "delete 7: 4・5・6の繰り返しであり、PPPを物理的な線とする誤解も招く。",
+        "replace 5: イーサネットとLANを同義にせず、PPPを運ぶ仕組みを具体的に示す。[RFC 2516](https://www.rfc-editor.org/rfc/rfc2516.html)。",
+        "replace 4: PPP自体をシリアル回線だけに限定せず、基本の役割と例を示す。[RFC 1661](https://www.rfc-editor.org/rfc/rfc1661.html)。",
+        "replace 2: 曖昧な「半分はずれ」を省き、変更後の勘違いを直接訂正する。",
+        "replace 1: 冗談を省き、使用する伝送路についての勘違いに絞る。現状では冗談の指定と直後の短い返しがない。",
+        "scene duel.rows: 本文は名前と違いではなく、仕組みと利用例。",
+        "scene duel.cells.0.text: 修正後の4とそろえ、シリアル回線だけに限定しない。",
+        "scene duel.cells.1.text: 修正後の5とそろえ、LAN全般とイーサネットの混同を避ける。",
+        "scene duel.cells.3.text: 光回線なら必ずPPPoE、認証も必須という誤解を避ける。PPPの認証は規格上任意。[RFC 1661](https://www.rfc-editor.org/rfc/rfc1661.html)。",
+        "scene q.src: 冒頭にも用語と仕組みの根拠を表示する。",
+        "scene duel.src: 比較画面にも具体的な説明の根拠を表示する。"
+      ],
+      "notes": "PPPoEという解答と、oEがover Ethernetを表す説明は適切です。提示された略語の読みに誤りはなく、字幕も各60字以内です。"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-10",
+      "round": 2,
+      "verdict": "可",
+      "fixes": [],
+      "notes": "前回の11件の指摘はすべて反映されています。内容・出典・読み・字幕60字以内に新しい問題はありません。冗長な繰り返しや冗談はなく、ショートの構成も決まりに沿っています。"
+    }
+  ],
+  "publish_at": "2026-10-30T12:00:00+09:00"
+}

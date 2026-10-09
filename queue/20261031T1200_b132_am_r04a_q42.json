@@ -1,0 +1,170 @@
+{
+  "id": "b132_am_r04a_q42",
+  "format": "short",
+  "title": "WAF（令和4年度秋期 午前 問42）",
+  "topic": "応用情報 午前｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和4年度 秋期 応用情報技術者試験 午前 問42（問題冊子 p.19）：WAF による防御が有効な攻撃として，最も適切なものはどれか。ア DNS サーバに対する DNS キャッシュポイズニング イ REST API サービスに対する API の脆弱性を狙った攻撃 ウ SMTP サーバの第三者不正中継の脆弱性を悪用したフィッシングメールの配信 エ 電子メールサービスに対する電子メール爆弾（解答例：イ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】WAFの問題 令和4年度秋期 問42",
+    "title_b": "【応用情報 午前】WAFの問題 令和4年度秋期 問42",
+    "title_c": "WAFを{sec}秒で｜令和4年度秋期 午前 問42【応用情報】",
+    "summary": "令和4年度秋期 午前 問42（WAF）を解きます。WAF が守るのは Web の通信だと分かれば、選択肢を分けられます。",
+    "sources": [
+      "令和4年度 秋期 応用情報技術者試験 午前 問42（問題冊子 p.19、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_qs.pdf",
+      "令和4年度 秋期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "セキュリティ",
+      "WAF",
+      "Webアプリケーション",
+      "REST API",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "WAF による防御が有効な攻撃として，最も適切なものはどれか。",
+      "choices": [
+        "ア　DNS サーバに対する DNS キャッシュポイズニング",
+        "イ　REST API サービスに対する API の脆弱性を狙った攻撃",
+        "ウ　SMTP サーバの第三者不正中継の脆弱性を悪用したフィッシングメールの配信",
+        "エ　電子メールサービスに対する電子メール爆弾"
+      ],
+      "answer": 1,
+      "src": "出典：令和4年度 秋期 応用情報技術者試験 午前 問42",
+      "cols": 1
+    },
+    "why": {
+      "type": "cards",
+      "head": "WAF が見るもの",
+      "items": [
+        {
+          "name": "WAF",
+          "desc": "Webアプリケーションファイアウォール。HTTP通信を検査し、不正な通信を検知・遮断する"
+        },
+        {
+          "name": "REST API（イ）",
+          "desc": "HTTPで通信するREST APIは、WAFによる防御の対象になる"
+        },
+        {
+          "name": "DNS・メール（ア・ウ・エ）",
+          "desc": "この設問のDNSキャッシュポイズニングやメールへの攻撃は、WAFの防御対象ではない"
+        }
+      ],
+      "src": "出典：IPA 令和4年度 秋期 応用情報技術者試験 午前 問42、IPA「Web Application Firewall読本 改訂第2版」。WAFの機能と設問の防御対象を要約"
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "WAFはファイアウォールだから、メールでもDNSでも、何でも守れるのだ！",
+      "say": "ワフはファイアウォールだから、メールでもディーエヌエスでも、何でも守れるのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "何でも守れるわけではないわ。WAFの防御が有効な攻撃を選んでね。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "正解はイ、REST APIの脆弱性を狙った攻撃よ。",
+      "expr": "smile",
+      "say": "正解はイ、レストエーピーアイの脆弱性を狙った攻撃よ。"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "WAFは、Webアプリケーションファイアウォール。Webの通信を検査し、不正な通信を検知・遮断するの。"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "HTTPで通信するREST APIは、WAFによる防御の対象になるわ。",
+      "say": "エイチティーティーピーで通信するレストエーピーアイは、ワフによる防御の対象になるわ。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "アのDNSキャッシュポイズニングと、ウ・エのメール攻撃は、WAFの防御対象ではないわ。"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "1005（Claude、指示書 Opus-13）",
+      "round": "1回目の監査と直し",
+      "verdict": "直した",
+      "notes": "# b132_am_r04a_q42 監査（Opus-13・作業170）\n\n確認日：2026-10-09（日本時間）\n\n## 判断\n**可**（直す所はありません）。見積もり 約40.0秒 → 約40.0秒\n\n## 直した所\nなし。\n\n## PDF で確かめたこと\n- 問題冊子：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_qs.pdf の p.19 を頁の画像で読んだ。問題文と4つの選択肢が台本の `quiz` と一致（読点「，」→「、」だけ。改変なし）。\n- 解答例：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000008smf-att/2022r04a_ap_am_ans.pdf（問42 の正答は イ。台本の `answer` と一致）\n- 場面の `src`（出典：令和4年度 秋期 応用情報技術者試験 午前 問42）と `upload.sources` も一致。型（勘違い →「3秒で考えてみて」＋3秒の間）がある。字幕はどれも60字以内。英字に読み（say）がある。\n\n## Codex に特に見てほしいこと\n- 「WAF は Web の通信（HTTP）の中身を見る」「REST API は HTTP でやり取りする」は一般的な説明。問題が無いか。\n"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-10",
+      "round": 1,
+      "verdict": "直せば可",
+      "fixes": [
+        "delete 8: 5の名称と防御対象の説明を繰り返している。",
+        "replace 7: DNSやメールサービス全般ではなく、この設問の攻撃について説明する。",
+        "replace 6: HTTPで通信するだけで、あらゆる脆弱性への攻撃を防げるという説明を避ける。",
+        "replace 5: すべての攻撃を止められるという断定を避け、機能を示す。[IPAの説明](https://www.ipa.go.jp/archive/files/000017312.pdf)。",
+        "replace 4: REST APIへの攻撃全般ではなく、選択肢の攻撃内容を示す。",
+        "replace 2: 曖昧な「半分はずれ」「ある通信だけ」を省き、勘違いと問いを明確にする。",
+        "scene why.items.0.desc: 修正後の5とそろえ、防御を一律に保証しない。",
+        "scene why.items.1.desc: 修正後の6とそろえ、HTTPを使えば必ず守れるという表示を避ける。",
+        "scene why.items.2.desc: 修正後の7とそろえ、選択肢に示された攻撃に範囲を絞る。",
+        "scene why.src: 解説画面にも、具体的な機能と選択肢の判断の根拠を表示する。"
+      ],
+      "notes": "正答のイ、問題文、選択肢、解答番号は提示材料と整合しています。字幕は60字以内で、提示された読みや冗談の扱いに問題はありません。"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-10",
+      "round": 2,
+      "verdict": "可",
+      "fixes": [
+        "replace 6: こちらもREST APIの読みを「レストエーピーアイ」にそろえる。",
+        "replace 4: 修正後にRESTが英字の逐字読みになっているため、用語の読み「レスト」に戻す。"
+      ],
+      "notes": "前回の内容・出典・冗長さに関する指摘はすべて反映されています。正答と防御対象の説明は整合しており、字幕も60字以内です。（最後の直しが読みだけだったので、当てて可とした）"
+    }
+  ],
+  "publish_at": "2026-10-31T12:00:00+09:00"
+}
