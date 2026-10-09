@@ -2,7 +2,10 @@
  "lists": {
   "応用情報｜経営戦略": "PLc0ljsRxetXg",
   "応用情報｜ネットワーク": "PLBLlPVIXyNMo",
-  "応用情報｜午後問題の解き方": "PLVWWfWUKfBSo"
+  "応用情報｜午後問題の解き方": "PLVWWfWUKfBSo",
+  "応用情報｜セキュリティ": "PLAAmmbuUZhbA",
+  "応用情報｜サービスマネジメント": "PLXd7jQ1ByrL8",
+  "応用情報｜午前の過去問": "PLPk0RbNdcj14"
  },
  "added": {
   "PLc0ljsRxetXg:WOTSTmOmJlI": true,
@@ -20,6 +23,13 @@
   "PLBLlPVIXyNMo:u52yuDFalkI": true,
   "PLBLlPVIXyNMo:_Lb__6wybtU": true,
   "PLBLlPVIXyNMo:QKEJgEi-9Yo": true,
-  "PLVWWfWUKfBSo:QKEJgEi-9Yo": true
+  "PLVWWfWUKfBSo:QKEJgEi-9Yo": true,
+  "PLAAmmbuUZhbA:2QmnuiWfbZs": true,
+  "PLVWWfWUKfBSo:2QmnuiWfbZs": true,
+  "PLAAmmbuUZhbA:usghp8D22fk": true,
+  "PLXd7jQ1ByrL8:_I4ut4rEHCI": true,
+  "PLPk0RbNdcj14:_I4ut4rEHCI": true,
+  "PLc0ljsRxetXg:Yxx803RyCRk": true,
+  "PLPk0RbNdcj14:Yxx803RyCRk": true
  }
 }

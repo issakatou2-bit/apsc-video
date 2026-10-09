@@ -127,6 +127,11 @@ def main():
             continue
         if r == "limit":
             return 1 if failed else 0
+    try:  # 10/10 入れそこねた再生リストの分を、まとめて入れ直す（入れた記録は data/playlists.json）
+        import playlists
+        playlists.main()
+    except Exception as e:
+        print(f"[warn] 再生リストの入れ直しができなかった: {str(e)[:200]}")
     if failed:
         print(f"[error] 失敗 {len(failed)}本: {', '.join(failed)}")
         return 1

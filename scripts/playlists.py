@@ -52,6 +52,7 @@ def ensure(yt, st, name):
             "snippet": {"title": name, "description": DESC.format(field), "defaultLanguage": "ja"},
             "status": {"privacyStatus": "public"}}).execute()
         st["lists"][name] = r["id"]
+        STORE.write_text(json.dumps(st, ensure_ascii=False, indent=1) + chr(10), encoding="utf-8")  # 10/10 作ったらすぐ記録（重複を防ぐ）
         print(f"[info] 再生リストを作った: {name}（{r['id']}）")
     return st["lists"][name]
 
@@ -64,8 +65,16 @@ def add(video_id, topic, yt=None):
         key = f"{pid}:{video_id}"
         if key in st["added"]:
             continue
-        yt.playlistItems().insert(part="snippet", body={"snippet": {
-            "playlistId": pid, "resourceId": {"kind": "youtube#video", "videoId": video_id}}}).execute()
+        import time
+        for t in range(4):  # 10/10 作ったばかりの再生リストには、すぐ入れると 409（aborted）になる → 少し待ってやり直す
+            try:
+                yt.playlistItems().insert(part="snippet", body={"snippet": {
+                    "playlistId": pid, "resourceId": {"kind": "youtube#video", "videoId": video_id}}}).execute()
+                break
+            except Exception as e:
+                if t == 3 or "409" not in str(e):
+                    raise
+                time.sleep(5 * (t + 1))
         st["added"][key] = True
         print(f"[info] {name} に入れた: {video_id}")
     STORE.parent.mkdir(exist_ok=True)
