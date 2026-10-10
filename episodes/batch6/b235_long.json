@@ -1,0 +1,1501 @@
+{
+  "id": "b235_long",
+  "format": "long",
+  "title": "SQL の読み方 ― 選択・射影・結合・集約・副問合せ",
+  "topic": "応用情報｜データベース",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.43,
+      "pitch": 0.0,
+      "intonation": 1.35
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.3,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類3 技術要素・中分類9 データベース「3. データ操作」(1) データベースの操作（p.39）：関係データベースのデータの操作として，集合演算（和，差，積（共通）），関係演算（選択，射影，結合，商，直積）などを理解する。用語例 関係代数",
+    "同 (2)② データベース言語（SQL）(a) データ定義言語（p.40）：スキーマ，テーブル，ビュー，処理権限を定義する SQL 文を理解する。また，データ型，列制約，表制約の定義方法，ビューの更新（更新可能なビューと更新不可能なビュー）を理解する。用語例 実表，ビュー表，文字型，数値型，日付型，一意性制約，参照制約，検査制約，非 NULL 制約，アクセス権，CASCADE，TRIGGER",
+    "同 (2)② (b) データ操作言語（SELECT 文）（p.40）：要求されるデータを選択するために，SELECT 文による問合せの方法，条件を指定した特定行や列の選択，表の結合，BETWEEN や IN などの述語指定，集合関数，グループ化，ウィンドウ，並べ替えなどを理解する。用語例 集約関数，パターン文字列，相関名，副問合せ，相関副問合せ，ウィンドウ関数",
+    "同 2.(2)③ データベースの論理設計（p.39）：…主キー，外部キーなどの概念，一貫性制約（一意性制約，参照制約，検査制約など）の制約を理解する。また，ビューの機能と定義を理解する。",
+    "IPA 令和5年度 秋期 応用情報技術者試験 午前 問28（問題冊子 p.16）：更新可能なビューを作成する SQL 文はどれか。ここで，SQL 文中に現れる基底表は全て更新可能とする。 ア CREATE VIEW 高額商品(商品番号，商品名，商品単価) AS SELECT 商品番号，商品名，商品単価 FROM 商品 WHERE 商品単価 > 1000　イ CREATE VIEW 受注商品(商品番号) AS SELECT DISTINCT 商品番号 FROM 受注　ウ CREATE VIEW 商品受注(商品番号，受注数量) AS SELECT 商品番号，SUM(受注数量) FROM 受注 GROUP BY 商品番号　エ CREATE VIEW 商品平均受注数量(平均受注数量) AS SELECT AVG(受注数量) FROM 受注（解答例：ア）",
+    "IPA 令和5年度 秋期 応用情報技術者試験 午前 問29（問題冊子 p.17）：“製品”表と“在庫”表に対し，次の SQL 文を実行した結果として得られる表の行数は幾つか。 SELECT DISTINCT 製品番号 FROM 製品 WHERE NOT EXISTS (SELECT 製品番号 FROM 在庫 WHERE 在庫数 > 30 AND 製品.製品番号 = 在庫.製品番号)　製品（製品番号，製品名，単価）：AB1805 CD-ROM ドライブ 15,000／CC5001 デジタルカメラ 65,000／MZ1000 プリンタ A 54,000／XZ3000 プリンタ B 78,000／ZZ9900 イメージスキャナ 98,000　在庫（倉庫コード，製品番号，在庫数）：WH100 AB1805 20／WH100 CC5001 200／WH100 ZZ9900 130／WH101 AB1805 150／WH101 XZ3000 30／WH102 XZ3000 20／WH102 ZZ9900 10／WH103 CC5001 40　ア 1　イ 2　ウ 3　エ 4（解答例：イ）"
+  ],
+  "upload": {
+    "title": "SQL の読み方 ― 選択・射影・結合・集約・副問合せ｜応用情報技術者試験 〈データベース〉",
+    "title_b": "【応用情報 データベース】相関副問合せとは？選択・射影・結合・集約関数・ビュー表",
+    "title_c": "SQLの読み方を{min}分で｜結合・GROUP BY・HAVING・副問合せ・過去問つき【応用情報】",
+    "summary": "SELECT 文の読み方を、作り話の図書室の「本」と「貸出」の2つの表で見ます。関係演算の選択（行を取り出す）と射影（列を取り出す）、結合（相関名、内部結合と外結合、参照制約）、集約関数と GROUP BY、WHERE と HAVING のちがい、SELECT 文が動く順番、副問合せと相関副問合せ（NOT EXISTS）、ビュー表（実表とのちがい、更新できるビュー）、ウィンドウ関数を、ずんだもんと四国めたんの対話で説明します。最後に令和5年度秋期 午前 問28 と問29 に挑戦します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（9 データベース 2.(2)③ p.39、3.(1) p.39、3.(2)②(a)(b) p.40） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf",
+      "令和5年度 秋期 応用情報技術者試験 午前 問28（問題冊子 p.16。改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/ps6vr70000010d6y-att/2023r05a_ap_am_qs.pdf",
+      "令和5年度 秋期 応用情報技術者試験 午前 問29（問題冊子 p.17。表は製品番号ごとの在庫数にまとめて表示＝一部改変） https://www.ipa.go.jp/shiken/mondai-kaiotu/ps6vr70000010d6y-att/2023r05a_ap_am_qs.pdf",
+      "令和5年度 秋期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/ps6vr70000010d6y-att/2023r05a_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "データベース",
+      "SQL",
+      "SELECT文",
+      "選択",
+      "射影",
+      "結合",
+      "外結合",
+      "集約関数",
+      "GROUP BY",
+      "HAVING",
+      "副問合せ",
+      "相関副問合せ",
+      "NOT EXISTS",
+      "ビュー表",
+      "ウィンドウ関数",
+      "参照制約",
+      "過去問",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "hook": {
+      "type": "title",
+      "lines": [
+        "SQL は",
+        "書いた順に",
+        "動く？"
+      ],
+      "mark": 1,
+      "reveal": [
+        "選択と射影",
+        "結合",
+        "集約",
+        "副問合せ"
+      ]
+    },
+    "map": {
+      "type": "list",
+      "head": "今日の流れ",
+      "items": [
+        "選択と射影：表を切り出す",
+        "結合：表をつなぐ",
+        "集約関数と GROUP BY：まとめる",
+        "副問合せと相関副問合せ",
+        "ビュー表とウィンドウ関数",
+        "過去問に挑戦"
+      ]
+    },
+    "tables": {
+      "type": "cards",
+      "head": "図書室の2つの表（説明のための作り話）",
+      "items": [
+        {
+          "name": "本：歴史",
+          "desc": "ずんだ餅の歴史 120ページ／東北の昔話 300ページ"
+        },
+        {
+          "name": "本：科学",
+          "desc": "枝豆の育て方 200ページ／宇宙のふしぎ 160ページ"
+        },
+        {
+          "name": "本：情報",
+          "desc": "やさしいSQL 150ページ／はじめての表計算 90ページ"
+        },
+        {
+          "name": "貸出（貸出番号・本番号・会員番号）",
+          "desc": "6件。ずんだ餅の歴史が3回、枝豆・宇宙・表計算が1回ずつ"
+        }
+      ]
+    },
+    "relops": {
+      "type": "cards",
+      "head": "関係演算：表から取り出す・つなぐ",
+      "items": [
+        {
+          "name": "選択",
+          "desc": "条件に合う行を取り出す（横に切る）"
+        },
+        {
+          "name": "射影",
+          "desc": "必要な列だけを取り出す（縦に切る）"
+        },
+        {
+          "name": "結合",
+          "desc": "2つの表を、同じ値の行どうしでつなぐ"
+        }
+      ],
+      "src": "出典：IPA 応用情報技術者試験 シラバス Ver.7.2 9 データベース 3.(1) データベースの操作"
+    },
+    "selproj": {
+      "type": "grid",
+      "head": "選択と射影の対決",
+      "cols": [
+        "選択",
+        "射影"
+      ],
+      "rows": [
+        "取り出すもの",
+        "SQL で書く場所"
+      ],
+      "cells": [
+        {
+          "tag": "行",
+          "text": "分野が歴史の本だけ"
+        },
+        {
+          "tag": "列",
+          "text": "題名の列だけ"
+        },
+        {
+          "tag": "WHERE 句",
+          "text": "WHERE 分野 = '歴史'"
+        },
+        {
+          "tag": "SELECT 句",
+          "text": "SELECT 題名"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "spex": {
+      "type": "list",
+      "stepwise": true,
+      "head": "選択と射影を一緒に",
+      "items": [
+        "SELECT 題名 FROM 本 WHERE ページ数 >= 200",
+        "WHERE で行をしぼる：枝豆の育て方・東北の昔話",
+        "SELECT で題名の列だけ残す → 2行"
+      ]
+    },
+    "join": {
+      "type": "list",
+      "stepwise": true,
+      "head": "結合：貸出と本をつなぐ",
+      "items": [
+        "SELECT L.貸出番号, B.題名 FROM 貸出 L JOIN 本 B ON L.本番号 = B.本番号",
+        "L と B は相関名（表に付けた短い別名）",
+        "貸出の6件それぞれに、同じ本番号の題名がつく"
+      ]
+    },
+    "joinduel": {
+      "type": "grid",
+      "head": "内部結合と外結合の対決",
+      "cols": [
+        "内部結合",
+        "外結合（本を全部残す）"
+      ],
+      "rows": [
+        "残る行",
+        "この例"
+      ],
+      "cells": [
+        {
+          "tag": "両方にある行だけ",
+          "text": "相手の無い行は消える"
+        },
+        {
+          "tag": "片方の表の行は全部",
+          "text": "相手の無い所は NULL"
+        },
+        {
+          "tag": "6行",
+          "text": "東北の昔話・やさしいSQL は出ない"
+        },
+        {
+          "tag": "8行",
+          "text": "借りられていない2冊も出る"
+        }
+      ],
+      "order": [
+        1,
+        3,
+        2,
+        4
+      ]
+    },
+    "refc": {
+      "type": "cards",
+      "head": "つなぐ列を守るしくみ",
+      "items": [
+        {
+          "name": "外部キー",
+          "desc": "貸出の本番号は、本の主キーを指す"
+        },
+        {
+          "name": "参照制約",
+          "desc": "本に無い本番号の貸出は、登録できない"
+        },
+        {
+          "name": "本を消すとき",
+          "desc": "消させないか、貸出も一緒に消すか（CASCADE）を決めておく"
+        }
+      ],
+      "src": "出典：IPA 応用情報技術者試験 シラバス Ver.7.2 9 データベース 3.(2)②(a)（用語例）"
+    },
+    "agg": {
+      "type": "cards",
+      "head": "集約関数：たくさんの行を1つの値に",
+      "items": [
+        {
+          "name": "COUNT",
+          "desc": "行の数。本は6冊"
+        },
+        {
+          "name": "SUM・AVG",
+          "desc": "合計と平均。ページ数の平均は 170"
+        },
+        {
+          "name": "MAX・MIN",
+          "desc": "いちばん大きい値と小さい値。300 と 90"
+        }
+      ]
+    },
+    "group": {
+      "type": "list",
+      "stepwise": true,
+      "head": "GROUP BY：グループごとに集約",
+      "items": [
+        "SELECT 本番号, COUNT(*) FROM 貸出 GROUP BY 本番号",
+        "本番号が同じ行を1つのグループにまとめて数える",
+        "ずんだ餅の歴史は3回、ほかの3冊は1回ずつ → 4行"
+      ]
+    },
+    "having": {
+      "type": "grid",
+      "head": "WHERE と HAVING の対決",
+      "cols": [
+        "WHERE",
+        "HAVING"
+      ],
+      "rows": [
+        "しぼるもの",
+        "いつ"
+      ],
+      "cells": [
+        {
+          "tag": "1行ずつしぼる",
+          "text": "集約関数の条件は書けない"
+        },
+        {
+          "tag": "グループをしぼる",
+          "text": "HAVING COUNT(*) >= 2 → ずんだ餅の歴史"
+        },
+        {
+          "tag": "グループに分ける前",
+          "text": "FROM の次"
+        },
+        {
+          "tag": "グループに分けた後",
+          "text": "GROUP BY の次"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "order": {
+      "type": "list",
+      "stepwise": true,
+      "head": "SELECT 文が動く順番",
+      "items": [
+        "FROM：どの表から（結合もここ）",
+        "WHERE：行をしぼる",
+        "GROUP BY：グループに分ける",
+        "HAVING：グループをしぼる",
+        "SELECT：列を選ぶ",
+        "ORDER BY：並べる"
+      ]
+    },
+    "sub": {
+      "type": "list",
+      "stepwise": true,
+      "head": "副問合せ：問合せの中の問合せ",
+      "items": [
+        "SELECT 題名 FROM 本 WHERE ページ数 > (SELECT AVG(ページ数) FROM 本)",
+        "かっこの中を先に1回だけ → 平均 170",
+        "170 より多い本：枝豆の育て方・東北の昔話"
+      ]
+    },
+    "corr": {
+      "type": "list",
+      "stepwise": true,
+      "head": "相関副問合せ：外の1行ごとに動く",
+      "items": [
+        "SELECT 題名 FROM 本 X WHERE ページ数 > (SELECT AVG(ページ数) FROM 本 Y WHERE Y.分野 = X.分野)",
+        "外の本1冊ごとに、その本の分野の平均を出す",
+        "歴史は 210、科学は 180、情報は 120 と比べる",
+        "結果：枝豆の育て方・東北の昔話・やさしいSQL"
+      ]
+    },
+    "subduel": {
+      "type": "grid",
+      "head": "副問合せと相関副問合せの対決",
+      "cols": [
+        "副問合せ",
+        "相関副問合せ"
+      ],
+      "rows": [
+        "外の列を使う？",
+        "動く回数"
+      ],
+      "cells": [
+        {
+          "tag": "使わない",
+          "text": "かっこの中だけで答えが出る"
+        },
+        {
+          "tag": "使う",
+          "text": "Y.分野 = X.分野 のように"
+        },
+        {
+          "tag": "先に1回だけ",
+          "text": "その結果を外の条件に使う"
+        },
+        {
+          "tag": "外の行ごとに",
+          "text": "行が変わると、中の答えも変わる"
+        }
+      ],
+      "order": [
+        1,
+        3,
+        2,
+        4
+      ]
+    },
+    "exists": {
+      "type": "cards",
+      "head": "NOT EXISTS：相手が1件も無ければ残す",
+      "items": [
+        {
+          "name": "SQL",
+          "desc": "SELECT 題名 FROM 本 B WHERE NOT EXISTS (SELECT * FROM 貸出 L WHERE L.本番号 = B.本番号)"
+        },
+        {
+          "name": "本1冊ごとに",
+          "desc": "同じ本番号の貸出が、1件でもあるかを調べる"
+        },
+        {
+          "name": "結果",
+          "desc": "1件も無い本だけ残る：東北の昔話・やさしいSQL"
+        }
+      ]
+    },
+    "view": {
+      "type": "cards",
+      "head": "ビュー表：SELECT 文に名前を付けた表",
+      "items": [
+        {
+          "name": "実表",
+          "desc": "データを実際に持つ表。本・貸出"
+        },
+        {
+          "name": "ビュー表",
+          "desc": "CREATE VIEW 貸出回数 AS SELECT 本番号, COUNT(*) FROM 貸出 GROUP BY 本番号"
+        },
+        {
+          "name": "使い方",
+          "desc": "実表と同じように SELECT できる"
+        }
+      ],
+      "src": "出典：IPA 応用情報技術者試験 シラバス Ver.7.2 9 データベース 3.(2)②(a) データ定義言語"
+    },
+    "viewupd": {
+      "type": "grid",
+      "head": "更新できるビューと、できないビュー",
+      "cols": [
+        "更新できる",
+        "更新できない"
+      ],
+      "rows": [
+        "例",
+        "ビューの1行は"
+      ],
+      "cells": [
+        {
+          "tag": "1つの表から行と列を取り出しただけ",
+          "text": "例：歴史の本の題名と分野"
+        },
+        {
+          "tag": "集約関数や GROUP BY を使った",
+          "text": "例：貸出回数"
+        },
+        {
+          "tag": "元の表の1行に決まる",
+          "text": "どの行を直せばよいか分かる"
+        },
+        {
+          "tag": "元の何行かをまとめた値",
+          "text": "どの行を直せばよいか決まらない"
+        }
+      ],
+      "order": [
+        1,
+        3,
+        2,
+        4
+      ]
+    },
+    "window": {
+      "type": "grid",
+      "head": "GROUP BY とウィンドウ関数の対決",
+      "cols": [
+        "GROUP BY",
+        "ウィンドウ関数"
+      ],
+      "rows": [
+        "結果の行",
+        "この例"
+      ],
+      "cells": [
+        {
+          "tag": "グループごとに1行",
+          "text": "行がまとめられて減る"
+        },
+        {
+          "tag": "行は減らない",
+          "text": "1行ずつに、まとめた値が横につく"
+        },
+        {
+          "tag": "GROUP BY 分野",
+          "text": "歴史・科学・情報の平均 → 3行"
+        },
+        {
+          "tag": "OVER (PARTITION BY 分野)",
+          "text": "6冊それぞれに、その分野の平均 → 6行"
+        }
+      ],
+      "order": [
+        1,
+        3,
+        2,
+        4
+      ]
+    },
+    "rank": {
+      "type": "list",
+      "stepwise": true,
+      "head": "ウィンドウ関数で順位をつける",
+      "items": [
+        "RANK() OVER (PARTITION BY 分野 ORDER BY ページ数 DESC)",
+        "分野ごとに、ページ数の多い順の順位",
+        "歴史：東北の昔話が1位、ずんだ餅の歴史が2位"
+      ]
+    },
+    "quiz1": {
+      "type": "quiz",
+      "q": "更新可能なビューを作成する SQL 文はどれか。ここで，SQL 文中に現れる基底表は全て更新可能とする。",
+      "choices": [
+        "ア　CREATE VIEW 高額商品(商品番号，商品名，商品単価) AS SELECT 商品番号，商品名，商品単価 FROM 商品 WHERE 商品単価 > 1000",
+        "イ　CREATE VIEW 受注商品(商品番号) AS SELECT DISTINCT 商品番号 FROM 受注",
+        "ウ　CREATE VIEW 商品受注(商品番号，受注数量) AS SELECT 商品番号，SUM(受注数量) FROM 受注 GROUP BY 商品番号",
+        "エ　CREATE VIEW 商品平均受注数量(平均受注数量) AS SELECT AVG(受注数量) FROM 受注"
+      ],
+      "answer": 0,
+      "cols": 1,
+      "src": "出典：令和5年度 秋期 応用情報技術者試験 午前 問28"
+    },
+    "quiz2": {
+      "type": "quiz",
+      "q": "“製品”表と“在庫”表に対し，次の SQL 文を実行した結果として得られる表の行数は幾つか。 SELECT DISTINCT 製品番号 FROM 製品 WHERE NOT EXISTS (SELECT 製品番号 FROM 在庫 WHERE 在庫数 > 30 AND 製品.製品番号 = 在庫.製品番号)　〔製品番号：在庫数〕AB1805：20，150　CC5001：200，40　MZ1000：在庫の行なし　XZ3000：30，20　ZZ9900：130，10",
+      "choices": [
+        "ア　1",
+        "イ　2",
+        "ウ　3",
+        "エ　4"
+      ],
+      "answer": 1,
+      "src": "出典：令和5年度 秋期 応用情報技術者試験 午前 問29（表は製品番号ごとの在庫数にまとめて表示。一部改変）"
+    },
+    "q2ans": {
+      "type": "cards",
+      "head": "製品ごとに、在庫数 30 を超える行があるか",
+      "items": [
+        {
+          "name": "ある → 外れる",
+          "desc": "AB1805（150）・CC5001（200）・ZZ9900（130）"
+        },
+        {
+          "name": "無い → 残る",
+          "desc": "MZ1000（在庫の行なし）・XZ3000（30 と 20）"
+        },
+        {
+          "name": "答え",
+          "desc": "残るのは2つ → イ"
+        }
+      ]
+    },
+    "summary": {
+      "type": "list",
+      "stepwise": true,
+      "head": "ここだけ覚える",
+      "items": [
+        "選択は行（WHERE）、射影は列（SELECT 句）",
+        "内部結合は両方にある行だけ。外結合は片方を全部残す",
+        "WHERE は行を、HAVING はグループをしぼる",
+        "相関副問合せは、外の1行ごとに中が動く",
+        "ビュー表は名前付きの SELECT。ウィンドウ関数は行を減らさない"
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "hook",
+      "step": 0,
+      "who": "zundamon",
+      "text": "SQLは、書いてある順に、上から動くのだ！ だからSELECTが最初なのだ！",
+      "sfx": "swish",
+      "say": "SQLは、書いてある順に、上から動くのだ！ だからセレクトが最初なのだ！"
+    },
+    {
+      "scene": "hook",
+      "step": 0,
+      "who": "metan",
+      "text": "半分はずれよ。SELECTは最初に書くけど、動く順番では後の方なの。",
+      "say": "半分はずれよ。セレクトは最初に書くけど、動く順番では後の方なの。"
+    },
+    {
+      "scene": "hook",
+      "step": 1,
+      "who": "zundamon",
+      "text": "えっ、じゃあ、どこから読めばいいのだ？",
+      "sfx": "pop"
+    },
+    {
+      "scene": "hook",
+      "step": 1,
+      "who": "metan",
+      "text": "どの表から、どの行を、どうまとめるか。その順に読むと、結果が見えてくるわ。"
+    },
+    {
+      "scene": "map",
+      "step": 0,
+      "who": "metan",
+      "text": "流れはこう。選択と射影、結合、集約関数とGROUP BY。",
+      "sfx": "transition",
+      "say": "流れはこう。選択と射影、結合、集約関数とグループバイ。"
+    },
+    {
+      "scene": "map",
+      "step": 0,
+      "who": "metan",
+      "text": "副問合せと相関副問合せ、ビュー表とウィンドウ関数。最後に過去問よ。"
+    },
+    {
+      "scene": "tables",
+      "step": 0,
+      "who": "metan",
+      "text": "第1章は、選択と射影。例は、図書室の本と貸出の表よ。説明のための作り話ね。",
+      "sfx": "transition",
+      "chapter": "第1章 選択と射影"
+    },
+    {
+      "scene": "tables",
+      "step": 1,
+      "who": "metan",
+      "text": "本の表には、本番号、題名、分野、ページ数。歴史の本は2冊。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "tables",
+      "step": 2,
+      "who": "metan",
+      "text": "科学の本が2冊。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "tables",
+      "step": 3,
+      "who": "metan",
+      "text": "情報の本が2冊。全部で6冊よ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "tables",
+      "step": 4,
+      "who": "metan",
+      "text": "貸出の表は6件。ずんだ餅の歴史が3回、ほかに3冊が1回ずつ借りられたの。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "tables",
+      "step": 4,
+      "who": "zundamon",
+      "text": "ずんだ餅の歴史が、いちばん人気なのだ。当然なのだ。",
+      "joke": true
+    },
+    {
+      "scene": "tables",
+      "step": 4,
+      "who": "metan",
+      "text": "ふふ、うれしそうね。",
+      "expr": "smile"
+    },
+    {
+      "scene": "relops",
+      "step": 0,
+      "who": "metan",
+      "text": "表からデータを取り出す基本の操作を、関係演算と言うわ。",
+      "sfx": "transition"
+    },
+    {
+      "scene": "relops",
+      "step": 1,
+      "who": "metan",
+      "text": "選択は、条件に合う行を取り出すこと。表を横に切るイメージね。",
+      "sfx": "pop",
+      "mark": "条件に合う行を取り出す"
+    },
+    {
+      "scene": "relops",
+      "step": 2,
+      "who": "metan",
+      "text": "射影は、必要な列だけを取り出すこと。表を縦に切るイメージよ。",
+      "sfx": "pop",
+      "mark": "必要な列だけを取り出す"
+    },
+    {
+      "scene": "relops",
+      "step": 3,
+      "who": "metan",
+      "text": "結合は、2つの表を、同じ値の行どうしでつなぐこと。第2章で見るわ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "selproj",
+      "step": 0,
+      "who": "zundamon",
+      "text": "SELECTは英語で「選ぶ」だから、SELECTが選択なのだ！",
+      "sfx": "transition",
+      "say": "セレクトは英語で「選ぶ」だから、セレクトが選択なのだ！"
+    },
+    {
+      "scene": "selproj",
+      "step": 1,
+      "who": "metan",
+      "text": "そこは、ひっかけよ。選択は行を取り出すこと。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "selproj",
+      "step": 2,
+      "who": "metan",
+      "text": "射影は列を取り出すこと。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "selproj",
+      "step": 3,
+      "who": "metan",
+      "text": "SQLで選択をするのは、WHERE句。分野が歴史、のような条件を書くの。",
+      "sfx": "pop",
+      "mark": "WHERE 句",
+      "say": "SQLで選択をするのは、ウェア句。分野が歴史、のような条件を書くの。"
+    },
+    {
+      "scene": "selproj",
+      "step": 4,
+      "who": "metan",
+      "text": "SELECTの後ろに列の名前を並べるのは、射影の方よ。",
+      "sfx": "pop",
+      "say": "セレクトの後ろに列の名前を並べるのは、射影の方よ。"
+    },
+    {
+      "scene": "spex",
+      "step": 0,
+      "who": "metan",
+      "text": "2つを一緒に使ってみるわ。ページ数が200以上の本の、題名だけを出すSQLよ。",
+      "sfx": "transition"
+    },
+    {
+      "scene": "spex",
+      "step": 1,
+      "who": "metan",
+      "text": "まずWHEREで行をしぼる。残るのは、枝豆の育て方と東北の昔話。",
+      "sfx": "pop",
+      "say": "まずウェアで行をしぼる。残るのは、枝豆の育て方と東北の昔話。"
+    },
+    {
+      "scene": "spex",
+      "step": 2,
+      "who": "metan",
+      "text": "次に、SELECTで題名の列だけを残す。結果は2行、1列の表ね。",
+      "sfx": "pop",
+      "say": "次に、セレクトで題名の列だけを残す。結果は2行、1列の表ね。"
+    },
+    {
+      "scene": "join",
+      "step": 0,
+      "who": "metan",
+      "text": "第2章は、結合。貸出の表には本番号しか無いから、題名が分からないわね。",
+      "sfx": "transition",
+      "chapter": "第2章 結合"
+    },
+    {
+      "scene": "join",
+      "step": 0,
+      "who": "metan",
+      "text": "そこで、本の表とつなぐの。本番号が同じ、というつなぐ条件を、ONのあとに書くわ。",
+      "say": "そこで、本の表とつなぐの。本番号が同じ、というつなぐ条件を、オンのあとに書くわ。"
+    },
+    {
+      "scene": "join",
+      "step": 1,
+      "who": "metan",
+      "text": "LとBは、表に付けた短い別名。これを相関名と言うの。",
+      "sfx": "pop",
+      "mark": "相関名",
+      "say": "エルとビーは、表に付けた短い別名。これを相関名と言うの。"
+    },
+    {
+      "scene": "join",
+      "step": 1,
+      "who": "zundamon",
+      "text": "別名なんて、何のために付けるのだ？"
+    },
+    {
+      "scene": "join",
+      "step": 1,
+      "who": "metan",
+      "text": "どちらの表の列かを、短く書き分けるためよ。本番号は、両方の表にあるもの。"
+    },
+    {
+      "scene": "join",
+      "step": 2,
+      "who": "metan",
+      "text": "貸出の6件それぞれに、同じ本番号の題名がついて、6行の表になるわ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "joinduel",
+      "step": 0,
+      "who": "zundamon",
+      "text": "これで、図書室の本が全部そろって見えるのだ！",
+      "sfx": "transition"
+    },
+    {
+      "scene": "joinduel",
+      "step": 1,
+      "who": "metan",
+      "text": "いいえ。この結合は内部結合。両方の表に相手がある行だけが残るの。",
+      "sfx": "pop",
+      "mark": "両方にある行だけ"
+    },
+    {
+      "scene": "joinduel",
+      "step": 2,
+      "who": "metan",
+      "text": "東北の昔話と、やさしいSQLは、一度も借りられていない。だから結果に出ないわ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "joinduel",
+      "step": 3,
+      "who": "metan",
+      "text": "本を全部残したいときは、外結合を使うの。相手の無い所は、NULLになるわ。",
+      "sfx": "pop",
+      "say": "本を全部残したいときは、外結合を使うの。相手の無い所は、ヌルになるわ。"
+    },
+    {
+      "scene": "joinduel",
+      "step": 4,
+      "who": "metan",
+      "text": "外結合なら、借りられていない2冊も出て、8行になるわね。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "refc",
+      "step": 1,
+      "who": "metan",
+      "text": "つなぐのに使った、貸出の本番号。これは、本の主キーを指す外部キーよ。",
+      "sfx": "transition"
+    },
+    {
+      "scene": "refc",
+      "step": 2,
+      "who": "metan",
+      "text": "本に無い本番号の貸出が入らないように守るのが、参照制約ね。",
+      "sfx": "pop",
+      "mark": "参照制約"
+    },
+    {
+      "scene": "refc",
+      "step": 3,
+      "who": "metan",
+      "text": "貸出のある本を消すときに、消させないか、一緒に消すかも決めておけるわ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "refc",
+      "step": 3,
+      "who": "metan",
+      "text": "一緒に消す指定を、CASCADEと言うの。",
+      "say": "一緒に消す指定を、カスケードと言うの。"
+    },
+    {
+      "scene": "agg",
+      "step": 0,
+      "who": "metan",
+      "text": "第3章は、集約。たくさんの行から、1つの値を出す関数を、集約関数と言うわ。",
+      "sfx": "transition",
+      "chapter": "第3章 集約関数と GROUP BY",
+      "mark": "たくさんの行を1つの値に"
+    },
+    {
+      "scene": "agg",
+      "step": 1,
+      "who": "metan",
+      "text": "COUNTは、行の数を数える。本の表なら6冊ね。",
+      "sfx": "pop",
+      "say": "カウントは、行の数を数える。本の表なら6冊ね。"
+    },
+    {
+      "scene": "agg",
+      "step": 2,
+      "who": "metan",
+      "text": "SUMは合計、AVGは平均。6冊のページ数の平均は、170よ。",
+      "sfx": "pop",
+      "countup": "170",
+      "say": "サムは合計、アベレージは平均。6冊のページ数の平均は、170よ。"
+    },
+    {
+      "scene": "agg",
+      "step": 3,
+      "who": "metan",
+      "text": "MAXはいちばん大きい値、MINはいちばん小さい値。300と90ね。",
+      "sfx": "pop",
+      "say": "マックスはいちばん大きい値、ミンはいちばん小さい値。300と90ね。"
+    },
+    {
+      "scene": "group",
+      "step": 0,
+      "who": "metan",
+      "text": "グループごとに集約したいときは、GROUP BYを使うの。",
+      "sfx": "transition",
+      "say": "グループごとに集約したいときは、グループバイを使うの。"
+    },
+    {
+      "scene": "group",
+      "step": 1,
+      "who": "metan",
+      "text": "本番号が同じ行を、1つのグループにまとめて、行の数を数えるわ。",
+      "sfx": "pop",
+      "mark": "1つのグループにまとめて"
+    },
+    {
+      "scene": "group",
+      "step": 2,
+      "who": "metan",
+      "text": "ずんだ餅の歴史は3回、ほかの3冊は1回ずつ。結果は、グループの数だけの4行よ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "group",
+      "step": 2,
+      "who": "zundamon",
+      "text": "じゃあ、SELECTに題名も並べれば、題名も一緒に出るのだ！",
+      "say": "じゃあ、セレクトに題名も並べれば、題名も一緒に出るのだ！"
+    },
+    {
+      "scene": "group",
+      "step": 2,
+      "who": "metan",
+      "text": "そのままでは書けないわ。GROUP BYのとき、SELECTに書けるのは、基本はグループの列と集約関数だけ。",
+      "say": "そのままでは書けないわ。グループバイのとき、セレクトに書けるのは、基本はグループの列と集約関数だけ。"
+    },
+    {
+      "scene": "group",
+      "step": 2,
+      "who": "metan",
+      "text": "題名もほしいなら、本の表と結合してから、まとめるの。"
+    },
+    {
+      "scene": "having",
+      "step": 0,
+      "who": "zundamon",
+      "text": "2回以上借りられた本だけ出したいのだ。WHEREにCOUNTの条件を書くのだ！",
+      "sfx": "transition",
+      "say": "2回以上借りられた本だけ出したいのだ。ウェアにカウントの条件を書くのだ！"
+    },
+    {
+      "scene": "having",
+      "step": 1,
+      "who": "metan",
+      "text": "そこはWHEREではないの。WHEREは、1行ずつしぼるところ。集約関数の条件は書けないわ。",
+      "sfx": "pop",
+      "say": "そこはウェアではないの。ウェアは、1行ずつしぼるところ。集約関数の条件は書けないわ。"
+    },
+    {
+      "scene": "having",
+      "step": 2,
+      "who": "metan",
+      "text": "グループをしぼるのは、HAVING。2回以上なら、残るのはずんだ餅の歴史だけね。",
+      "sfx": "pop",
+      "mark": "グループをしぼる",
+      "say": "グループをしぼるのは、ハビング。2回以上なら、残るのはずんだ餅の歴史だけね。"
+    },
+    {
+      "scene": "having",
+      "step": 3,
+      "who": "metan",
+      "text": "WHEREが働くのは、グループに分ける前。",
+      "sfx": "pop",
+      "say": "ウェアが働くのは、グループに分ける前。"
+    },
+    {
+      "scene": "having",
+      "step": 4,
+      "who": "metan",
+      "text": "HAVINGが働くのは、グループに分けた後よ。",
+      "sfx": "pop",
+      "say": "ハビングが働くのは、グループに分けた後よ。"
+    },
+    {
+      "scene": "order",
+      "step": 0,
+      "who": "metan",
+      "text": "ここで、最初の話。SELECT文が動く順番を並べるわ。",
+      "sfx": "transition",
+      "say": "ここで、最初の話。セレクト文が動く順番を並べるわ。"
+    },
+    {
+      "scene": "order",
+      "step": 1,
+      "who": "metan",
+      "text": "まずFROMで表を決めて、結合もする。次にWHEREで行をしぼる。",
+      "sfx": "pop",
+      "say": "まずフロムで表を決めて、結合もする。次にウェアで行をしぼる。"
+    },
+    {
+      "scene": "order",
+      "step": 3,
+      "who": "metan",
+      "text": "GROUP BYでグループに分けて、HAVINGでグループをしぼる。",
+      "sfx": "pop",
+      "say": "グループバイでグループに分けて、ハビングでグループをしぼる。"
+    },
+    {
+      "scene": "order",
+      "step": 5,
+      "who": "metan",
+      "text": "そのあとでSELECTが列を選び、最後にORDER BYで並べるの。",
+      "sfx": "pop",
+      "say": "そのあとでセレクトが列を選び、最後にオーダーバイで並べるの。"
+    },
+    {
+      "scene": "order",
+      "step": 5,
+      "who": "zundamon",
+      "text": "ぼくも、名前を呼ばれるのは最初なのに、出番は最後のほうなのだ。",
+      "joke": true
+    },
+    {
+      "scene": "order",
+      "step": 5,
+      "who": "metan",
+      "text": "ふふ、主役は最後に出るものね。",
+      "expr": "smile"
+    },
+    {
+      "scene": "sub",
+      "step": 0,
+      "who": "metan",
+      "text": "第4章は、副問合せ。SQLの中に、かっこで、もう1つのSELECT文を入れる形よ。",
+      "sfx": "transition",
+      "chapter": "第4章 副問合せと相関副問合せ",
+      "say": "第4章は、副問合せ。SQLの中に、かっこで、もう1つのセレクト文を入れる形よ。"
+    },
+    {
+      "scene": "sub",
+      "step": 1,
+      "who": "metan",
+      "text": "かっこの中は、先に1回だけ動く。6冊の平均ページ数、170が出るわ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "sub",
+      "step": 2,
+      "who": "metan",
+      "text": "その170より多い本が残る。枝豆の育て方と、東北の昔話ね。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "sub",
+      "step": 2,
+      "who": "metan",
+      "text": "副問合せの結果の一覧と比べるときは、INやNOT INも使うわ。",
+      "say": "副問合せの結果の一覧と比べるときは、インやノットインも使うわ。"
+    },
+    {
+      "scene": "corr",
+      "step": 0,
+      "who": "zundamon",
+      "text": "でも、分野で平均はちがうのだ。分野ごとの平均と比べたいのだ。",
+      "sfx": "transition"
+    },
+    {
+      "scene": "corr",
+      "step": 0,
+      "who": "metan",
+      "text": "そういうときは、かっこの中で、外の表の列を使うの。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "corr",
+      "step": 0,
+      "who": "metan",
+      "text": "XとYは、同じ本の表に付けた2つの相関名。Xが外、Yが中よ。",
+      "say": "エックスとワイは、同じ本の表に付けた2つの相関名。エックスが外、ワイが中よ。"
+    },
+    {
+      "scene": "corr",
+      "step": 1,
+      "who": "metan",
+      "text": "外の本1冊ごとに、中では、その本と同じ分野の平均を出すわ。",
+      "sfx": "pop",
+      "mark": "外の本1冊ごとに"
+    },
+    {
+      "scene": "corr",
+      "step": 2,
+      "who": "metan",
+      "text": "歴史の平均は210。東北の昔話は300だから残る。ずんだ餅の歴史は120だから外れるわ。",
+      "sfx": "pop",
+      "countup": "210"
+    },
+    {
+      "scene": "corr",
+      "step": 2,
+      "who": "metan",
+      "text": "科学の平均は180、情報の平均は120よ。"
+    },
+    {
+      "scene": "corr",
+      "step": 3,
+      "who": "metan",
+      "text": "結果は、枝豆の育て方、東北の昔話、やさしいSQLの3冊。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "corr",
+      "step": 3,
+      "who": "zundamon",
+      "text": "やさしいSQLは150ページで、全体の平均の170より少ないのに残ったのだ？"
+    },
+    {
+      "scene": "corr",
+      "step": 3,
+      "who": "metan",
+      "text": "そう。比べる相手が、情報の平均の120だからよ。"
+    },
+    {
+      "scene": "subduel",
+      "step": 0,
+      "who": "metan",
+      "text": "このように、外の行を使う副問合せを、相関副問合せと言うの。",
+      "sfx": "transition"
+    },
+    {
+      "scene": "subduel",
+      "step": 1,
+      "who": "metan",
+      "text": "ふつうの副問合せは、外の列を使わない。かっこの中だけで答えが出るわ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "subduel",
+      "step": 2,
+      "who": "metan",
+      "text": "だから、先に1回だけ動けばいいの。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "subduel",
+      "step": 3,
+      "who": "metan",
+      "text": "相関副問合せは、外の列を使う。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "subduel",
+      "step": 4,
+      "who": "metan",
+      "text": "外の行が変わると、中の答えも変わる。だから、外の行ごとに動くと考えるの。",
+      "sfx": "pop",
+      "mark": "外の行ごとに"
+    },
+    {
+      "scene": "subduel",
+      "step": 4,
+      "who": "zundamon",
+      "text": "かっこの中を先に全部やって、答えを1つ出しておけばいいと思っていたのだ。"
+    },
+    {
+      "scene": "subduel",
+      "step": 4,
+      "who": "metan",
+      "text": "それは、ふつうの副問合せの読み方ね。外の列が中に出てきたら、相関副問合せよ。"
+    },
+    {
+      "scene": "exists",
+      "step": 0,
+      "who": "metan",
+      "text": "相関副問合せでよく使う形に、NOT EXISTSがあるわ。",
+      "sfx": "transition",
+      "say": "相関副問合せでよく使う形に、ノットイグジスツがあるわ。"
+    },
+    {
+      "scene": "exists",
+      "step": 1,
+      "who": "metan",
+      "text": "一度も借りられていない本を出すSQLよ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "exists",
+      "step": 2,
+      "who": "metan",
+      "text": "外の本1冊ごとに、同じ本番号の貸出が、1件でもあるかを調べる。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "exists",
+      "step": 3,
+      "who": "metan",
+      "text": "1件も無ければ残るの。東北の昔話と、やさしいSQLね。",
+      "sfx": "pop",
+      "mark": "1件も無い本だけ残る"
+    },
+    {
+      "scene": "exists",
+      "step": 3,
+      "who": "zundamon",
+      "text": "EXISTSは、あるかないかだけを見るから、中のSELECTの列は何でもいいのだ？",
+      "say": "イグジスツは、あるかないかだけを見るから、中のセレクトの列は何でもいいのだ？"
+    },
+    {
+      "scene": "exists",
+      "step": 3,
+      "who": "metan",
+      "text": "そうよ。行が1件でも返るかどうかだけを見るの。"
+    },
+    {
+      "scene": "view",
+      "step": 0,
+      "who": "metan",
+      "text": "第5章は、ビュー表とウィンドウ関数。まずビュー表から。",
+      "sfx": "transition",
+      "chapter": "第5章 ビュー表とウィンドウ関数"
+    },
+    {
+      "scene": "view",
+      "step": 1,
+      "who": "metan",
+      "text": "本や貸出のように、データを実際に持つ表を、実表と言うわ。",
+      "sfx": "pop",
+      "mark": "データを実際に持つ表"
+    },
+    {
+      "scene": "view",
+      "step": 2,
+      "who": "metan",
+      "text": "ビュー表は、SELECT文に名前を付けて、表のように見せるもの。CREATE VIEWで作るの。",
+      "sfx": "pop",
+      "say": "ビュー表は、セレクト文に名前を付けて、表のように見せるもの。クリエイトビューで作るの。"
+    },
+    {
+      "scene": "view",
+      "step": 3,
+      "who": "metan",
+      "text": "作ったビュー表は、実表と同じようにSELECTできるわ。",
+      "sfx": "pop",
+      "say": "作ったビュー表は、実表と同じようにセレクトできるわ。"
+    },
+    {
+      "scene": "view",
+      "step": 3,
+      "who": "zundamon",
+      "text": "じゃあ、ビュー表も、実表と同じように、何でも書き換えられるのだ！"
+    },
+    {
+      "scene": "viewupd",
+      "step": 1,
+      "who": "metan",
+      "text": "そうとは限らないわ。1つの表から、行と列を取り出しただけのビューなら、更新できる。",
+      "sfx": "transition"
+    },
+    {
+      "scene": "viewupd",
+      "step": 2,
+      "who": "metan",
+      "text": "ビューの1行が、元の表の1行に決まるから、どこを直せばよいか分かるの。",
+      "sfx": "pop",
+      "mark": "元の表の1行に決まる"
+    },
+    {
+      "scene": "viewupd",
+      "step": 3,
+      "who": "metan",
+      "text": "でも、貸出回数のように、GROUP BYや集約関数を使ったビューは、更新できないの。",
+      "sfx": "pop",
+      "say": "でも、貸出回数のように、グループバイや集約関数を使ったビューは、更新できないの。"
+    },
+    {
+      "scene": "viewupd",
+      "step": 4,
+      "who": "metan",
+      "text": "回数の3は、貸出の3行をまとめた値。どの行を直せばよいか、決まらないものね。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "window",
+      "step": 0,
+      "who": "metan",
+      "text": "最後は、ウィンドウ関数。GROUP BYと比べるわ。",
+      "sfx": "transition",
+      "say": "最後は、ウィンドウ関数。グループバイと比べるわ。"
+    },
+    {
+      "scene": "window",
+      "step": 1,
+      "who": "metan",
+      "text": "GROUP BYは、グループごとに1行にまとめる。行の数は減るの。",
+      "sfx": "pop",
+      "say": "グループバイは、グループごとに1行にまとめる。行の数は減るの。"
+    },
+    {
+      "scene": "window",
+      "step": 2,
+      "who": "metan",
+      "text": "分野ごとの平均なら、歴史、科学、情報の3行になるわ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "window",
+      "step": 3,
+      "who": "metan",
+      "text": "ウィンドウ関数は、行を減らさない。",
+      "sfx": "pop",
+      "mark": "行は減らない"
+    },
+    {
+      "scene": "window",
+      "step": 4,
+      "who": "metan",
+      "text": "OVERのかっこの中で、PARTITION BY 分野と書くと、6冊それぞれの横に、その分野の平均がつくわ。",
+      "sfx": "pop",
+      "say": "オーバーのかっこの中で、パーティションバイ分野と書くと、6冊それぞれの横に、その分野の平均がつくわ。"
+    },
+    {
+      "scene": "rank",
+      "step": 0,
+      "who": "metan",
+      "text": "順位をつけるのにも使うわ。RANKは、順位を出すウィンドウ関数よ。",
+      "sfx": "transition",
+      "say": "順位をつけるのにも使うわ。ランクは、順位を出すウィンドウ関数よ。"
+    },
+    {
+      "scene": "rank",
+      "step": 1,
+      "who": "metan",
+      "text": "分野ごとに、ページ数の多い順に、1位、2位とつけていくの。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "rank",
+      "step": 2,
+      "who": "metan",
+      "text": "歴史なら、東北の昔話が1位、ずんだ餅の歴史が2位ね。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "rank",
+      "step": 2,
+      "who": "zundamon",
+      "text": "ずんだ餅の歴史が2位なんて、納得できないのだ。",
+      "joke": true
+    },
+    {
+      "scene": "rank",
+      "step": 2,
+      "who": "metan",
+      "text": "ふふ、ページ数の順位だものね。",
+      "expr": "smile"
+    },
+    {
+      "scene": "quiz1",
+      "step": 0,
+      "who": "metan",
+      "text": "過去問に挑戦。1問目は、令和5年度秋期の午前、問28よ。",
+      "sfx": "swish",
+      "chapter": "過去問に挑戦",
+      "say": "過去問に挑戦。1問目は、令和5年度秋期の午前、問い28よ。"
+    },
+    {
+      "scene": "quiz1",
+      "step": 0,
+      "who": "metan",
+      "text": "更新可能なビューを作るSQL文を選ぶ問題よ。10秒で考えてみて。"
+    },
+    {
+      "scene": "quiz1",
+      "step": 1,
+      "pause": 10,
+      "countdown": true
+    },
+    {
+      "scene": "quiz1",
+      "step": 2,
+      "who": "metan",
+      "text": "答えはア。1つの表から、条件に合う行と、列を取り出しただけのビューね。",
+      "sfx": "impact",
+      "expr": "smile"
+    },
+    {
+      "scene": "quiz1",
+      "step": 2,
+      "who": "metan",
+      "text": "ウはGROUP BYとSUM、エはAVG。何行かをまとめた値だから、更新できないの。",
+      "say": "ウはグループバイとサム、エはアベレージ。何行かをまとめた値だから、更新できないの。"
+    },
+    {
+      "scene": "quiz1",
+      "step": 2,
+      "who": "zundamon",
+      "text": "イは、集約関数を使っていないのだ。どうしてだめなのだ？"
+    },
+    {
+      "scene": "quiz1",
+      "step": 2,
+      "who": "metan",
+      "text": "DISTINCTは、同じ値の行を1行にまとめるの。ビューの1行が、元の何行に当たるか決まらないわ。",
+      "say": "ディスティンクトは、同じ値の行を1行にまとめるの。ビューの1行が、元の何行に当たるか決まらないわ。"
+    },
+    {
+      "scene": "quiz2",
+      "step": 0,
+      "who": "metan",
+      "text": "2問目は、同じ試験の問29。",
+      "sfx": "swish",
+      "say": "2問目は、同じ試験の問い29。"
+    },
+    {
+      "scene": "quiz2",
+      "step": 0,
+      "who": "metan",
+      "text": "NOT EXISTSを使ったSQLの、結果の行数を選ぶ問題よ。在庫数は、製品ごとにまとめて出したわ。",
+      "say": "ノットイグジスツを使ったSQLの、結果の行数を選ぶ問題よ。在庫数は、製品ごとにまとめて出したわ。"
+    },
+    {
+      "scene": "quiz2",
+      "step": 0,
+      "who": "metan",
+      "text": "10秒で考えてみて。"
+    },
+    {
+      "scene": "quiz2",
+      "step": 1,
+      "pause": 10,
+      "countdown": true
+    },
+    {
+      "scene": "quiz2",
+      "step": 2,
+      "who": "metan",
+      "text": "答えはイ、2行よ。",
+      "sfx": "impact",
+      "expr": "smile"
+    },
+    {
+      "scene": "q2ans",
+      "step": 0,
+      "who": "metan",
+      "text": "製品1つごとに、在庫数が30を超える在庫の行が、1件でもあるかを見るの。",
+      "sfx": "transition"
+    },
+    {
+      "scene": "q2ans",
+      "step": 1,
+      "who": "metan",
+      "text": "AB1805は150、CC5001は200、ZZ9900は130の行がある。だから外れるわ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "q2ans",
+      "step": 2,
+      "who": "metan",
+      "text": "MZ1000は、在庫の行がそもそも無い。XZ3000は30と20で、30を超えていない。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "q2ans",
+      "step": 2,
+      "who": "zundamon",
+      "text": "30ちょうどは、30より大きいに入らないのだ。危なかったのだ。"
+    },
+    {
+      "scene": "q2ans",
+      "step": 3,
+      "who": "metan",
+      "text": "そう。残るのはMZ1000とXZ3000の2つで、答えはイね。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "summary",
+      "step": 0,
+      "who": "metan",
+      "text": "まとめよ。選択は行を取り出すWHERE、射影は列を取り出すSELECT句。",
+      "sfx": "swish",
+      "chapter": "まとめ",
+      "say": "まとめよ。選択は行を取り出すウェア、射影は列を取り出すセレクト句。"
+    },
+    {
+      "scene": "summary",
+      "step": 1,
+      "who": "metan",
+      "text": "内部結合は両方にある行だけ。外結合は、片方の表を全部残す。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "summary",
+      "step": 2,
+      "who": "metan",
+      "text": "WHEREは行を、HAVINGはグループをしぼる。",
+      "sfx": "pop",
+      "say": "ウェアは行を、ハビングはグループをしぼる。"
+    },
+    {
+      "scene": "summary",
+      "step": 3,
+      "who": "metan",
+      "text": "相関副問合せは、外の1行ごとに中が動く。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "summary",
+      "step": 4,
+      "who": "metan",
+      "text": "ビュー表は、名前の付いたSELECT文。ウィンドウ関数は、行を減らさずに集計するわ。",
+      "sfx": "pop",
+      "say": "ビュー表は、名前の付いたセレクト文。ウィンドウ関数は、行を減らさずに集計するわ。"
+    },
+    {
+      "scene": "summary",
+      "step": 4,
+      "who": "zundamon",
+      "text": "SQLは、FROMから順に読むと、結果が見えてくるのだ！",
+      "say": "SQLは、フロムから順に読むと、結果が見えてくるのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/nighter.mp3"
+}
