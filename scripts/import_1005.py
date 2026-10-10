@@ -12,6 +12,8 @@
 使い方:
   python scripts/import_1005.py build/r1005 origin/claude/results-1007 103 104 ... --to episodes/batch3
   python scripts/import_1005.py build/r1005 <ブランチ> 143 144 ... --audited --to episodes/batch3
+  python scripts/import_1005.py build/codex_drafts - 240 241 ... --to episodes/batch7
+    （10/11 ref を - にすると、git ではなくフォルダ <repo>/<番号>/*.json から読む。Codex の下書き（scripts/draft_codex.py）用）
     （10/9 1005 での1回目の監査と直し（指示書 Opus-13）の成果を、同じ id の台本に上書きで戻す。
      <id>.audit.md の中身を台本の audit に足す。このあと produce.py で Codex の最後の確認）
 """
@@ -30,6 +32,18 @@ VOICE = {
     "short": ({"zundamon": {"speaker": 3, "speed": 1.54, "pitch": 0.0, "intonation": 1.45},
                "metan": {"speaker": 2, "speed": 1.35, "pitch": 0.0, "intonation": 1.55}}, "assets/bgm/everyday.mp3"),
 }
+
+
+def ls_out(repo, ref, n):
+    if ref == "-":
+        return sorted(p.name for p in (pathlib.Path(repo) / str(n)).glob("*.json"))
+    return [x for x in git(repo, "ls-tree", "--name-only", f"{ref}:apsc-video/out/{n}").split("\n") if x.endswith(".json")]
+
+
+def read_out(repo, ref, n, name):
+    if ref == "-":
+        return (pathlib.Path(repo) / str(n) / name).read_text(encoding="utf-8")
+    return git(repo, "show", f"{ref}:apsc-video/out/{n}/{name}")
 
 
 def git(repo, *a):
@@ -77,10 +91,8 @@ def main():
     known = {p.stem for p in ROOT.glob("episodes/**/*.json")}
     ok = bad = 0
     for n in a.nums:
-        names = [x for x in git(a.repo, "ls-tree", "--name-only", f"{a.ref}:apsc-video/out/{n}").split("\n")
-                 if x.endswith(".json")]
-        for name in names:
-            d = json.loads(git(a.repo, "show", f"{a.ref}:apsc-video/out/{n}/{name}"))
+        for name in ls_out(a.repo, a.ref, n):
+            d = json.loads(read_out(a.repo, a.ref, n, name))
             if a.audited:
                 d["id"] = pathlib.Path(name).stem
                 try:
