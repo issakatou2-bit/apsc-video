@@ -1,0 +1,123 @@
+{
+  "id": "b205_short2",
+  "format": "short",
+  "title": "クルマの CASE",
+  "topic": "応用情報｜ビジネスインダストリ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 中分類21 ビジネスインダストリ：2.(2) 基幹業務支援システム及び業務パッケージ（用語例 IoT（Internet of Things），IoT がもたらす効果（監視，制御，最適化，自律化），デジタルツイン，サイバーフィジカルシステム（CPS）ほか）（p.117〜118）4.(1) IoT システム・組込みシステム「コンピュータが民生機器や産業機器に組み込まれていること，これらの機器を制御する仕組み，組込みシステムの特徴，動向，代表例を理解する」（用語例 マイクロコンピュータ（マイコン），エッジコンピューティング，エッジ AI，省電力，高信頼設計，安全性設計，耐環境性，組込み OS，リアルタイム OS，リアルタイム制御，イベント，センサー，ファームウェア ほか）（p.119〜120）5.(1)① 産業機器の特徴と動向（用語例 M2M（Machine to Machine），SoS，スマートシティ，スマートファクトリー，スマート農業，MaaS（Mobility as a Service）ほか）5.(1)③ 自動車制御システムの特徴と動向（用語例 CASE（Connected，Autonomous，Shared & Services，Electric），SDV（Software Defined Vehicle），コネクテッドカー，自動運転，ADAS ほか）（p.120〜121）"
+  ],
+  "upload": {
+    "title": "クルマの CASE 4文字の意味｜応用情報技術者試験 〈ビジネスインダストリ〉",
+    "title_b": "【応用情報 ビジネスインダストリ】CASE とは？クルマの変化を表す4文字",
+    "title_c": "CASE を{sec}秒で｜クルマの変化を表す4文字【応用情報】",
+    "summary": "自動車の変化を表す CASE（Connected・Autonomous・Shared & Services・Electric）の4文字を短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（21 ビジネスインダストリ 5.(1)③ 用語例） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "ビジネスインダストリ",
+      "CASE",
+      "自動運転",
+      "コネクテッドカー",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_cards": {
+      "type": "cards",
+      "head": "クルマの CASE（シラバスの用語例から）",
+      "items": [
+        {
+          "name": "C：Connected",
+          "desc": "つながる"
+        },
+        {
+          "name": "A：Autonomous",
+          "desc": "自動運転"
+        },
+        {
+          "name": "S：Shared & Services",
+          "desc": "シェアとサービス"
+        },
+        {
+          "name": "E：Electric",
+          "desc": "電動化"
+        }
+      ],
+      "src": "出典：IPA 応用情報技術者試験 シラバス Ver.7.2 21 ビジネスインダストリ（用語例）"
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_cards",
+      "step": 0,
+      "who": "zundamon",
+      "text": "クルマのCASEは、クルマを入れるケース、つまり車庫のことなのだ！",
+      "sfx": "swish",
+      "joke": true,
+      "say": "クルマのケースは、クルマを入れるケース、つまり車庫のことなのだ！"
+    },
+    {
+      "scene": "s_cards",
+      "step": 0,
+      "who": "metan",
+      "text": "ふふ、入れ物ではないわ。4つの頭文字なの。3秒で考えてみて。",
+      "expr": "smile"
+    },
+    {
+      "scene": "s_cards",
+      "step": 0,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "s_cards",
+      "step": 1,
+      "who": "metan",
+      "text": "Cはコネクテッド、つながる。Aはオートノマス、自動運転。",
+      "sfx": "pop",
+      "say": "シーはコネクテッド、つながる。エーはオートノマス、自動運転。"
+    },
+    {
+      "scene": "s_cards",
+      "step": 3,
+      "who": "metan",
+      "text": "Sはシェアとサービス。持たずに分け合って使うの。",
+      "sfx": "pop",
+      "say": "エスはシェアとサービス。持たずに分け合って使うの。"
+    },
+    {
+      "scene": "s_cards",
+      "step": 4,
+      "who": "metan",
+      "text": "Eはエレクトリック、電動化。クルマの変化の4つの方向よ。",
+      "sfx": "pop",
+      "say": "イーはエレクトリック、電動化。クルマの変化の4つの方向よ。"
+    },
+    {
+      "scene": "s_cards",
+      "step": 4,
+      "who": "zundamon",
+      "text": "つながる、自動、シェア、電動。これでCASEなのだ！",
+      "sfx": "impact",
+      "say": "つながる、自動、シェア、電動。これでケースなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

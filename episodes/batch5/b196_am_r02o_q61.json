@@ -1,0 +1,139 @@
+{
+  "id": "b196_am_r02o_q61",
+  "format": "short",
+  "title": "ROI（令和2年度10月 午前 問61）",
+  "topic": "応用情報 午前｜経営戦略",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和2年度 10月 応用情報技術者試験 午前 問61（問題冊子 p.32）：情報戦略の投資効果を評価するとき，利益額を分子に，投資額を分母にして算出するものはどれか。 ア EVA イ IRR ウ NPV エ ROI（解答例：エ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】ROIの問題 令和2年度10月 問61",
+    "title_b": "【応用情報 午前】ROIの問題 令和2年度10月 問61",
+    "title_c": "ROIを{sec}秒で｜令和2年度10月 午前 問61【応用情報】",
+    "summary": "令和2年度10月 午前 問61（ROI）を解きます。NPV・IRR・EVA との違いです。",
+    "sources": [
+      "令和2年度 10月 応用情報技術者試験 午前 問61（問題冊子 p.32、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d05l-att/2020r02o_ap_am_qs.pdf",
+      "令和2年度 10月 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d05l-att/2020r02o_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "経営戦略",
+      "ROI",
+      "NPV",
+      "IRR",
+      "投資評価",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "情報戦略の投資効果を評価するとき，利益額を分子に，投資額を分母にして算出するものはどれか。",
+      "choices": [
+        "ア　EVA",
+        "イ　IRR",
+        "ウ　NPV",
+        "エ　ROI"
+      ],
+      "answer": 3,
+      "src": "出典：令和2年度 10月 応用情報技術者試験 午前 問61"
+    },
+    "why": {
+      "type": "cards",
+      "head": "投資の評価の指標",
+      "items": [
+        {
+          "name": "ROI（エ）",
+          "desc": "利益 ÷ 投資額。投資に対して、どれだけ利益が出たか"
+        },
+        {
+          "name": "NPV（ウ）",
+          "desc": "将来のお金を今の価値に直して、投資額を引いた額"
+        },
+        {
+          "name": "IRR（イ）・EVA（ア）",
+          "desc": "NPV が0になる割引率／資本のコストを引いた利益"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "利益を投資額で割って求める指標を選ぶ問題よ。",
+      "sfx": "swish"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "zundamon",
+      "text": "投資のことなら、名前が一番かっこいいNPVなのだ！",
+      "say": "投資のことなら、名前が一番かっこいいエヌピーブイなのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "はずれよ。NPVは割り算ではないの。3秒で考えてみて。",
+      "say": "はずれよ。エヌピーブイは割り算ではないの。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "who": "metan",
+      "text": "正解はエ。ROI、投資利益率よ。",
+      "sfx": "impact",
+      "expr": "smile",
+      "say": "正解はエ。アールオーアイ、投資利益率よ。"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "who": "metan",
+      "text": "利益を投資額で割って、投資に対してどれだけもうかったかを見るの。",
+      "sfx": "transition",
+      "mark": "利益 ÷ 投資額"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "who": "metan",
+      "text": "NPVは、将来のお金を今の価値に直して、投資額を引いた額。割り算ではなく引き算ね。",
+      "sfx": "pop",
+      "say": "エヌピーブイは、将来のお金を今の価値に直して、投資額を引いた額。割り算ではなく引き算ね。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なるほど。割り算はROI、引き算はNPVなのだ！",
+      "sfx": "pop",
+      "say": "なるほど。割り算はアールオーアイ、引き算はエヌピーブイなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

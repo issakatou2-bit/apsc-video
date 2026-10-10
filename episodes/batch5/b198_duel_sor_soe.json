@@ -1,0 +1,139 @@
+{
+  "id": "b198_duel_sor_soe",
+  "format": "short",
+  "title": "SoRとSoEの違い",
+  "topic": "応用情報｜システム企画",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 中分類18 システム企画 1.(1) システム化構想の立案（p.105）用語例 …，BPR（Business Process Reengineering：ビジネスプロセスリエンジニアリング），SoR（Systems of Record），SoE（Systems of Engagement），SoI（Systems of Insight），Fit to Standard，OOTB（Out Of The Box）",
+    "出典：令和2年度 10月 応用情報技術者試験 午前 問72「企業システムにおける SoE（Systems of Engagement）の説明はどれか。」ア 高可用性，拡張性，セキュリティを確保しながら情報システムを稼働・運用するためのハードウェア，ソフトウェアから構成されるシステム基盤　イ 社内業務プロセスに組み込まれ，定型業務を処理し，結果を記録することによって省力化を実現するためのシステム　ウ データの活用を通じて，消費者や顧客企業とのつながりや関係性を深めるためのシステム　エ 日々の仕訳伝票を入力した上で，データの改ざん，消失を防ぎながら取引データベースを維持・管理することによって，財務報告を行うためのシステム（正解 ウ）"
+  ],
+  "upload": {
+    "title": "SoRとSoE 記録かつながりか｜応用情報技術者試験 〈システム企画〉",
+    "title_b": "【応用情報 システム企画】SoRとSoEの違いとは？ねらいと相手の2つの違い",
+    "title_c": "SoRとSoEの違いを{sec}秒で｜ねらいと相手の2つの違い【応用情報】",
+    "summary": "SoR（Systems of Record。社内の取引などを正確に記録するシステム）と SoE（Systems of Engagement。データの活用を通じて顧客とのつながりを深めるシステム）の違いを短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（18 システム企画 1.(1) システム化構想の立案） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf",
+      "出典：令和2年度 10月 応用情報技術者試験 午前 問72 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d05l-att/2020r02o_ap_am_qs.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "システム企画",
+      "SoR",
+      "SoE",
+      "システム化構想",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "s_grid": {
+      "type": "grid",
+      "head": "SoRとSoEの対決",
+      "cols": [
+        "SoR（Systems of Record）",
+        "SoE（Systems of Engagement）"
+      ],
+      "rows": [
+        "ねらい",
+        "相手"
+      ],
+      "cells": [
+        {
+          "tag": "正確に記録する",
+          "text": "取引などのデータを、正確に記録・管理する"
+        },
+        {
+          "tag": "つながりを深める",
+          "text": "データの活用を通じて、つながりや関係性を深める"
+        },
+        {
+          "tag": "社内の業務",
+          "text": "会計や受発注など、社内の定型業務を支える"
+        },
+        {
+          "tag": "消費者や顧客企業",
+          "text": "消費者や顧客企業と関わる場面で使う"
+        }
+      ],
+      "order": [
+        1,
+        3,
+        2,
+        4
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_grid",
+      "step": 0,
+      "who": "zundamon",
+      "text": "SoEは、取引のデータを正確に記録するためのシステムなのだ！",
+      "sfx": "swish",
+      "say": "エスオーイーは、取引のデータを正確に記録するためのシステムなのだ！"
+    },
+    {
+      "scene": "s_grid",
+      "step": 0,
+      "who": "metan",
+      "text": "半分はずれよ。どちらも企業のシステムだけど、それはSoRのほうなの。3秒で考えてみて。",
+      "say": "半分はずれよ。どちらも企業のシステムだけど、それはエスオーアールのほうなの。3秒で考えてみて。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 0,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "who": "metan",
+      "text": "SoRは、会計や受発注など、社内の取引を正確に記録するシステムよ。",
+      "sfx": "pop",
+      "mark": "正確に記録する",
+      "say": "エスオーアールは、会計や受発注など、社内の取引を正確に記録するシステムよ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "metan",
+      "text": "SoEは、データを活用して、顧客とのつながりを深めるシステムなの。",
+      "sfx": "pop",
+      "mark": "つながりを深める",
+      "say": "エスオーイーは、データを活用して、顧客とのつながりを深めるシステムなの。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "metan",
+      "text": "RはRecord、記録。EはEngagement、つながりね。",
+      "sfx": "pop",
+      "say": "アールはレコード、記録。イーはエンゲージメント、つながりね。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "なるほど。記録のSoR、つながりのSoEなのだ！",
+      "sfx": "impact",
+      "say": "なるほど。記録のエスオーアール、つながりのエスオーイーなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

@@ -1,0 +1,143 @@
+{
+  "id": "b186_am_r03a_q41",
+  "format": "short",
+  "title": "CVSS（令和3年度秋期 午前 問41）",
+  "topic": "応用情報 午前｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和3年度 秋期 応用情報技術者試験 午前 問41（問題冊子 p.21）：基本評価基準，現状評価基準，環境評価基準の三つの基準で情報システムの脆弱性の深刻度を評価するものはどれか。 ア CVSS イ ISMS ウ PCI DSS エ PMS（解答例：ア）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】CVSSの問題 令和3年度秋期 問41",
+    "title_b": "【応用情報 午前】CVSSの問題 令和3年度秋期 問41",
+    "title_c": "CVSSを{sec}秒で｜令和3年度秋期 午前 問41【応用情報】",
+    "summary": "令和3年度秋期 午前 問41（CVSS）を解きます。3つの評価基準と、ISMS・PCI DSS・PMS との違いです。",
+    "sources": [
+      "令和3年度 秋期 応用情報技術者試験 午前 問41（問題冊子 p.21、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000apad-att/2021r03a_ap_am_qs.pdf",
+      "令和3年度 秋期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000apad-att/2021r03a_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "セキュリティ",
+      "CVSS",
+      "脆弱性",
+      "共通脆弱性評価システム",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "基本評価基準，現状評価基準，環境評価基準の三つの基準で情報システムの脆弱性の深刻度を評価するものはどれか。",
+      "choices": [
+        "ア　CVSS",
+        "イ　ISMS",
+        "ウ　PCI DSS",
+        "エ　PMS"
+      ],
+      "answer": 0,
+      "src": "出典：令和3年度 秋期 応用情報技術者試験 午前 問41"
+    },
+    "why": {
+      "type": "cards",
+      "head": "CVSS の3つの基準",
+      "items": [
+        {
+          "name": "基本評価基準",
+          "desc": "脆弱性そのものの性質"
+        },
+        {
+          "name": "現状評価基準",
+          "desc": "攻撃方法や対策の今の状況"
+        },
+        {
+          "name": "環境評価基準",
+          "desc": "使っている組織の環境"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "3つの基準で、脆弱性の深刻度を評価するものを選ぶ問題よ。",
+      "sfx": "swish"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "zundamon",
+      "text": "基準が3つもあるなら、会社のしくみのISMSなのだ！",
+      "say": "基準が3つもあるなら、会社のしくみのアイエスエムエスなのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "はずれよ。ISMSは管理のしくみなの。3秒で考えてみて。",
+      "say": "はずれよ。アイエスエムエスは管理のしくみなの。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "who": "metan",
+      "text": "正解はア。CVSSよ。",
+      "sfx": "impact",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "who": "metan",
+      "text": "基本評価基準は、脆弱性そのものの性質。",
+      "sfx": "transition",
+      "mark": "基本評価基準"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "who": "metan",
+      "text": "現状評価基準は今の攻撃や対策の状況、環境評価基準は使う組織の環境で見るの。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "metan",
+      "text": "PCI DSSはカード情報を守る基準、PMSは個人情報を守る管理のしくみよ。",
+      "sfx": "pop",
+      "say": "ピーシーアイディーエスエスはカード情報を守る基準、ピーエムエスは個人情報を守る管理のしくみよ。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なるほど。脆弱性の深刻度を数字にするのがCVSSなのだ！",
+      "say": "なるほど。脆弱性の深刻度を数字にするのがシーブイエスエスなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

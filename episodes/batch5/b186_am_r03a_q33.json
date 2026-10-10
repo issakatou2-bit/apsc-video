@@ -1,0 +1,135 @@
+{
+  "id": "b186_am_r03a_q33",
+  "format": "short",
+  "title": "NAPT（令和3年度秋期 午前 問33）",
+  "topic": "応用情報 午前｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和3年度 秋期 応用情報技術者試験 午前 問33（問題冊子 p.18）：PC が，NAPT（IP マスカレード）機能を有効にしているルータを経由してインターネットに接続されているとき，PC からインターネットに送出されるパケットの TCP と IP のヘッダのうち，ルータを経由する際に書き換えられるものはどれか。 ア 宛先の IP アドレスと宛先のポート番号 イ 宛先の IP アドレスと送信元の IP アドレス ウ 送信元のポート番号と宛先のポート番号 エ 送信元のポート番号と送信元の IP アドレス（解答例：エ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】NAPTの問題 令和3年度秋期 問33",
+    "title_b": "【応用情報 午前】NAPTの問題 令和3年度秋期 問33",
+    "title_c": "NAPTを{sec}秒で｜令和3年度秋期 午前 問33【応用情報】",
+    "summary": "令和3年度秋期 午前 問33（NAPT）を解きます。書き換えるのは送信元か宛先かが分かれ目です。",
+    "sources": [
+      "令和3年度 秋期 応用情報技術者試験 午前 問33（問題冊子 p.18、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000apad-att/2021r03a_ap_am_qs.pdf",
+      "令和3年度 秋期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000apad-att/2021r03a_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "ネットワーク",
+      "NAPT",
+      "IPマスカレード",
+      "NAT",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "PC が，NAPT（IP マスカレード）機能を有効にしているルータを経由してインターネットに接続されているとき，PC からインターネットに送出されるパケットの TCP と IP のヘッダのうち，ルータを経由する際に書き換えられるものはどれか。",
+      "choices": [
+        "ア　宛先の IP アドレスと宛先のポート番号",
+        "イ　宛先の IP アドレスと送信元の IP アドレス",
+        "ウ　送信元のポート番号と宛先のポート番号",
+        "エ　送信元のポート番号と送信元の IP アドレス"
+      ],
+      "answer": 3,
+      "src": "出典：令和3年度 秋期 応用情報技術者試験 午前 問33",
+      "cols": 1
+    },
+    "why": {
+      "type": "cards",
+      "head": "NAPT は「送信元」を書き換える",
+      "items": [
+        {
+          "name": "送信元IPアドレス",
+          "desc": "PCのプライベートアドレス → ルータのグローバルアドレス"
+        },
+        {
+          "name": "送信元ポート番号",
+          "desc": "PCごとに区別できる番号に変える"
+        },
+        {
+          "name": "宛先",
+          "desc": "行き先のサーバはそのまま（変えると届かない）"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "外に出ていくパケットで、ルータが書き換えるものを選ぶ問題よ。",
+      "sfx": "swish"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "zundamon",
+      "text": "行き先を書き換えて、近道させるのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "半分はずれよ。行き先を変えたら届かないわ。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "who": "metan",
+      "text": "正解はエ。送信元のポート番号とIPアドレスよ。",
+      "sfx": "impact",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "who": "metan",
+      "text": "PCのプライベートアドレスを、ルータのグローバルアドレスに変えるの。",
+      "sfx": "transition",
+      "mark": "送信元IPアドレス"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "who": "metan",
+      "text": "ポート番号も変えるから、1つのアドレスで何台ものPCが外とつながれるのよ。",
+      "sfx": "pop",
+      "mark": "送信元ポート番号"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なるほど。NAPTは送り主を書き換えて、行き先はそのままなのだ！",
+      "say": "なるほど。ナップトは送り主を書き換えて、行き先はそのままなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

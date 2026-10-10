@@ -1,0 +1,138 @@
+{
+  "id": "b191_am_r03h_q37",
+  "format": "short",
+  "title": "クリックジャッキング（令和3年度春期 午前 問37）",
+  "topic": "応用情報 午前｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和3年度 春期 応用情報技術者試験 午前 問37（問題冊子 p.19）：Web サイトにおいて，クリックジャッキング攻撃の対策に該当するものはどれか。 ア HTTP レスポンスヘッダに X-Content-Type-Options を設定する。 イ HTTP レスポンスヘッダに X-Frame-Options を設定する。 ウ 入力に HTML タグが含まれていたら，HTML タグとして解釈されないほかの文字列に置き換える。 エ 入力文字数が制限を超えているときは受け付けない。（解答例：イ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】クリックジャッキングの問題 令和3年度春期 問37",
+    "title_b": "【応用情報 午前】クリックジャッキングの問題 令和3年度春期 問37",
+    "title_c": "クリックジャッキングを{sec}秒で｜令和3年度春期 午前 問37【応用情報】",
+    "summary": "令和3年度春期 午前 問37（クリックジャッキング）を解きます。X-Frame-Options でほかのサイトの枠に表示させない対策です。",
+    "sources": [
+      "令和3年度 春期 応用情報技術者試験 午前 問37（問題冊子 p.19、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_ap_am_qs.pdf",
+      "令和3年度 春期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "セキュリティ",
+      "クリックジャッキング",
+      "X-Frame-Options",
+      "Webセキュリティ",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "Web サイトにおいて，クリックジャッキング攻撃の対策に該当するものはどれか。",
+      "choices": [
+        "ア　HTTP レスポンスヘッダに X-Content-Type-Options を設定する。",
+        "イ　HTTP レスポンスヘッダに X-Frame-Options を設定する。",
+        "ウ　入力に HTML タグが含まれていたら，HTML タグとして解釈されないほかの文字列に置き換える。",
+        "エ　入力文字数が制限を超えているときは受け付けない。"
+      ],
+      "answer": 1,
+      "src": "出典：令和3年度 春期 応用情報技術者試験 午前 問37",
+      "cols": 1
+    },
+    "why": {
+      "type": "cards",
+      "head": "クリックジャッキングとは",
+      "items": [
+        {
+          "name": "手口",
+          "desc": "本物のページを透明にして重ね、気づかせずにクリックさせる"
+        },
+        {
+          "name": "対策",
+          "desc": "X-Frame-Options で、ほかのサイトの枠に表示させない"
+        },
+        {
+          "name": "ウ",
+          "desc": "タグを置き換えるのは、クロスサイトスクリプティングの対策"
+        }
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "zundamon",
+      "text": "クリックジャッキングは、マウスを乗っ取る攻撃だから、マウスを買い替えるのだ！",
+      "sfx": "swish",
+      "joke": true
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "ふふ、マウスは悪くないわ。だまされるのは画面よ。3秒で考えてみて。",
+      "expr": "smile"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "who": "metan",
+      "text": "正解はイ。X-Frame-Optionsを設定するの。",
+      "sfx": "impact",
+      "expr": "smile",
+      "say": "正解はイ。エックスフレームオプションズを設定するの。"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "who": "metan",
+      "text": "本物のページを透明にして、わなのページの上に重ねる。気づかずに、ボタンを押させるの。",
+      "sfx": "transition",
+      "mark": "透明にして重ね"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "who": "metan",
+      "text": "X-Frame-Optionsで、ほかのサイトの枠の中に表示させなければ、重ねられないわ。",
+      "sfx": "pop",
+      "say": "エックスフレームオプションズで、ほかのサイトの枠の中に表示させなければ、重ねられないわ。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "metan",
+      "text": "ウのタグの置き換えは、クロスサイトスクリプティングの対策よ。",
+      "sfx": "pop"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なるほど。枠に入れさせないのが、クリックジャッキングの対策なのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}

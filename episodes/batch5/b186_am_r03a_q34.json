@@ -1,0 +1,147 @@
+{
+  "id": "b186_am_r03a_q34",
+  "format": "short",
+  "title": "TCPとUDP（令和3年度秋期 午前 問34）",
+  "topic": "応用情報 午前｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和3年度 秋期 応用情報技術者試験 午前 問34（問題冊子 p.18）：UDP のヘッダフィールドにはないが，TCP のヘッダフィールドには含まれる情報はどれか。 ア 宛先ポート番号 イ シーケンス番号 ウ 送信元ポート番号 エ チェックサム（解答例：イ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】TCPとUDPの問題 令和3年度秋期 問34",
+    "title_b": "【応用情報 午前】TCPとUDPの問題 令和3年度秋期 問34",
+    "title_c": "TCPとUDPを{sec}秒で｜令和3年度秋期 午前 問34【応用情報】",
+    "summary": "令和3年度秋期 午前 問34（TCP と UDP）を解きます。どちらのヘッダにもある項目と、TCP だけの項目を分けます。",
+    "sources": [
+      "令和3年度 秋期 応用情報技術者試験 午前 問34（問題冊子 p.18、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000apad-att/2021r03a_ap_am_qs.pdf",
+      "令和3年度 秋期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000apad-att/2021r03a_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "ネットワーク",
+      "TCP",
+      "UDP",
+      "シーケンス番号",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "UDP のヘッダフィールドにはないが，TCP のヘッダフィールドには含まれる情報はどれか。",
+      "choices": [
+        "ア　宛先ポート番号",
+        "イ　シーケンス番号",
+        "ウ　送信元ポート番号",
+        "エ　チェックサム"
+      ],
+      "answer": 1,
+      "src": "出典：令和3年度 秋期 応用情報技術者試験 午前 問34"
+    },
+    "why": {
+      "type": "grid",
+      "head": "TCP と UDP の対決",
+      "cols": [
+        "TCP",
+        "UDP"
+      ],
+      "rows": [
+        "ヘッダ",
+        "届け方"
+      ],
+      "cells": [
+        {
+          "tag": "シーケンス番号あり",
+          "text": "ポート番号・チェックサムに加えて、順番の番号を持つ"
+        },
+        {
+          "tag": "シーケンス番号なし",
+          "text": "ポート番号・長さ・チェックサムだけ"
+        },
+        {
+          "tag": "確実に届ける",
+          "text": "届いたかを確かめ、順番どおりに並べる"
+        },
+        {
+          "tag": "速さを優先",
+          "text": "確認を省いて、そのまま送る"
+        }
+      ],
+      "order": [
+        1,
+        2,
+        3,
+        3
+      ]
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "zundamon",
+      "text": "UDPは手抜きだから、チェックサムも無いのだ！",
+      "sfx": "swish",
+      "say": "ユーディーピーは手抜きだから、チェックサムも無いのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "半分はずれよ。UDPにもチェックサムはあるの。3秒で考えてみて。",
+      "say": "半分はずれよ。ユーディーピーにもチェックサムはあるの。3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "who": "metan",
+      "text": "正解はイ。シーケンス番号よ。",
+      "sfx": "impact",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "who": "metan",
+      "text": "ポート番号とチェックサムは、どちらのヘッダにもあるわ。",
+      "sfx": "transition"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "who": "metan",
+      "text": "TCPだけにあるのがシーケンス番号。データの順番と、届いたかを確かめるために使うの。",
+      "sfx": "pop",
+      "mark": "シーケンス番号あり"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なるほど。順番を守るTCP、速さのUDPなのだ！",
+      "say": "なるほど。順番を守るティーシーピー、速さのユーディーピーなのだ！"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3"
+}
