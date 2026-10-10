@@ -1,0 +1,181 @@
+{
+  "id": "b137_am_r04h_q36",
+  "format": "short",
+  "title": "SAML（令和4年度春期 午前 問36）",
+  "topic": "応用情報 午前｜セキュリティ",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 令和4年度 春期 応用情報技術者試験 午前 問36（問題冊子 p.17）：複数のシステムやサービスの間で利用される SAML（Security Assertion Markup Language）はどれか。ア システムの負荷や動作状況に関する情報を送信するための仕様 イ 脆弱性に関する情報や脅威情報を交換するための仕様 ウ 通信を暗号化し，VPN を実装するための仕様 エ 認証や認可に関する情報を交換するための仕様（解答例：エ）"
+  ],
+  "upload": {
+    "title": "【応用情報 午前】SAMLの問題 令和4年度春期 問36",
+    "title_b": "【応用情報 午前】SAMLの問題 令和4年度春期 問36",
+    "title_c": "SAMLを{sec}秒で｜令和4年度春期 午前 問36【応用情報】",
+    "summary": "令和4年度春期 午前 問36（SAML）を解きます。SAML は認証の結果を、サービスの間で受け渡すしくみです。",
+    "sources": [
+      "令和4年度 春期 応用情報技術者試験 午前 問36（問題冊子 p.17、改変なし） https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_qs.pdf",
+      "令和4年度 春期 応用情報技術者試験 午前 解答例 https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_ans.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "過去問",
+      "セキュリティ",
+      "SAML",
+      "シングルサインオン",
+      "認証",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "quiz": {
+      "type": "quiz",
+      "q": "複数のシステムやサービスの間で利用される SAML（Security Assertion Markup Language）はどれか。",
+      "choices": [
+        "ア　システムの負荷や動作状況に関する情報を送信するための仕様",
+        "イ　脆弱性に関する情報や脅威情報を交換するための仕様",
+        "ウ　通信を暗号化し，VPN を実装するための仕様",
+        "エ　認証や認可に関する情報を交換するための仕様"
+      ],
+      "answer": 3,
+      "src": "出典：令和4年度 春期 応用情報技術者試験 午前 問36",
+      "cols": 1
+    },
+    "why": {
+      "type": "cards",
+      "head": "SAML のしくみ",
+      "items": [
+        {
+          "name": "SAML（エ）",
+          "desc": "認証や認可の情報を、システムやサービスの間で交換する仕様"
+        },
+        {
+          "name": "できること",
+          "desc": "連携するサービスで、ログイン操作を繰り返さずに利用できるシングルサインオンに使える"
+        },
+        {
+          "name": "ほかの選択肢",
+          "desc": "アは動作状況、イは脆弱性や脅威の情報、ウは通信の暗号化とVPNが目的"
+        }
+      ],
+      "src": "出典：令和4年度 春期 応用情報技術者試験 午前 問36、OASIS「SAML V2.0 Core」「SAML V2.0 Technical Overview」。認証情報の受け渡しとシングルサインオンを要約"
+    }
+  },
+  "lines": [
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "複数のシステムの間で使われるSAMLの説明を選ぶ問題よ。",
+      "say": "複数のシステムの間で使われるサムルの説明を選ぶ問題よ。"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "SAMLは、セキュリティの言語だから、通信を暗号にする仕様なのだ！",
+      "say": "サムルは、セキュリティの言語だから、通信を暗号にする仕様なのだ！"
+    },
+    {
+      "scene": "quiz",
+      "step": 0,
+      "who": "metan",
+      "text": "通信の暗号化が目的ではないわ。何の情報を交換する仕様か、3秒で考えてみて。"
+    },
+    {
+      "scene": "quiz",
+      "step": 1,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "quiz",
+      "step": 2,
+      "sfx": "impact",
+      "who": "metan",
+      "text": "正解はエ。認証や認可の情報を交換するための仕様よ。",
+      "expr": "smile"
+    },
+    {
+      "scene": "why",
+      "step": 1,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "SAMLは、「この人はもう認証済みです」という情報を、サービスの間で受け渡すの。",
+      "say": "サムルは、「この人はもう認証済みです」という情報を、サービスの間で受け渡すの。"
+    },
+    {
+      "scene": "why",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "連携するサービスで、再びログイン操作をせずに利用できる、シングルサインオンに使えるの。"
+    },
+    {
+      "scene": "why",
+      "step": 3,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "名前のアサーションは、「主張」という意味。認証済みだと主張する書類のイメージよ。"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "1005（Claude、指示書 Opus-13）",
+      "round": "1回目の監査と直し",
+      "verdict": "直した",
+      "notes": "# b137_am_r04h_q36 監査（Opus-13・作業174）\n\n確認日：2026-10-09（日本時間）\n\n## 判断\n**可（直す所はありません）**。見積もり 約40.1秒 → 約40.1秒\n\n## 直した所\nなし。\n\n## PDF で確かめたこと\n- 問題冊子：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_qs.pdf の p.17 を頁の画像で読んだ。問題文と4つの選択肢が台本の `quiz` と一致（読点「，」→「、」だけ。改変なし）。\n- 解答例：https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_ap_am_ans.pdf（問36 の正答は エ。台本の `answer` と一致）\n- 場面の `src`（出典：令和4年度 春期 応用情報技術者試験 午前 問36）と `upload.sources` も一致。型（勘違い →「3秒で考えてみて」＋3秒の間）がある。字幕はどれも60字以内。英字に読み（say）がある。\n\n## Codex に特に見てほしいこと\n- 「アサーションは『主張』という意味」「一度ログインすれば別のサービスにも入れる（シングルサインオン）」は一般的な説明。言い過ぎが無いか。\n"
+    },
+    {
+      "by": "エマ（Claude）",
+      "date": "2026-10-10",
+      "round": "要約を足す",
+      "verdict": "直した",
+      "fixes": [
+        "insert 0: 複数のシステムの間で使われるSAMLの説明を選ぶ問題よ。"
+      ],
+      "notes": "10/9 本人の決まり（長い問題文は最初に要約）"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-10",
+      "round": 1,
+      "verdict": "直せば可",
+      "fixes": [
+        "delete 9: 6の認証済みの情報を受け渡す説明を繰り返している。",
+        "replace 7: どのサービスにも無条件で入れるという説明を避ける。[OASISの説明](https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html)。",
+        "replace 3: 曖昧な「半分はずれ」を省き、仕様の目的を直接訂正する。",
+        "replace 1: SAMLの読みを、ほかの台詞の「サムル」にそろえて指定する。",
+        "scene why.items.0.desc: 正解の説明を、認証済みのお知らせだけに限定しない。",
+        "scene why.items.1.desc: 修正後の7とそろえ、利用先を無条件に広げない。",
+        "scene why.items.2.desc: 各選択肢を、交換する情報や仕様の目的で区別する。",
+        "scene why.src: 解説画面にも、問題の正解と具体的な仕組みの根拠を表示する。"
+      ],
+      "notes": "正解エと問題文・選択肢は材料と整合しています。冒頭の問題要約、字幕の60字制限、ほかの用語の読みに問題はありません。"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-10",
+      "round": 2,
+      "verdict": "可",
+      "fixes": [],
+      "notes": "前回の指摘は全て反映されています。材料との整合、断定の程度、冗長さ、出典、読みに新たな問題はなく、冒頭の問題要約と字幕の60字制限も守られています。"
+    }
+  ],
+  "publish_at": "2026-10-28T15:00:00+09:00"
+}

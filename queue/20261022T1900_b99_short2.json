@@ -1,0 +1,149 @@
+{
+  "id": "b99_short2",
+  "format": "short",
+  "title": "POP3 と IMAP4",
+  "topic": "応用情報｜ネットワーク",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類3 技術要素／中分類10 ネットワーク／5.(1) インターネット（p.47）① 電子メール：電子メールシステムはメールサーバとメールクライアントで構成されており，送信したメールはメールサーバからメールサーバへリレー方式で配送される仕組みであること。用語例 SMTP，POP3，IMAP4，MIME，base64，HTML メール（MHTML），Web メール ② Web：用語例 HTTP，HTTP over TLS（HTTPS），CGI，cookie，URL，セッション ID，REST，WebDAV，QUIC ③ ファイル転送：用語例 アップロード，ダウンロード，アクティブモード，パッシブモード，TFTP"
+  ],
+  "upload": {
+    "title": "メールはどこに残る？ POP3 と IMAP4｜応用情報技術者試験 ネットワーク",
+    "summary": "メールを読むプロトコル POP3（端末に取り込む）と IMAP4（サーバに置いたまま）の違いを短く説明します。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（10 ネットワーク 5.(1)① 電子メール） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "ネットワーク",
+      "POP3",
+      "IMAP4",
+      "メール",
+      "ずんだもん",
+      "四国めたん"
+    ],
+    "title_b": "【応用情報 ネットワーク】POP3とIMAP4の違いとは？メールはどこに残る",
+    "title_c": "POP3とIMAP4を{sec}秒で｜メールはどこに残る？【応用情報】"
+  },
+  "scenes": {
+    "s_hook": {
+      "type": "title",
+      "lines": [
+        "POP3 と IMAP4",
+        "メールは",
+        "どこに残る？"
+      ],
+      "mark": 2
+    },
+    "s_grid": {
+      "type": "grid",
+      "head": "POP3 と IMAP4",
+      "cols": [
+        "しくみ",
+        "向いている使い方"
+      ],
+      "rows": [
+        "POP3",
+        "IMAP4"
+      ],
+      "cells": [
+        {
+          "tag": "しくみ",
+          "text": "端末に取り込む。設定によってサーバにも残せる"
+        },
+        {
+          "tag": "向いている使い方",
+          "text": "1台の端末で読む"
+        },
+        {
+          "tag": "しくみ",
+          "text": "サーバ上のメールを読む・整理する。既読状態も同期できる"
+        },
+        {
+          "tag": "向いている使い方",
+          "text": "いくつもの端末で同じように読む"
+        }
+      ],
+      "src": "出典：IPA シラバス Ver.7.2 中分類10 インターネット・電子メール（POP3・IMAP4の関連用語。仕組みと使い方は一般的な説明）"
+    }
+  },
+  "lines": [
+    {
+      "scene": "s_hook",
+      "step": 0,
+      "sfx": "swish",
+      "who": "zundamon",
+      "text": "スマホで読んだメールが、パソコンでは未読のままなのだ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 0,
+      "sfx": "transition",
+      "who": "metan",
+      "text": "それは、メールを読む方式の違いかもしれないわ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 2,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "POP3はメールを端末に取り込む方式。設定によってはサーバにも残せるわ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "sfx": "pop",
+      "who": "metan",
+      "text": "IMAP4は、メールをサーバに置いたまま、読んだり整理したりする方式よ。",
+      "say": "アイマップフォーは、メールをサーバに置いたまま、読んだり整理したりする方式よ。"
+    },
+    {
+      "scene": "s_grid",
+      "step": 4,
+      "who": "zundamon",
+      "text": "この方式なら、既読・未読の状態も端末間で同期できるのだ。"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-08",
+      "round": 1,
+      "verdict": "直せば可",
+      "fixes": [
+        "delete 7: 3・4の説明の繰り返しで、POP3でもサーバに残せる点が抜けている。",
+        "delete 6: SMTPの説明は今回の比較に不要で、5への無条件な同意も省く。",
+        "replace 5: サーバに置くだけで、どの端末でも同じ表示になるとは限らない。",
+        "replace 3: POP3でもサーバにメールを残せるため、保存場所だけで区別しない。",
+        "replace 3: 変更後の字幕に合わせる。",
+        "scene s_grid.cells.0.text: POP3ではサーバに残らないという誤解を避ける。",
+        "scene s_grid.cells.2.text: 複数端末で利用できる理由を明確にする。",
+        "scene s_grid.src: 出典を表示し、用語の記載と具体的な説明を区別する。"
+      ],
+      "notes": "導入の「方式の違いかもしれない」という言い方は適切です。字幕の長さ、略語の読み、画面の型に問題はなく、冗談もありません。"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-08",
+      "round": 2,
+      "verdict": "可",
+      "fixes": [],
+      "notes": "前回の指摘はすべて反映されています。POP3のサーバ保存と、IMAP4の既読・未読の同期の説明に新しい問題はありません。\n字幕は各60字以内で、読み・出典表示・画面の型にも問題ありません。不要な繰り返しや冗談もありません。"
+    }
+  ],
+  "publish_at": "2026-10-22T19:00:00+09:00"
+}
