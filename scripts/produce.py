@@ -129,20 +129,27 @@ def codex_usage():
         return None
 
 
-def ask_hiro(msg, tag):
+def ask_hiro(msg, tag, thread=None):
+    """Codex に頼んで返事を返す。返事と会話の番号（次の回で続きに使う）を返す。
+    10/10 1つの会話に全部の監査を積み続けたら長くなりすぎて、返事が来なくなった →
+    台本ごとに新しい会話にし、同じ台本の2回目は、その台本の会話の続きにする（本人「いい塩梅で運用して」）。"""
     WORK.mkdir(parents=True, exist_ok=True)
-    # 10/10 1つの会話に全部の監査を積み続けたら長くなりすぎて、返事が来なくなった → 監査ごとに新しい会話にする
-    #（2回目の監査には、前回の指摘を文に入れて渡している）
     mfile, ofile = WORK / f"msg_{tag}.txt", WORK / f"last_{tag}.txt"
     mfile.write_text(msg, encoding="utf-8")
     ofile.unlink(missing_ok=True)
     args = [str(CODEX), "exec", "-C", str(ROOT), "-s", "read-only", "--skip-git-repo-check",
-            "-m", "gpt-6.1-sol", "-c", 'model_reasoning_effort="medium"', "--json", "-o", str(ofile), "-"]
+            "-m", "gpt-6.1-sol", "-c", 'model_reasoning_effort="medium"', "--json", "-o", str(ofile)]
+    args += (["resume", thread, "-"] if thread else ["-"])
     with open(mfile, "rb") as fin, open(WORK / f"run_{tag}.jsonl", "wb") as fout, open(WORK / f"err_{tag}.txt", "wb") as ferr:
         subprocess.run(args, stdin=fin, stdout=fout, stderr=ferr, timeout=1200)
     if not ofile.exists():
         raise RuntimeError(f"Codex の返事が無い（build/codex/err_{tag}.txt を見る）")
-    return ofile.read_text(encoding="utf-8")
+    tid = thread
+    for line in (WORK / f"run_{tag}.jsonl").read_text(encoding="utf-8", errors="replace").splitlines():
+        if '"thread.started"' in line:
+            tid = json.loads(line).get("thread_id") or tid
+            break
+    return ofile.read_text(encoding="utf-8"), tid
 
 
 def parse(reply):
@@ -201,13 +208,13 @@ def main():
     if a.dry_run:
         print(message(d, 1, ""))
         return 0
-    prev, verdict = "", None
+    prev, verdict, thread = "", None, None
     for rnd in range(1, a.max_rounds + 1):
         u = codex_usage()
         if u is not None and u > USAGE_LIMIT:
             print(f"[stop] Codex の週の使用量が {u}% で、{USAGE_LIMIT}% を超えたので頼まない")
             return 3
-        reply = ask_hiro(message(d, rnd, prev), f"{d['id']}_{rnd}")
+        reply, thread = ask_hiro(message(d, rnd, prev), f"{d['id']}_{rnd}", thread if rnd > 1 else None)
         try:
             r = parse(reply)
         except Exception as e:
