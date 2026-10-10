@@ -173,7 +173,7 @@ def publish_one(f, d, done, ledger):
         captions.upload(vid, timeline)
     except Exception as e:
         print(f"[warn] 字幕を上げられなかった: {e}")
-    try:  # 10/8：分野ごとの再生リストに入れる（失敗しても投稿は止めない）
+    try:  # 10/8：再生リストに入れる（10/10 からショート／長編の2つ。失敗しても投稿は止めない）
         import playlists
         playlists.add(vid, d.get("topic"), fmt=d.get("format", "long"))
     except Exception as e:

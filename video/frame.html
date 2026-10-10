@@ -164,13 +164,13 @@ window.setState=(st)=>{
       :short
       ?`<div class="ecsub">${esc(BRAND.sub)}</div><div class="ecname">めたん先生の<br><span class="mk">IT試験ゼミ</span></div>
         <div class="today"><span class="lb">今日の用語</span><div class="term">${esc(EP.title||"")}</div>
-          <div class="nx">つづきは 再生リスト<br><b>応用情報｜${esc((EP.topic||"").split("｜")[1]||"そのほか")}</b> で</div></div>
+          <div class="nx">くわしい解説は 再生リスト<br><b>応用情報｜長編</b> で</div></div>
         <div class="ecrow" style="margin-top:44px"><span class="chip y">毎日 ショートと解説</span><span class="chip">字幕は台本そのもの</span></div>
         <div class="cta">くわしくは チャンネルの解説動画で ▶</div>`
       :`<div class="ecsub">${esc(BRAND.sub)}</div><div class="ecname">めたん先生の<span class="mk">IT試験ゼミ</span></div>
         <div class="ecrow"><span class="chip y">毎日 ショートと解説を公開</span><span class="chip">IPAの資料をもとに確かめた台本</span><span class="chip">字幕は台本そのもの</span></div>
-        <div class="pl">分野ごとの再生リスト</div>
-        <div class="ecrow">${fields.map(f=>`<span class="chip">${esc(f)}</span>`).join("")}</div>
+        <div class="pl">再生リスト</div>
+        <div class="ecrow"><span class="chip">応用情報｜長編（解説をまとめて）</span><span class="chip">応用情報｜ショート（1分未満）</span></div>
         <div class="cta">▶ チャンネル登録で、毎日の続きが届きます</div>`;
     F.querySelector(".subt").classList.add("off");F.querySelector(".tab").textContent="";
     return true;

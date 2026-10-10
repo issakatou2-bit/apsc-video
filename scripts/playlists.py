@@ -21,22 +21,14 @@ DESC = "めたん先生のIT試験ゼミ：応用情報技術者試験・情報�
 
 
 SHORTS = "応用情報｜ショート"
+LONGS = "応用情報｜長編"
 
 
 def lists_for(topic, fmt=None):
-    """topic から入れる再生リストの名前（1つ以上）。
-    10/10 本人「一旦ショートと長編で2つで良くない？」→ ショートは「応用情報｜ショート」1つ、長編は分野ごと（終わりの札で案内しているため）。"""
-    if fmt == "short":
-        return [SHORTS]
-    head, _, field = (topic or "").partition("｜")
-    if head == "試験の制度":
-        return ["応用情報｜試験の制度"]
-    names = []
-    if field:
-        names.append(f"応用情報｜{field}")
-    if "午後" in head:
-        names.append("応用情報｜午後問題の解き方")
-    return names or ["応用情報｜そのほか"]
+    """入れる再生リストの名前。
+    10/10 本人「まずはごちゃ混ぜでショートと長編だけでいい。充実してきたら午前と午後に分ける、その他も」
+    → ショートは「応用情報｜ショート」、長編は「応用情報｜長編」の2つだけ。分野ごとの再生リストは非公開で取っておく。"""
+    return [SHORTS] if fmt == "short" else [LONGS]
 
 
 def _yt():
@@ -53,7 +45,9 @@ def ensure(yt, st, name):
     if name not in st["lists"]:
         field = name.split("｜", 1)[1]
         desc = ("めたん先生のIT試験ゼミ：応用情報技術者試験・情報処理安全確保支援士試験の用語を、1分未満のショートで。"
-                if name == SHORTS else DESC.format(field))
+                if name == SHORTS else
+                "めたん先生のIT試験ゼミ：応用情報技術者試験・情報処理安全確保支援士試験の用語・考え方・午後問題の解き方を、"
+                "ずんだもんと四国めたんの対話で解説する長編をまとめています。" if name == LONGS else DESC.format(field))
         r = yt.playlists().insert(part="snippet,status", body={
             "snippet": {"title": name, "description": desc, "defaultLanguage": "ja"},
             "status": {"privacyStatus": "public"}}).execute()
@@ -90,9 +84,10 @@ def add(video_id, topic, yt=None, fmt=None):
 def _items():
     """公開・予約した動画の (公開日時, 動画ID, topic, 形)"""
     items = []
-    for f in sorted((ROOT / "published").glob("*.json")):
-        d = json.loads(f.read_text(encoding="utf-8"))
-        if d.get("video_id"):
+    pubs = [json.loads(f.read_text(encoding="utf-8")) for f in sorted((ROOT / "published").glob("*.json"))]
+    old = {d.get("replace_video_id") for d in pubs}  # 作り直して非公開にした古い版は入れない
+    for d in pubs:
+        if d.get("video_id") and d["video_id"] not in old:
             items.append((d["publish_at"], d["video_id"], d.get("topic"), d.get("format", "long")))
     for x in json.loads((ROOT / "data" / "early_videos.json").read_text(encoding="utf-8")):
         items.append((x["published"], x["video_id"], x["topic"], x.get("format", "long")))
@@ -100,7 +95,7 @@ def _items():
 
 
 def migrate(yt):
-    """10/10 分野別・午前の過去問の再生リストに入っているショートを外す（動画は消さない。入れ先を付け替えるだけ）。"""
+    """10/10 分野別の再生リストからショートを外す（動画は消さない。入れ先を付け替えるだけ）。"""
     st = _store()
     shorts = {v for _, v, _, f in _items() if f == "short"}
     for name, pid in st["lists"].items():
@@ -121,10 +116,25 @@ def migrate(yt):
     STORE.write_text(json.dumps(st, ensure_ascii=False, indent=1) + chr(10), encoding="utf-8")
 
 
+def hide_old(yt):
+    """10/10 使わなくなった分野ごとの再生リストを非公開にする（消さない。充実したら分けるときに使う）。"""
+    st = _store()
+    for name, pid in st["lists"].items():
+        if name in (SHORTS, LONGS):
+            continue
+        r = yt.playlists().list(part="snippet,status", id=pid).execute().get("items", [])
+        if r and r[0]["status"]["privacyStatus"] != "private":
+            yt.playlists().update(part="snippet,status", body={"id": pid, "snippet": {"title": r[0]["snippet"]["title"],
+                                  "description": r[0]["snippet"].get("description", "")}, "status": {"privacyStatus": "private"}}).execute()
+            print(f"[info] 非公開にした（取っておく）: {name}")
+
+
 def main(args=()):
     yt = _yt()
     if "--migrate" in args:
         migrate(yt)
+    if "--hide-old" in args:
+        hide_old(yt)
     for _, vid, topic, fmt in _items():
         add(vid, topic, yt, fmt)
     return 0

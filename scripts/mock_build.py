@@ -99,7 +99,7 @@ def main(script_path, out_dir):
             lines.insert(0, {"scene": "_open", "step": 0, "sfx": "impact", "who": "zundamon", "speed": 1.7,
                              "text": "めたん先生のIT試験ゼミ！", "say": "めたん先生の、アイティー試験ゼミ！"})
             lines.append({"scene": "_end", "step": 0, "sfx": "swish", "who": "zundamon",
-                          "text": "分野ごとの再生リストで、続けて聞けるのだ。チャンネル登録で、毎日の続きが届くのだ！"})
+                          "text": "再生リストで、ほかの回も続けて聞けるのだ。チャンネル登録で、毎日の続きが届くのだ！"})
         else:
             lines.append({"scene": "_end", "step": 0, "sfx": "swish", "who": "zundamon", "speed": 1.6,
                           "text": "くわしくは、チャンネルの解説動画で、なのだ！"})
