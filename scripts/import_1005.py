@@ -109,6 +109,11 @@ def main():
                 print(f"[skip] {d['id']} はもうある")
                 continue
             d["voice"], d["bgm"] = VOICE.get(d.get("format"), VOICE["long"])
+            prev = None
+            for ln in d.get("lines") or []:  # 10/11 Codex の下書きで、間（pause）の行に scene が無いことがある → 前の台詞の場面にそろえる
+                if ln.get("pause") and "scene" not in ln and prev:
+                    ln["scene"], ln["step"] = prev.get("scene"), prev.get("step", 0)
+                prev = ln
             errs = check(d)
             if errs:
                 bad += 1
