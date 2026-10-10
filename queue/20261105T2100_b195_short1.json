@@ -1,0 +1,150 @@
+{
+  "id": "b195_short1",
+  "format": "short",
+  "title": "業務改善の4つの視点 ECRSの原則",
+  "topic": "応用情報｜システム戦略",
+  "voice": {
+    "zundamon": {
+      "speaker": 3,
+      "speed": 1.54,
+      "pitch": 0.0,
+      "intonation": 1.45
+    },
+    "metan": {
+      "speaker": 2,
+      "speed": 1.35,
+      "pitch": 0.0,
+      "intonation": 1.55
+    }
+  },
+  "materials": [
+    "IPA 応用情報技術者試験 シラバス Ver.7.2 大分類7 システム戦略／中分類17 システム戦略／2. 業務プロセス（p.102）：(1)① 業務プロセスの改善と問題解決「既存の組織構造や業務プロセスを見直し，効率化を図るとともに，情報技術を活用して業務・システムを最適化する考え方を理解する。」用語例 プロセスの可視化／標準化／自動化，RPA（Robotic Process Automation），ECRS の原則（Eliminate（排除），Combine（結合），Rearrange（交換），Simplify（簡略化））。② ビジネスプロセスマネジメント「BPM（Business Process Management：ビジネスプロセスマネジメント）の目的，考え方，手順を理解する。また，業務分析，業務設計，業務の実行，モニタリング，評価のサイクルを繰り返し，継続的な業務プロセスの改善を図ること，BPMS（Business Process Management System）の機能を理解する。」用語例 SFA，ワークフローシステム，PDCA，プロセスマイニング。③ ビジネスプロセスリエンジニアリング「BPR（Business Process Reengineering：ビジネスプロセスリエンジニアリング）の目的，手順，考え方を理解する。」用語例 プロセス視点，顧客志向，顧客価値向上。④ ビジネスプロセスアウトソーシング「BPO（Business Process Outsourcing：ビジネスプロセスアウトソーシング）の目的，手順，考え方を理解する。」用語例 アウトソーシング，オフショア。"
+  ],
+  "upload": {
+    "title": "業務改善の4つの視点 ECRSの原則｜応用情報技術者試験 〈システム戦略〉",
+    "title_b": "【応用情報 システム戦略】ECRSの原則とは？なくす・まとめる・入れ替える・単純にする",
+    "title_c": "ECRSの原則を{sec}秒で｜業務改善の4つの視点【応用情報】",
+    "summary": "業務を改善するときの4つの視点、ECRS の原則（Eliminate 排除・Combine 結合・Rearrange 交換・Simplify 簡略化）を短く説明します。R は「減らす」ではなく「入れ替える」です。",
+    "sources": [
+      "IPA 応用情報技術者試験 シラバス Ver.7.2（17 システム戦略 2.(1)① 業務プロセスの改善と問題解決 p.102） https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kq5-att/syllabus_ap_ver7_2.pdf"
+    ],
+    "tags": [
+      "応用情報技術者試験",
+      "システム戦略",
+      "ECRSの原則",
+      "業務改善",
+      "BPR",
+      "ずんだもん",
+      "四国めたん"
+    ]
+  },
+  "scenes": {
+    "ecrs": {
+      "type": "list",
+      "stepwise": true,
+      "head": "ECRS の原則：4つの視点",
+      "items": [
+        "Eliminate（排除）：なくせないか",
+        "Combine（結合）：まとめられないか",
+        "Rearrange（交換）：順番などを入れ替えられないか",
+        "Simplify（簡略化）：もっと単純にできないか"
+      ],
+      "src": "IPA 応用情報技術者試験 シラバス Ver.7.2 p.102「業務プロセス」"
+    }
+  },
+  "lines": [
+    {
+      "scene": "ecrs",
+      "step": 0,
+      "who": "zundamon",
+      "text": "ECRSのRは、作業を減らすReduceなのだ！",
+      "sfx": "swish",
+      "say": "イーシーアールエスのアールは、作業を減らすリデュースなのだ！"
+    },
+    {
+      "scene": "ecrs",
+      "step": 0,
+      "who": "metan",
+      "text": "はずれよ。RはRearrangeよ。",
+      "countup": "4",
+      "say": "はずれよ。アールはリアレンジよ。"
+    },
+    {
+      "scene": "ecrs",
+      "step": 0,
+      "who": "metan",
+      "text": "業務改善の4つの視点を、3秒で考えてみて。"
+    },
+    {
+      "scene": "ecrs",
+      "step": 0,
+      "pause": 3,
+      "countdown": true
+    },
+    {
+      "scene": "ecrs",
+      "step": 1,
+      "who": "metan",
+      "text": "Eliminateは排除、なくせないか。",
+      "sfx": "pop",
+      "say": "エリミネートは排除、なくせないか。"
+    },
+    {
+      "scene": "ecrs",
+      "step": 1,
+      "who": "metan",
+      "text": "Combineは結合、まとめられないか。"
+    },
+    {
+      "scene": "ecrs",
+      "step": 2,
+      "who": "metan",
+      "text": "Rearrangeは交換。減らすのではなく、順番などを入れ替えられないかよ。",
+      "sfx": "pop",
+      "mark": "Rearrange（交換）",
+      "say": "リアレンジは交換。減らすのではなく、順番などを入れ替えられないかよ。"
+    },
+    {
+      "scene": "ecrs",
+      "step": 3,
+      "who": "metan",
+      "text": "最後のSimplifyは簡略化。もっと単純にできないかを考えるの。",
+      "sfx": "pop",
+      "say": "最後のシンプリファイは簡略化。もっと単純にできないかを考えるの。"
+    },
+    {
+      "scene": "ecrs",
+      "step": 3,
+      "who": "zundamon",
+      "text": "なくす、まとめる、入れ替える、単純にする、なのだ！",
+      "sfx": "impact"
+    }
+  ],
+  "bgm": "assets/bgm/everyday.mp3",
+  "audit": [
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-10",
+      "round": 1,
+      "verdict": "直せば可",
+      "fixes": [
+        "replace 4: 1つの台詞で説明する視点を1つにする。",
+        "insert_after 4: 結合の説明を独立させる。",
+        "replace 2: 訂正と考える指示を別の台詞に分け、英字Rの読みも明示する。",
+        "insert_after 2: 考える指示を独立させ、直後の3秒につなぐ。",
+        "replace 1: 実際の音は正しいが、sayでも英字Rの読みを明示する決まりに合わせる。",
+        "scene ecrs.src: 提示された場面に出典のsrcがないため。"
+      ],
+      "notes": "4用語と訳語は提示材料と一致し、意味を変える言い換えや根拠のない数字・頻度の断定はありません。字幕は各60字以内で、実際の用語の読みも問題ありません。冒頭の誤答は直後に訂正され、冗談としての短い返しは不要です。"
+    },
+    {
+      "by": "ヒロ（gpt-6.1-sol medium）",
+      "date": "2026-10-10",
+      "round": 2,
+      "verdict": "可",
+      "fixes": [],
+      "notes": "前回の指摘はすべて反映されています。提示材料との食い違い、言い過ぎ、不要な重複はなく、出典・字幕の字数・用語の読み・ショートの構成も問題ありません。\n冒頭の勘違いは直後に訂正され、最後の復習はまとめとして適切です。"
+    }
+  ],
+  "publish_at": "2026-11-05T21:00:00+09:00"
+}
