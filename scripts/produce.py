@@ -142,14 +142,22 @@ def ask_hiro(msg, tag, thread=None):
     args += (["resume", thread, "-"] if thread else ["-"])
     with open(mfile, "rb") as fin, open(WORK / f"run_{tag}.jsonl", "wb") as fout, open(WORK / f"err_{tag}.txt", "wb") as ferr:
         subprocess.run(args, stdin=fin, stdout=fout, stderr=ferr, timeout=1200)
-    if not ofile.exists():
-        raise RuntimeError(f"Codex の返事が無い（build/codex/err_{tag}.txt を見る）")
-    tid = thread
+    tid, last = thread, None
     for line in (WORK / f"run_{tag}.jsonl").read_text(encoding="utf-8", errors="replace").splitlines():
-        if '"thread.started"' in line:
-            tid = json.loads(line).get("thread_id") or tid
-            break
-    return ofile.read_text(encoding="utf-8"), tid
+        try:
+            ev = json.loads(line)
+        except ValueError:
+            continue
+        if ev.get("type") == "thread.started":
+            tid = ev.get("thread_id") or tid
+        item = ev.get("item") or {}
+        if ev.get("type") == "item.completed" and item.get("type") == "agent_message":
+            last = item.get("text")
+    if ofile.exists():
+        return ofile.read_text(encoding="utf-8"), tid
+    if last:  # 10/10 会話の続き（resume）では -o の返事のファイルが作られないことがある → 記録から読む
+        return last, tid
+    raise RuntimeError(f"Codex の返事が無い（build/codex/err_{tag}.txt を見る）")
 
 
 def parse(reply):
