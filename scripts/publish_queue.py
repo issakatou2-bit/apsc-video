@@ -175,7 +175,7 @@ def publish_one(f, d, done, ledger):
         print(f"[warn] 字幕を上げられなかった: {e}")
     try:  # 10/8：分野ごとの再生リストに入れる（失敗しても投稿は止めない）
         import playlists
-        playlists.add(vid, d.get("topic"))
+        playlists.add(vid, d.get("topic"), fmt=d.get("format", "long"))
     except Exception as e:
         print(f"[warn] 再生リストに入れられなかった: {e}")
     try:  # 10/9：ショートを TikTok・Instagram・X にも（Buffer、キーがあるときだけ）
